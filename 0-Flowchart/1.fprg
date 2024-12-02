@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="1"/>
+        <attribute name="authors" value="ozbakislar"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2024-09-27 08:56:39 "/>
+        <attribute name="created" value="b3piYWtpc2xhcjtERVNLVE9QLTgxQzRQSU87MjAyNC0wOS0yNzsiMDg6MDc6NDggIjszMzIx"/>
+        <attribute name="edited" value="b3piYWtpc2xhcjtERVNLVE9QLTgxQzRQSU87MjAyNC0wOS0yNzsiMDg6NTY6MzkgIjsyOzM0MzQ="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <comment text="Kenar uzunlugu klavyeden girilen karenin alanini hesaplayan flowchart&#13;&#10;"/>
+            <declare name="X, A" type="Integer" array="False" size=""/>
+            <output expression="&quot;Karenin bir kenarinin uzunlugunu giriniz.&quot;" newline="True"/>
+            <input variable="X"/>
+            <assign variable="A" expression="X*X"/>
+            <output expression="&quot;Karenin Alani =&quot; &amp; A" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>

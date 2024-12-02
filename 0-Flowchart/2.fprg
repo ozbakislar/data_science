@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="2"/>
+        <attribute name="authors" value="ozbakislar"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2024-12-01 11:20:01 "/>
+        <attribute name="created" value="b3piYWtpc2xhcjtERVNLVE9QLTgxQzRQSU87MjAyNC0wOS0yNzsiMDk6MDA6NTUgIjszMzEz"/>
+        <attribute name="edited" value="b3piYWtpc2xhcjtERVNLVE9QLTgxQzRQSU87MjAyNC0xMi0wMTsiMTE6MjA6MDEgIjsyOzMzOTQ="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="X, Y, Z" type="Integer" array="False" size=""/>
+            <declare name="Ortalama" type="Real" array="False" size=""/>
+            <output expression="&quot;Ortalamasini hesaplamak istediginiz X, Y, Z degerlerini giriniz.&quot;" newline="True"/>
+            <input variable="X"/>
+            <input variable="Y"/>
+            <input variable="Z"/>
+            <assign variable="Ortalama" expression="(X+Y+Z)/3"/>
+            <output expression="&quot;Sonuc= &quot; &amp; Ortalama" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>
