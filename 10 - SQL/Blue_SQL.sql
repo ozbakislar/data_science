@@ -21,7 +21,7 @@ soyad VARCHAR(50) NOT NULL,
 email VARCHAR(50) NOT NULL,
 dogum DATE NOT NULL,
 maas NUMERIC(10, 2) NOT NULL
-);
+                       );
 
 ------------------------------------------------------------------------------------------------
 
@@ -93,7 +93,7 @@ CREATE TABLE departman (
     id SERIAL PRIMARY KEY,
     ad VARCHAR(50) NOT NULL,
     odano VARCHAR(20) NULL
-);
+                       );
 
 ------------------------------------------------------------------------------------------------
 
@@ -125,7 +125,7 @@ CREATE TABLE musteri (
   kullaniciadi VARCHAR(50) NOT NULL UNIQUE,
   sifre VARCHAR(50) NOT NULL,
   bgcolor VARCHAR(7)
-);
+                     );
 
 ------------------------------------------------------------------------------------------------
 
@@ -162,7 +162,7 @@ CREATE TABLE siparis (
     id SERIAL PRIMARY KEY,
     tarih DATE,
     musteri_id INTEGER
-);
+                     );
 
 INSERT INTO siparis (id, tarih, musteri_id) VALUES
 (1, '2005-01-01', 18),
@@ -184,7 +184,7 @@ CREATE TABLE ulke (
     id SERIAL PRIMARY KEY,
     ad VARCHAR(2),
     orjinalad VARCHAR(50)
-);
+                  );
 
 INSERT INTO ulke (ad, orjinalad) VALUES  
 ('TR', 'Türkiye'),
@@ -196,6 +196,43 @@ SELECT *
 FROM ulke 
 
 ------------------------------------------------------------------------------------------------
+
+-- DERS: 13.12.24
+
+------------------------------------------------------------------------------------------------
+
+-- SORU: Bana sirketimizde calisan bütün elemanlarin listesini döker misiniz?
+
+SELECT *
+FROM personel p 
+
+------------------------------------------------------------------------------------------------
+/*
+-- SORU: Sirketimizde calisan bütün elemanlarin ad, soyad ve maas bilgilerine
+         ihtiyacim var. Bu listeyi bana getirebilir misiniz? */
+
+SELECT
+	ad,
+	soyad,
+	maas
+FROM personel p 
+
+------------------------------------------------------------------------------------------------
+
+-- SORU: Simdiye kadar en az bir siparis vermis olan müsterilerin ID’lerinin listesini istiyorum.
+
+SELECT DISTINCT
+	musteri_id 
+FROM siparis s 
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 16.12.24
+
+
+
+
+
 
 
 

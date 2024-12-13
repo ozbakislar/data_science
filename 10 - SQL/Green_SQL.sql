@@ -19,7 +19,7 @@ CREATE TABLE customers (
   last_name   VARCHAR(50) NOT NULL,
   country     VARCHAR(50),
   score       INTEGER
-);
+                       ); -- Noktali virgülü DBeaver'da kullanmak zorunda degiliz.
 
 ------------------------------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE orders (
   customer_id INTEGER NOT NULL,
   order_date  DATE,
   quantity    INTEGER
-);
+                    );
 
 ------------------------------------------------------------------------------------------------
 
@@ -55,16 +55,28 @@ CREATE TABLE employees (
   last_name   VARCHAR(50) NOT NULL,
   emp_country VARCHAR(50),
   salary      INTEGER
-);
+                       );
 
 ------------------------------------------------------------------------------------------------
 
 -- DERS: 12.12.24
 
 ------------------------------------------------------------------------------------------------
+/*
+Komutlarin Sirasi     Komutlarin Arka Planda Calisma Sirasi
+
+SELECT                FROM 
+FROM                  WHERE
+WHERE                 GROUP BY
+GROUP BY              HAVING
+HAVING                SELECT
+ORDER BY              ORDER BY
+LIMIT                 LIMIT */
+
+------------------------------------------------------------------------------------------------
 
 -- SORU: Customer tablosundaki  bütün fieldlari getirin.
--- Select'te * isaretiyle tablodan tüm fieldleri secip getirdik.
+-- Select'te * isaretiyle tablodan tüm fieldlari secip getirdik.
 
 SELECT *
 FROM customers
@@ -80,6 +92,30 @@ SELECT
 FROM customers c
 
 ------------------------------------------------------------------------------------------------
+
+-- DERS: 13.12.24
+
+------------------------------------------------------------------------------------------------
+
+-- SELECT DISTINCT:
+-- Sorgu sonucunda tekrar eden verileri cikarip yalnizca essiz (unique) verilerin görüntülenmesini saglar.
+-- SORU: Country degerlerini tekrar eden degerler olmadan getiriniz.
+
+SELECT DISTINCT
+	country 
+FROM customers c 
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 16.12.24
+
+
+
+
+
+
+
+
 
 
 

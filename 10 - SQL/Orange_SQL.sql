@@ -11,19 +11,17 @@
 ------------------------------------------------------------------------------------------------
 
 -- Tekli yorum satiri icin "--" kullanilir.
-
 /*
- * coklu
- * yorum
- * satiri icin /*.......*/   arasina yazabiliriz.
- */
+ coklu
+ yorum
+ satiri icin /*...*/ arasina yazabiliriz. */
 
 ------------------------------------------------------------------------------------------------
-
-/* SORU: students isimli bir table olusturun. Bu table'da student_id, first_name,
-         last_name, birth_date ve department olsun. (Data tiplerini uygun sekilde seciniz.)
-         student_id field'i Primary Key olsun. */
-
+/*
+SORU: students isimli bir table olusturun. Bu table'da student_id, first_name,
+      last_name, birth_date ve department olsun. (Data tiplerini uygun sekilde seciniz.)
+      student_id field'i Primary Key olsun. */
+ 
 DROP TABLE IF EXISTS students;
 CREATE TABLE students (
 	student_id SERIAL PRIMARY KEY,
@@ -31,7 +29,7 @@ CREATE TABLE students (
 	last_name VARCHAR(50),
 	birth_date DATE,
 	department VARCHAR(50)
-);
+                      );
 
 SELECT *
 FROM students
@@ -44,14 +42,14 @@ INSERT INTO students (first_name, last_name, birth_date, department) VALUES
 ('John', 'Doe', '2000-05-15', 'Computer Science');
 
 ------------------------------------------------------------------------------------------------
+/*
+SORU: Alttaki girisleri students tablosuna yapiniz:
 
-/* SORU: Alttaki girisleri students tablosuna yapiniz:
+      Jane Smith, '1999-07-22', Mathematics,
 
-         Jane Smith, '1999-07-22', Mathematics,
+      Emily' Johnson, 2001-03-18, Physics,
 
-         Emily' Johnson, 2001-03-18, Physics,
-
-         Michael Brown, 1998-12-01, Biology */
+      Michael Brown, 1998-12-01, Biology */
 
 INSERT INTO students (first_name, last_name, birth_date, department) VALUES 
 ('Jane', 'Smith', '1999-07-22', 'Mathematics'),
@@ -63,7 +61,7 @@ FROM students s
 
 ------------------------------------------------------------------------------------------------
 
--- Sadece belli field'lara bilgi girisi yapalim.
+-- Sadece belli fieldlara bilgi girisi yapalim.
 -- first name: Alice, depart: Chemistry
 
 INSERT INTO students (first_name, department) VALUES
@@ -74,12 +72,12 @@ INSERT INTO students (first_name, department) VALUES
 -- Tablo olusturma
 
 CREATE TABLE ogrenciler(
-	ogrenci_no char(7), -- mutlaka 7 karakter yer kaplayacak
+	ogrenci_no char(7), -- Mutlaka 7 karakter yer kaplayacak
 	isim varchar(20),
 	soyisim varchar(30),
-	not_ort REAL, -- ondalıklı sayıları belirtmek için
+	not_ort REAL, -- Ondalikli sayilari belirtmek icin
 	kayit_tarihi date
-);
+                       );
 
 SELECT *
 FROM ogrenciler o
@@ -109,7 +107,168 @@ FROM ogrenciler o
 
 ------------------------------------------------------------------------------------------------
 
+-- DERS: 13.12.24
 
+------------------------------------------------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS aktorler (
+    id INTEGER,
+    name VARCHAR(30),
+    email VARCHAR(50)
+                                    );
+
+SELECT *
+FROM aktorler a 
+
+------------------------------------------------------------------------------------------------
+
+-- Dizayn hatasindan dolayi yanlis girisi kabul eden datalar
+
+INSERT INTO aktorler VALUES (1001, 'Kemal Sunal', 'aktor@gmail.com');
+INSERT INTO aktorler VALUES (1002, 'Şener Şen', 'aktor@gmail.com');
+/*
+Üstteki girislerde unique constraint kriteri olmadigi icin ayni mail girisine yanlislikla izin
+vermis olduk. Dizayn hatasi! */
+
+------------------------------------------------------------------------------------------------
+
+-- Tek field icin veri girisi:
+
+INSERT INTO aktorler(name) VALUES ('Türkan Şoray');
+
+------------------------------------------------------------------------------------------------
+
+--CONSTRAINTS / KISITLAMALAR / BELIRLEYICILER
+-- UNIQUE and NOT NULL
+
+CREATE TABLE ogrenciler2 (
+	ogrenci_no char (7) UNIQUE,
+	isim varchar(20) NOT NULL,
+	soyisim varchar(30) NOT NULL,
+	not_ort REAL,
+	kayit_tarihi DATE
+);
+
+INSERT INTO ogrenciler2 VALUES ('1234567', 'Ali', 'Yılmaz', 80, now())
+
+INSERT INTO ogrenciler2 VALUES ('2345678', 'Ali', 'Veli', 90, now())
+
+INSERT INTO ogrenciler2 VALUES ('2345679', ' ', 'Ece',  50, now()) -- Bosluk karakteri NULL degildir.
+
+INSERT INTO ogrenciler2 (isim,soyisim) VALUES ('Bilal', 'Ece')
+
+INSERT INTO ogrenciler2 (isim,soyisim) VALUES ('John', 'Steve')
+
+-- Not: NULLlarin hepsi UNIQUE kabul edilir. 
+--Her fieldda birden fazla null olabilir. (Postgre ve MysQL böyle kabul ediyor.)
+
+SELECT *
+FROM ogrenciler2 o
+
+------------------------------------------------------------------------------------------------
+
+-- 
+/*
+Primary Key:
+            Eger bir field "primary key" olarak deklare edilmisse, 
+            field datalari "unique" ve "not null" olmali.
+            Bir tabloda sadece 1 tane "primary key" olabilir. */
+
+-- Primary Key atamasi icin 1. yol:
+
+CREATE TABLE ogrenciler3 (
+	ogrenci_no char(7) PRIMARY KEY, -- NOT NULL ve UNIQUE sartlarini birlikte saglar.
+	isim varchar(20) NOT NULL,
+	soyisim varchar(30) NOT NULL,
+	not_ort REAL,
+	kayit_tarihi DATE
+                         );
+                        
+SELECT *
+FROM ogrenciler3 o 
+
+-- Primary Key atamasi icin 2. yol (Cok tercih edilmez.):
+
+CREATE TABLE ogrenciler4( 
+ogrenci_no char(7),
+isim varchar(20) NOT NULL,
+soyisim varchar (30) NOT NULL,
+not_ort REAL,
+kayit_tarihi DATE,
+CONSTRAINT ogr_no_pk PRIMARY KEY(ogrenci_no)
+                        );
+                       
+-- NOT: 2. metotta PK icin, istedigimiz özel ismi (custom) verebiliriz. (ogr_no_pk yazdik.)                      
+
+SELECT *
+FROM ogrenciler4 o
+
+INSERT INTO ogrenciler4 VALUES ('1234567', 'Ali', 'Yılmaz', 80, now())
+
+INSERT INTO ogrenciler4 (isim, soyisim) VALUES ('John', 'Steve')
+
+-- Hata aliriz. Cünkü Primary Key olan ogrenci_no hücresini bos gecemeyiz.
+
+------------------------------------------------------------------------------------------------
+
+/*
+Parent Tablo:
+             Birincil anahtari (Primary Key) veya Unique Key iceren ve referans verilen tablodur.
+             Diger bir deyisle, parent tablo, child tablonun foreign key tarafindan referans alinan tablodur.
+             Child Tablo: Foreign Key iceren ve parent tabloya referansla baglanan tablodur.
+             Child tablo, parent tablonun primary key veya UNİQUE anahtarini foreign key olarak kendi
+             icinde barindirir ve bu foreign key üzerinden parent tabloyla iliskilendirilir. */
+
+-- Foreign Key: Tablolar arasinda iliski olusturmak icindir.
+-- Deger olarak "null" kabul eder.
+-- Tekrarlanan verileri kabul eder.
+-- Bir tablo birden cok "Foreign Key" alanina sahip olabilir.
+
+------------------------------------------------------------------------------------------------
+
+CREATE TABLE sirketler(
+sirket_id INTEGER, 
+sirket varchar(50) PRIMARY KEY,
+personel_sayisi INTEGER
+                      );
+
+CREATE TABLE personel(
+	id INTEGER,
+	isim varchar(50),
+	sehir varchar(50),
+	maas REAL,
+	sirket varchar(50),
+FOREIGN KEY(sirket) REFERENCES sirketler(sirket)
+                     );
+
+-- CONSTRAINT per_fk FOREIGN KEY(sirket) REFERENCES sirketler(sirket));  bu yazim seklinde custom foreign key baglanti ismi verilmis olur.
+-- Personel tablosundaki sirket fieldı sirketler tablosundaki sirket ile iliskili olacak
+-- Personel tablosundaki her bir satir, sirketler tablosunda gercekten var olan bir sirkete ait olmalıdır.
+-- Eger sirketler tablosunda olmayan bir sirket adi personel tablosuna eklenmeye calisilirsa, bu islem hata verir.
+
+------------------------------------------------------------------------------------------------
+
+-- CHECK Constraints
+-- Age ve salary icin veri giris sarti olusturalim:
+-- salary 5000 den büyük olmali, age 0'dan kücük olmamali
+
+CREATE TABLE person(
+id INTEGER,
+name varchar(50),
+salary REAL CHECK(salary>5000), -- 5000 degerinden yüksek giris olmali
+age INTEGER CHECK(age>0)  -- negatif deger olmamali
+                   );
+
+SELECT * FROM person p 
+
+INSERT INTO person VALUES (11, 'Ali Can', 6000, 35)
+
+INSERT INTO person VALUES (12, 'Ruşen Ece', 5500, -3) -- Hatali giris: Age degeri sarti saglamiyor. (age>0)
+
+INSERT INTO person VALUES (13, 'Ali Can', 4000, 45) -- Hatali giris: Salary sarti saglanmiyor. (>5000)
+ 
+------------------------------------------------------------------------------------------------
+
+-- DERS: 16.12.24
 
 
