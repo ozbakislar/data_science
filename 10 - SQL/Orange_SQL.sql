@@ -84,7 +84,7 @@ FROM ogrenciler o
 
 ------------------------------------------------------------------------------------------------
 
--- Var olan tablodan yeni tablo create etmek (isim, soyisim ve not_ort field'larini kullanarak)
+-- Var olan tablodan yeni tablo create etmek (isim, soyisim ve not_ort fieldlarini kullanarak)
 
 CREATE TABLE ogrenci_notlar
 AS
@@ -112,7 +112,7 @@ FROM ogrenciler o
 ------------------------------------------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS aktorler (
-    id INTEGER,
+	id INTEGER,
     name VARCHAR(30),
     email VARCHAR(50)
                                     );
@@ -188,11 +188,11 @@ FROM ogrenciler3 o
 -- Primary Key atamasi icin 2. yol (Cok tercih edilmez.):
 
 CREATE TABLE ogrenciler4( 
-ogrenci_no char(7),
-isim varchar(20) NOT NULL,
-soyisim varchar (30) NOT NULL,
-not_ort real,
-kayit_tarihi date,
+	ogrenci_no char(7),
+	isim varchar(20) NOT NULL,
+	soyisim varchar (30) NOT NULL,
+	not_ort real,
+	kayit_tarihi date,
 CONSTRAINT ogr_no_pk PRIMARY KEY(ogrenci_no)
                         );
                        
@@ -226,9 +226,9 @@ Foreign Key:
 ------------------------------------------------------------------------------------------------
 
 CREATE TABLE sirketler(
-sirket_id integer, 
-sirket varchar(50) PRIMARY KEY,
-personel_sayisi integer
+	sirket_id integer, 
+	sirket varchar(50) PRIMARY KEY,
+	personel_sayisi integer
                       );
 
 CREATE TABLE personel(
@@ -252,10 +252,10 @@ FOREIGN KEY(sirket) REFERENCES sirketler(sirket)
 -- salary 5000 den büyük olmali, age 0'dan kücük olmamali
 
 CREATE TABLE person(
-id INTEGER,
-name VARCHAR(50),
-salary REAL CHECK(salary>5000), -- 5000 degerinden yüksek giris olmali
-age INTEGER CHECK(age>0)  -- negatif deger olmamali
+	id INTEGER,
+	name VARCHAR(50),
+	salary REAL CHECK(salary>5000), -- 5000 degerinden yüksek giris olmali
+	age INTEGER CHECK(age>0)  -- negatif deger olmamali
                    );
 
 SELECT * FROM person p 
@@ -270,4 +270,30 @@ INSERT INTO person VALUES (13, 'Ali Can', 4000, 45)  -- Hatali giris: Salary deg
 
 -- DERS: 16.12.24
 
+------------------------------------------------------------------------------------------------
 
+-- ALIAS ile yapilan isler sadece raporlamada görülür.
+
+CREATE TABLE workers(
+	calisan_id char(9),
+	calisan_isim varchar(50),
+	calisan_dogdugu_sehir varchar(50)
+);
+
+INSERT INTO workers VALUES(123456789, 'Ali Can', 'İstanbul'); 
+INSERT INTO workers VALUES(234567890, 'Veli Cem', 'Ankara');  
+INSERT INTO workers VALUES(345678901, 'Mine Bulut', 'İzmir');
+
+SELECT * FROM workers;
+/*
+SORU: Alttaki sorulari raporlama icin olusturunuz:
+     - calisan_id sütun ismini id olarak degistirelim,
+     - calisan_isim sütun ismini isim olarak degistirelim,
+     - workers olan tablo ismini w olarak degistirelim. */
+
+SELECT
+	calisan_id AS id,
+	calisan_isim AS isim
+FROM workers w
+
+------------------------------------------------------------------------------------------------

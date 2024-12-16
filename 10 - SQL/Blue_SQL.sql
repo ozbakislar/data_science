@@ -13,14 +13,14 @@
 -- Personel Tablosu
 
 CREATE TABLE personel (
-id SERIAL PRIMARY KEY,
-departman_id INTEGER NOT NULL,
-ulke_id VARCHAR(50) NOT NULL,
-ad VARCHAR(50) NOT NULL,
-soyad VARCHAR(50) NOT NULL,
-email VARCHAR(50) NOT NULL,
-dogum DATE NOT NULL,
-maas NUMERIC(10, 2) NOT NULL
+	id SERIAL PRIMARY KEY,
+	departman_id INTEGER NOT NULL,
+	ulke_id VARCHAR(50) NOT NULL,
+	ad VARCHAR(50) NOT NULL,
+	soyad VARCHAR(50) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	dogum DATE NOT NULL,
+	maas NUMERIC(10, 2) NOT NULL
                        );
 
 ------------------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ FROM personel
 -- Departman Tablosu
 
 CREATE TABLE departman (
-    id SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
     ad VARCHAR(50) NOT NULL,
     odano VARCHAR(20) NULL
                        );
@@ -116,15 +116,15 @@ FROM departman
 -- Müsteri Tablosu
 
 CREATE TABLE musteri (
-  id SERIAL PRIMARY KEY,
-  ulke_id VARCHAR(2) NOT NULL,
-  ad VARCHAR(50) NOT NULL,
-  soyad VARCHAR(50) NOT NULL,
-  email VARCHAR(50) NOT NULL UNIQUE,
-  dogum DATE,
-  kullaniciadi VARCHAR(50) NOT NULL UNIQUE,
-  sifre VARCHAR(50) NOT NULL,
-  bgcolor VARCHAR(7)
+ 	id SERIAL PRIMARY KEY,
+ 	ulke_id VARCHAR(2) NOT NULL,
+ 	ad VARCHAR(50) NOT NULL,
+ 	soyad VARCHAR(50) NOT NULL,
+ 	email VARCHAR(50) NOT NULL UNIQUE,
+ 	dogum DATE,
+ 	kullaniciadi VARCHAR(50) NOT NULL UNIQUE,
+ 	sifre VARCHAR(50) NOT NULL,
+ 	bgcolor VARCHAR(7)
                      );
 
 ------------------------------------------------------------------------------------------------
@@ -159,7 +159,7 @@ FROM musteri
 -- Siparis Tablosu
 
 CREATE TABLE siparis (
-    id SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
     tarih DATE,
     musteri_id INTEGER
                      );
@@ -181,7 +181,7 @@ FROM siparis
 -- Ülke Tablosu
 
 CREATE TABLE ulke (
-    id SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
     ad VARCHAR(2),
     orjinalad VARCHAR(50)
                   );
@@ -229,13 +229,40 @@ FROM siparis s
 
 -- DERS: 16.12.24
 
+------------------------------------------------------------------------------------------------
 
+-- ALIAS Konusu
+/*
+Elemanlarin adini, soyadini ve maasini listelediginiz ekranda 
+kücük bir değisiklik istiyorum. Ad sütununun basligi 'A', 
+soyad sütununun basligi ise 'S' olsun. Maas sütununun basligi 
+yine 'maas' olarak kalabilir.
+*/
 
+-- Önce tablomuzu cagirip hatirlayalim.
 
+SELECT *
+FROM personel p
 
+-- Bu sekilde giriste a ve s harflerini büyük yapamadik.
 
+SELECT
+	ad AS A,
+	Soyad S,
+	maas
+FROM personel p
 
+/*
+Cift tirnak field isimlerini düzenlerken, tek tirnak ise Insert Into gibi
+valuelari ifade etmek icin kullanilir. */
 
+SELECT
+	ad AS "A",
+	Soyad "S",
+	maas
+FROM personel p
+
+------------------------------------------------------------------------------------------------
 
 
 
