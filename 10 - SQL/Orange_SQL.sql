@@ -75,7 +75,7 @@ CREATE TABLE ogrenciler(
 	ogrenci_no char(7), -- Mutlaka 7 karakter yer kaplayacak
 	isim varchar(20),
 	soyisim varchar(30),
-	not_ort REAL, -- Ondalikli sayilari belirtmek icin
+	not_ort real, -- Ondalikli sayilari belirtmek icin
 	kayit_tarihi date
                        );
 
@@ -139,14 +139,14 @@ INSERT INTO aktorler(name) VALUES ('Türkan Şoray');
 ------------------------------------------------------------------------------------------------
 
 --CONSTRAINTS / KISITLAMALAR / BELIRLEYICILER
--- UNIQUE and NOT NULL
+-- UNIQUE ve NOT NULL
 
 CREATE TABLE ogrenciler2 (
-	ogrenci_no char (7) UNIQUE,
+	ogrenci_no char (7) UNIQUE, -- UNIQUE sütunda birden fazla NULL olabilir.
 	isim varchar(20) NOT NULL,
 	soyisim varchar(30) NOT NULL,
-	not_ort REAL,
-	kayit_tarihi DATE
+	not_ort real,
+	kayit_tarihi date
 );
 
 INSERT INTO ogrenciler2 VALUES ('1234567', 'Ali', 'Yılmaz', 80, now())
@@ -166,8 +166,6 @@ SELECT *
 FROM ogrenciler2 o
 
 ------------------------------------------------------------------------------------------------
-
--- 
 /*
 Primary Key:
             Eger bir field "primary key" olarak deklare edilmisse, 
@@ -177,11 +175,11 @@ Primary Key:
 -- Primary Key atamasi icin 1. yol:
 
 CREATE TABLE ogrenciler3 (
-	ogrenci_no char(7) PRIMARY KEY, -- NOT NULL ve UNIQUE sartlarini birlikte saglar.
+	ogrenci_no char(7) PRIMARY KEY,
 	isim varchar(20) NOT NULL,
 	soyisim varchar(30) NOT NULL,
-	not_ort REAL,
-	kayit_tarihi DATE
+	not_ort real,
+	kayit_tarihi date
                          );
                         
 SELECT *
@@ -193,8 +191,8 @@ CREATE TABLE ogrenciler4(
 ogrenci_no char(7),
 isim varchar(20) NOT NULL,
 soyisim varchar (30) NOT NULL,
-not_ort REAL,
-kayit_tarihi DATE,
+not_ort real,
+kayit_tarihi date,
 CONSTRAINT ogr_no_pk PRIMARY KEY(ogrenci_no)
                         );
                        
@@ -215,35 +213,36 @@ INSERT INTO ogrenciler4 (isim, soyisim) VALUES ('John', 'Steve')
 Parent Tablo:
              Birincil anahtari (Primary Key) veya Unique Key iceren ve referans verilen tablodur.
              Diger bir deyisle, parent tablo, child tablonun foreign key tarafindan referans alinan tablodur.
-             Child Tablo: Foreign Key iceren ve parent tabloya referansla baglanan tablodur.
-             Child tablo, parent tablonun primary key veya UNİQUE anahtarini foreign key olarak kendi
-             icinde barindirir ve bu foreign key üzerinden parent tabloyla iliskilendirilir. */
-
--- Foreign Key: Tablolar arasinda iliski olusturmak icindir.
--- Deger olarak "null" kabul eder.
--- Tekrarlanan verileri kabul eder.
--- Bir tablo birden cok "Foreign Key" alanina sahip olabilir.
+             Child tablo, Foreign Key iceren ve parent tabloya referansla baglanan tablodur.
+             Child tablo, parent tablonun primary key veya UNİQUE anahtarini Foreign Key olarak kendi
+             icinde barindirir ve bu Foreign Key üzerinden parent tabloyla iliskilendirilir. */
+/*
+Foreign Key:
+			Foreign Key baska bir tablodaki Primary Key ile iliskilendirilmis olmalidir.
+			Deger olarak "null" kabul eder.
+			Tekrarlanan verileri kabul eder.
+			Bir tablo birden cok "Foreign Key" alanina sahip olabilir. */
 
 ------------------------------------------------------------------------------------------------
 
 CREATE TABLE sirketler(
-sirket_id INTEGER, 
+sirket_id integer, 
 sirket varchar(50) PRIMARY KEY,
-personel_sayisi INTEGER
+personel_sayisi integer
                       );
 
 CREATE TABLE personel(
-	id INTEGER,
+	id integer,
 	isim varchar(50),
 	sehir varchar(50),
-	maas REAL,
+	maas real,
 	sirket varchar(50),
 FOREIGN KEY(sirket) REFERENCES sirketler(sirket)
                      );
 
--- CONSTRAINT per_fk FOREIGN KEY(sirket) REFERENCES sirketler(sirket));  bu yazim seklinde custom foreign key baglanti ismi verilmis olur.
--- Personel tablosundaki sirket fieldı sirketler tablosundaki sirket ile iliskili olacak
--- Personel tablosundaki her bir satir, sirketler tablosunda gercekten var olan bir sirkete ait olmalıdır.
+-- CONSTRAINT per_fk FOREIGN KEY(sirket) REFERENCES sirketler(sirket)); bu yazim seklinde custom foreign key baglanti ismi verilmis olur.
+-- Personel tablosundaki sirket fieldi sirketler tablosundaki sirket ile iliskili olacak.
+-- Personel tablosundaki her bir satir, sirketler tablosunda gercekten var olan bir sirkete ait olmalidir.
 -- Eger sirketler tablosunda olmayan bir sirket adi personel tablosuna eklenmeye calisilirsa, bu islem hata verir.
 
 ------------------------------------------------------------------------------------------------
@@ -254,7 +253,7 @@ FOREIGN KEY(sirket) REFERENCES sirketler(sirket)
 
 CREATE TABLE person(
 id INTEGER,
-name varchar(50),
+name VARCHAR(50),
 salary REAL CHECK(salary>5000), -- 5000 degerinden yüksek giris olmali
 age INTEGER CHECK(age>0)  -- negatif deger olmamali
                    );
@@ -265,7 +264,7 @@ INSERT INTO person VALUES (11, 'Ali Can', 6000, 35)
 
 INSERT INTO person VALUES (12, 'Ruşen Ece', 5500, -3) -- Hatali giris: Age degeri sarti saglamiyor. (age>0)
 
-INSERT INTO person VALUES (13, 'Ali Can', 4000, 45) -- Hatali giris: Salary sarti saglanmiyor. (>5000)
+INSERT INTO person VALUES (13, 'Ali Can', 4000, 45)  -- Hatali giris: Salary degeri sarti saglamiyor. (>5000)
  
 ------------------------------------------------------------------------------------------------
 
