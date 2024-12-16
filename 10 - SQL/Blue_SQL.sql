@@ -10,8 +10,6 @@
 
 ------------------------------------------------------------------------------------------------
 
--- Personel Tablosu
-
 CREATE TABLE personel (
 	id SERIAL PRIMARY KEY,
 	departman_id INTEGER NOT NULL,
@@ -22,8 +20,6 @@ CREATE TABLE personel (
 	dogum DATE NOT NULL,
 	maas NUMERIC(10, 2) NOT NULL
                        );
-
-------------------------------------------------------------------------------------------------
 
 INSERT INTO personel (id, departman_id, ulke_id, ad, soyad, email, dogum, maas) VALUES (1, 4, 'TR', 'Mehmet', 'Ozman', 'grafiker@yahoo.com', '1976-11-01', 2500);
 INSERT INTO personel (id, departman_id, ulke_id, ad, soyad, email, dogum, maas) VALUES (2, 5, 'TR', 'Güray', 'Oskay', 'gurayoskay@gmail.com', '1979-02-03', 1500);
@@ -87,15 +83,11 @@ FROM personel
 
 ------------------------------------------------------------------------------------------------
 
--- Departman Tablosu
-
 CREATE TABLE departman (
 	id SERIAL PRIMARY KEY,
     ad VARCHAR(50) NOT NULL,
     odano VARCHAR(20) NULL
                        );
-
-------------------------------------------------------------------------------------------------
 
 INSERT INTO departman (id, ad) VALUES
 (1, 'Muhasebe'),
@@ -113,8 +105,6 @@ FROM departman
 
 ------------------------------------------------------------------------------------------------
 
--- Müsteri Tablosu
-
 CREATE TABLE musteri (
  	id SERIAL PRIMARY KEY,
  	ulke_id VARCHAR(2) NOT NULL,
@@ -126,8 +116,6 @@ CREATE TABLE musteri (
  	sifre VARCHAR(50) NOT NULL,
  	bgcolor VARCHAR(7)
                      );
-
-------------------------------------------------------------------------------------------------
 
 INSERT INTO musteri (ulke_id, ad, soyad, email, dogum, kullaniciadi, sifre, bgcolor) VALUES
 ('TR', 'Bülent', 'Muska', 'bulentmuska@msn.com', '1980-10-13', 'bulent', 'b0e75b7691b253f27451b953001b0fda', '#ffffff'),
@@ -156,8 +144,6 @@ FROM musteri
 
 ------------------------------------------------------------------------------------------------
 
--- Siparis Tablosu
-
 CREATE TABLE siparis (
 	id SERIAL PRIMARY KEY,
     tarih DATE,
@@ -178,7 +164,7 @@ INSERT INTO siparis (id, tarih, musteri_id) VALUES
 SELECT * 
 FROM siparis 
 
--- Ülke Tablosu
+------------------------------------------------------------------------------------------------
 
 CREATE TABLE ulke (
 	id SERIAL PRIMARY KEY,
@@ -201,15 +187,14 @@ FROM ulke
 
 ------------------------------------------------------------------------------------------------
 
--- SORU: Bana sirketimizde calisan bütün elemanlarin listesini döker misiniz?
+-- SORU: Sirkette calisan bütün elemanlarin listesini getir.
 
 SELECT *
 FROM personel p 
 
 ------------------------------------------------------------------------------------------------
-/*
--- SORU: Sirketimizde calisan bütün elemanlarin ad, soyad ve maas bilgilerine
-         ihtiyacim var. Bu listeyi bana getirebilir misiniz? */
+
+-- SORU: Sirkette calisan bütün elemanlarin ad, soyad ve maas bilgilerini iceren listeyi getir.
 
 SELECT
 	ad,
@@ -219,7 +204,7 @@ FROM personel p
 
 ------------------------------------------------------------------------------------------------
 
--- SORU: Simdiye kadar en az bir siparis vermis olan müsterilerin ID’lerinin listesini istiyorum.
+-- SORU: Simdiye kadar en az bir siparis vermis olan müsterilerin ID'lerinin listesini getir.
 
 SELECT DISTINCT
 	musteri_id 
@@ -233,11 +218,9 @@ FROM siparis s
 
 -- ALIAS Konusu
 /*
-Elemanlarin adini, soyadini ve maasini listelediginiz ekranda 
-kücük bir değisiklik istiyorum. Ad sütununun basligi 'A', 
-soyad sütununun basligi ise 'S' olsun. Maas sütununun basligi 
-yine 'maas' olarak kalabilir.
-*/
+SORU: Elemanlarin adini, soyadini ve maasini listelerken Ad sütununun basligi 'A', 
+      soyad sütununun basligi ise 'S' olsun. Maas sütununun basligi 
+      yine 'maas' olarak kalabilir. */
 
 -- Önce tablomuzu cagirip hatirlayalim.
 
@@ -253,8 +236,8 @@ SELECT
 FROM personel p
 
 /*
-Cift tirnak field isimlerini düzenlerken, tek tirnak ise Insert Into gibi
-valuelari ifade etmek icin kullanilir. */
+Dogru Cözüm: Cift tirnak field isimlerini düzenlerken, tek tirnak ise Insert Into gibi
+             valuelari ifade etmek icin kullanilir. */
 
 SELECT
 	ad AS "A",
@@ -264,21 +247,59 @@ FROM personel p
 
 ------------------------------------------------------------------------------------------------
 
+-- SORU: Sirkette calisan herkesin listesini kisilerin ismine göre dizilmis halde getirin. (Order By kullanin.)
 
+SELECT *
+FROM personel p
+ORDER BY ad ASC
 
+-- SORU: Sirkette calisan herkesin listesini kisilerin ismine göre tersten dizilmis halde getirin. (Order By kullanin.)
 
+SELECT *
+FROM personel p
+ORDER BY ad DESC
 
+/*
+SORU: Bütün sirket calisanlarinin ad, soyad ve maas bilgilerinin
+      tam listesini; ada göre ters, soyada göre ters ve maasa göre düz bir sekilde sirali getirin. */
+      
+SELECT ad, soyad, maas
+FROM personel p
+ORDER BY ad DESC, soyad DESC, maas ASC
 
+------------------------------------------------------------------------------------------------
 
+-- Limit
 
+-- SORU: Ilk siparis vermis olan müsteriyi bulun.
 
+SELECT *
+FROM siparis s
 
+SELECT
+	musteri_id AS MUSTERI
+FROM siparis s
+ORDER BY id -- Tarih field'i da kullanilabilirdi.
+LIMIT 1;
 
+------------------------------------------------------------------------------------------------
 
+-- OFFSET ve LIMIT'e alternatif olarak kullanilabilen alttaki sorgu da vardir:
 
+SELECT *
+FROM personel p
 
+SELECT *
+FROM personel p
+ORDER BY maas
+OFFSET 5
+ROWS FETCH NEXT 3 ROWS ONLY; -- LIMIT 3
 
+------------------------------------------------------------------------------------------------
 
+-- DERS: 17.12.24
+
+------------------------------------------------------------------------------------------------
 
 
 

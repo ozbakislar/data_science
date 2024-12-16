@@ -36,14 +36,14 @@ FROM students
 
 ------------------------------------------------------------------------------------------------
 
--- SORU: 5 Mayis 2000 dogumlu John Doe isimli ve Computer Science departmaninda calisan kisiyi ekleyelim.
+-- SORU: 5 Mayis 2000 dogumlu John Doe isimli ve Computer Science departmaninda calisan kisiyi tabloya ekleyin.
 
 INSERT INTO students (first_name, last_name, birth_date, department) VALUES
 ('John', 'Doe', '2000-05-15', 'Computer Science');
 
 ------------------------------------------------------------------------------------------------
 /*
-SORU: Alttaki girisleri students tablosuna yapiniz:
+SORU: Alttaki girisleri students tablosuna yapin:
 
       Jane Smith, '1999-07-22', Mathematics,
 
@@ -61,15 +61,12 @@ FROM students s
 
 ------------------------------------------------------------------------------------------------
 
--- Sadece belli fieldlara bilgi girisi yapalim.
--- first name: Alice, depart: Chemistry
+-- SORU: Sadece belli field'lara bilgi girisi yapin ---> first name: Alice, depart: Chemistry
 
 INSERT INTO students (first_name, department) VALUES
 ('Alice', 'Chemistry')
 
 ------------------------------------------------------------------------------------------------
-
--- Tablo olusturma
 
 CREATE TABLE ogrenciler(
 	ogrenci_no char(7), -- Mutlaka 7 karakter yer kaplayacak
@@ -84,7 +81,7 @@ FROM ogrenciler o
 
 ------------------------------------------------------------------------------------------------
 
--- Var olan tablodan yeni tablo create etmek (isim, soyisim ve not_ort fieldlarini kullanarak)
+-- Var olan tablodan yeni tablo create etmek (isim, soyisim ve not_ort field'larini kullanarak)
 
 CREATE TABLE ogrenci_notlar
 AS
@@ -124,7 +121,8 @@ FROM aktorler a
 
 -- Dizayn hatasindan dolayi yanlis girisi kabul eden datalar
 
-INSERT INTO aktorler VALUES (1001, 'Kemal Sunal', 'aktor@gmail.com');
+INSERT INTO aktorler VALUES (1001, 'Kemal Sunal', 'aktor@gmail.com')
+
 INSERT INTO aktorler VALUES (1002, 'Şener Şen', 'aktor@gmail.com');
 /*
 Üstteki girislerde unique constraint kriteri olmadigi icin ayni mail girisine yanlislikla izin
@@ -139,6 +137,7 @@ INSERT INTO aktorler(name) VALUES ('Türkan Şoray');
 ------------------------------------------------------------------------------------------------
 
 --CONSTRAINTS / KISITLAMALAR / BELIRLEYICILER
+
 -- UNIQUE ve NOT NULL
 
 CREATE TABLE ogrenciler2 (
@@ -159,8 +158,8 @@ INSERT INTO ogrenciler2 (isim,soyisim) VALUES ('Bilal', 'Ece')
 
 INSERT INTO ogrenciler2 (isim,soyisim) VALUES ('John', 'Steve')
 
--- Not: NULLlarin hepsi UNIQUE kabul edilir. 
---Her fieldda birden fazla null olabilir. (Postgre ve MysQL böyle kabul ediyor.)
+-- NULL'larin hepsi UNIQUE kabul edilir. 
+--Her field'da birden fazla null olabilir. (Postgre ve MysQL böyle kabul ediyor.)
 
 SELECT *
 FROM ogrenciler2 o
@@ -203,26 +202,24 @@ FROM ogrenciler4 o
 
 INSERT INTO ogrenciler4 VALUES ('1234567', 'Ali', 'Yılmaz', 80, now())
 
-INSERT INTO ogrenciler4 (isim, soyisim) VALUES ('John', 'Steve')
-
--- Hata aliriz. Cünkü Primary Key olan ogrenci_no hücresini bos gecemeyiz.
+INSERT INTO ogrenciler4 (isim, soyisim) VALUES ('John', 'Steve') /* Hata aliriz. Cünkü Primary Key
+                                                                 olan ogrenci_no hücresini bos gecemeyiz. */
 
 ------------------------------------------------------------------------------------------------
 
 /*
-Parent Tablo:
-             Birincil anahtari (Primary Key) veya Unique Key iceren ve referans verilen tablodur.
-             Diger bir deyisle, parent tablo, child tablonun foreign key tarafindan referans alinan tablodur.
-             Child tablo, Foreign Key iceren ve parent tabloya referansla baglanan tablodur.
-             Child tablo, parent tablonun primary key veya UNİQUE anahtarini Foreign Key olarak kendi
-             icinde barindirir ve bu Foreign Key üzerinden parent tabloyla iliskilendirilir. */
+Parent Tablo: Birincil anahtari (Primary Key) veya Unique Key iceren ve referans verilen tablodur.
+              Diger bir deyisle, parent tablo, child tablonun foreign key tarafindan referans alinan tablodur.
+              Child tablo, Foreign Key iceren ve parent tabloya referansla baglanan tablodur.
+              Child tablo, parent tablonun primary key veya Unique anahtarini Foreign Key olarak kendi
+              icinde barindirir ve bu Foreign Key üzerinden parent tabloyla iliskilendirilir. */
+             
 /*
-Foreign Key:
-			Foreign Key baska bir tablodaki Primary Key ile iliskilendirilmis olmalidir.
-			Deger olarak "null" kabul eder.
-			Tekrarlanan verileri kabul eder.
-			Bir tablo birden cok "Foreign Key" alanina sahip olabilir. */
-
+Foreign Key: Foreign Key baska bir tablodaki Primary Key ile iliskilendirilmis olmalidir.
+			 Deger olarak "null" kabul eder.
+			 Tekrarlanan verileri kabul eder.
+			 Bir tablo birden cok "Foreign Key" alanina sahip olabilir. */
+			
 ------------------------------------------------------------------------------------------------
 
 CREATE TABLE sirketler(
@@ -241,15 +238,16 @@ FOREIGN KEY(sirket) REFERENCES sirketler(sirket)
                      );
 
 -- CONSTRAINT per_fk FOREIGN KEY(sirket) REFERENCES sirketler(sirket)); bu yazim seklinde custom foreign key baglanti ismi verilmis olur.
--- Personel tablosundaki sirket fieldi sirketler tablosundaki sirket ile iliskili olacak.
+-- Personel tablosundaki sirket field'i sirketler tablosundaki sirket ile iliskili olacak.
 -- Personel tablosundaki her bir satir, sirketler tablosunda gercekten var olan bir sirkete ait olmalidir.
 -- Eger sirketler tablosunda olmayan bir sirket adi personel tablosuna eklenmeye calisilirsa, bu islem hata verir.
 
 ------------------------------------------------------------------------------------------------
 
 -- CHECK Constraints
--- Age ve salary icin veri giris sarti olusturalim:
--- salary 5000 den büyük olmali, age 0'dan kücük olmamali
+                    
+/* Age ve salary icin veri giris sarti olusturalim:
+salary 5000'den büyük olmali, age 0'dan kücük olmamali. */
 
 CREATE TABLE person(
 	id INTEGER,
@@ -286,10 +284,10 @@ INSERT INTO workers VALUES(345678901, 'Mine Bulut', 'İzmir');
 
 SELECT * FROM workers;
 /*
-SORU: Alttaki sorulari raporlama icin olusturunuz:
-     - calisan_id sütun ismini id olarak degistirelim,
-     - calisan_isim sütun ismini isim olarak degistirelim,
-     - workers olan tablo ismini w olarak degistirelim. */
+SORU: Alttaki sorulari raporlama icin olusturun:
+     - calisan_id sütun ismini id olarak degistir,
+     - calisan_isim sütun ismini isim olarak degistir,
+     - workers olan tablo ismini w olarak degistir. */
 
 SELECT
 	calisan_id AS id,
@@ -297,3 +295,152 @@ SELECT
 FROM workers w
 
 ------------------------------------------------------------------------------------------------
+
+CREATE TABLE developers(
+	id SERIAL PRIMARY KEY,
+	name varchar(50),
+	email varchar(50) UNIQUE,
+	salary real,
+	prog_lang varchar(20),
+	city varchar(50),
+	age int	
+						);
+
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Abdullah Berk', 'abdullah@mail.com', 4000, 'Java', 'Ankara', 28);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Mehmet Cenk', 'mehmet@mail.com', 5000, 'JavaScript', 'İstanbul', 35);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Ayşenur Han', 'aysenur@mail.com', 5000, 'Java', 'İzmir', 38);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Kübra Han', 'kubra@mail.com', 4000, 'JavaScript', 'İstanbul', 32);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Muhammed Demir', 'muhammed@mail.com', 6000, 'Java', 'İzmir', 25);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Fevzi Kaya', 'fevzi@mail.com', 6000, 'Html', 'İstanbul', 28);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Enes Can', 'enes@mail.com', 5500, 'Css', 'Ankara', 28);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Tansu Han', 'tansu@mail.com', 5000, 'Java', 'Bursa', 32);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Said Ran', 'said@mail.com', 4500, 'Html', 'İzmir', 33);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Mustafa Pak', 'mustafa@mail.com', 4500, 'Css', 'Bursa', 32);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Hakan Tek', 'hakan@mail.com', 7000, 'C++', 'Konya', 38);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Deniz Çetin', 'deniz@mail.com', 4000, 'C#', 'İstanbul', 30);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Betül Çetin', 'btl@mail.com', 4000, 'C#', 'Bursa', 29);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Ayse Gül', 'ayse@mail.com', 4000, 'C#', 'Ankara', 29);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Ali Şeker', 'ali@mail.com', 4000, 'C#', 'Ankara', 29);
+
+SELECT *
+FROM developers
+
+------------------------------------------------------------------------------------------------
+
+-- Random ile 5 Kisiyi Getirme - Order By Random (Developer Tablosunu Kullanarak)
+
+SELECT *
+FROM developers d
+ORDER BY RANDOM()
+LIMIT 5;
+
+------------------------------------------------------------------------------------------------
+
+-- Senaryo 1: developers tablosundan ekleme sirasina göre ilk 3 kaydi getirin.
+
+SELECT *
+FROM developers d
+LIMIT 3;
+
+-- Senaryo 2: developers tablosundan ekleme sirasina göre ilk 2 kayittan sonraki ilk 3 kaydi getirin.
+
+SELECT *
+FROM developers d
+OFFSET 2
+LIMIT 3;
+
+-- Senaryo 3: developers tablosundan maasi en düsük ilk 3 kaydi getirin.
+
+SELECT *
+FROM developers d
+ORDER BY salary ASC
+LIMIT 3;
+
+-- Senaryo 4: developers tablosundan maasi en yüksek 2. developerin tüm bilgilerini getiriniz.
+
+SELECT *
+FROM developers d
+ORDER BY salary DESC 
+OFFSET 1
+LIMIT 1;
+
+------------------------------------------------------------------------------------------------
+
+-- Order By ve Length Kullanimi
+
+-- person tablosu üzerinde calisalim.
+
+SELECT *
+FROM person
+
+-- person tablosunda sadece 1 deger var o yüzden silip tekrardan icini dolduralim.
+
+DROP TABLE IF EXISTS person;
+CREATE TABLE person (
+	ssn char(9),
+	isim varchar(50),
+	soyisim varchar(50),
+	adres varchar(50)
+                    );
+                   
+INSERT INTO person VALUES(123456789, 'Ali', 'Can', 'İstanbul');
+INSERT INTO person VALUES(234567890, 'Veli', 'Cem', 'Ankara');  
+INSERT INTO person VALUES(345678901, 'Mine', 'Bulut', 'Ankara');  
+INSERT INTO person VALUES(256789012, 'Mahmut', 'Bulut', 'İstanbul'); 
+INSERT INTO person VALUES (344678901, 'Mine', 'Yaşa', 'Ankara');  
+INSERT INTO person VALUES (345678901, 'Veli', 'Yılmaz', 'İstanbul');
+INSERT INTO person VALUES(256789018, 'Samet', 'Bulut', 'İzmir'); 
+INSERT INTO person VALUES(256789013, 'Veli', 'Cem', 'Bursa'); 
+INSERT INTO person VALUES(256789010, 'Samet', 'Bulut', 'Ankara'); 
+
+SELECT *
+FROM person;
+
+-- Senaryo 1: person isim ve soyisim degerlerini, soyisim kelime uzunluklarina göre siralayarak listeleyiniz.
+
+SELECT
+	isim,
+	soyisim
+FROM person p
+ORDER BY LENGTH(soyisim);
+/*
+Senaryo 4: person tablosunda tüm isim ve soyisim degerlerini aralarinda
+bir bosluk ile ayni sütunda cagirarak, her bir isim ve soyisim degerinin
+toplam uzunluguna göre siralayiniz. */
+
+SELECT CONCAT(isim, ' ', soyisim) AS "AdSoyad"
+FROM person p
+ORDER BY LENGTH(isim) + LENGTH(soyisim) -- Alternatif: ORDER BY LENGTH(CONCAT(isim, ' ', soyisim));
+/*
+NOT: || Operatörü ile de String birlestirmesi yapilabilir.
+     üstteki CONCAT islemini söyle yapabiliriz:
+
+SELECT
+    isim || ' ' || soyisim
+FROM person
+ORDER BY LENGTH(isim || ' ' || soyisim); */
+
+SELECT 
+	isim || ' ' || soyisim AS isim_soyisim, 
+	LENGTH(isim || ' ' || soyisim) AS toplam_uzunluk
+FROM person
+ORDER BY toplam_uzunluk
+
+-- Alttaki islemde fazladan LENGTH degerlerini de raporladik, bir üstteki gibi ama bosluklari saymadan!
+
+SELECT CONCAT(isim, ' ', soyisim), LENGTH(CONCAT(isim, soyisim)) -- Length yazarak field actik.
+FROM person
+ORDER BY LENGTH(CONCAT(isim, soyisim))
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 17.12.24
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+

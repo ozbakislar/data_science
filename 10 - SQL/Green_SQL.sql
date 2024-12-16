@@ -21,9 +21,7 @@ CREATE TABLE customers (
 	score       INTEGER
                        ); -- Noktali virgülü DBeaver'da kullanmak zorunda degiliz.
 
-------------------------------------------------------------------------------------------------
-
--- Insert customers data
+-- insert customers data
 
 INSERT INTO customers (customer_id, first_name, last_name, country, score) VALUES
 (1, 'Maria', 'Cramer', 'Germany', 350),
@@ -32,9 +30,10 @@ INSERT INTO customers (customer_id, first_name, last_name, country, score) VALUE
 (4, 'Martin', 'Müller', 'Germany', 500),
 (5, 'Peter', 'Franken', 'USA', NULL);
 
-------------------------------------------------------------------------------------------------
+SELECT *
+FROM customers
 
--- create table orders
+------------------------------------------------------------------------------------------------
 
 DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (
@@ -43,10 +42,17 @@ CREATE TABLE orders (
 	order_date  DATE,
 	quantity    INTEGER
                     );
+                   
+INSERT INTO orders (order_id, customer_id, order_date, quantity) VALUES
+(1001,1, '2021-01-11', 250),
+(1002,2, '2021-04-05', 1150),
+(1003,3, '2021-06-18', 500),
+(1004,6, '2021-08-31', 750);
+
+SELECT *
+FROM orders o 
 
 ------------------------------------------------------------------------------------------------
-
--- create table employees
 
 DROP TABLE IF EXISTS employees;
 CREATE TABLE employees (
@@ -56,6 +62,16 @@ CREATE TABLE employees (
 	emp_country VARCHAR(50),
 	salary      INTEGER
                        );
+                      
+INSERT INTO employees (emp_id, first_name, last_name, emp_country, salary) VALUES
+(1,'John', 'Steel', 'USA', 55000),
+(2,'Ann', 'Labrune', 'France', 75000),
+(3,'Marie', 'Bertrand', 'Brazil', 75000),
+(4,'Georg', 'Afonso', 'UK', 75000),
+(5,'Marie', 'Steel', 'UK', 75000);
+
+SELECT *
+FROM employees e 
 
 ------------------------------------------------------------------------------------------------
 
@@ -75,31 +91,34 @@ LIMIT                 LIMIT */
 
 ------------------------------------------------------------------------------------------------
 
--- SORU: Customer tablosundaki  bütün fieldlari getirin.
--- Select'te * isaretiyle tablodan tüm fieldlari secip getirdik.
+-- SORU: customers tablosundaki bütün field'lari getirin.
 
 SELECT *
 FROM customers
 
+-- Select'te * isaretiyle tablodan tüm field'lari secip getirdik.
+
 ------------------------------------------------------------------------------------------------
 
--- SORU: Customer tablosundan sadece first_name ve country fieldlarini getirin.
--- Sütunlari yazarken araya virgül koymak gerekli
+-- SORU: customers tablosundan sadece first_name ve country field'larini getirin.
 
 SELECT
 	first_name,
 	country
 FROM customers c
 
+-- Sütunlari yazarken araya virgül koymak gerekli
+
 ------------------------------------------------------------------------------------------------
 
 -- DERS: 13.12.24
 
 ------------------------------------------------------------------------------------------------
+/*
+SELECT DISTINCT: Sorgu sonucunda tekrar eden verileri cikarip yalnizca essiz (unique) verilerin
+                 görüntülenmesini saglar. */
 
--- SELECT DISTINCT:
--- Sorgu sonucunda tekrar eden verileri cikarip yalnizca essiz (unique) verilerin görüntülenmesini saglar.
--- SORU: Country degerlerini tekrar eden degerler olmadan getiriniz.
+-- SORU: country degerlerini tekrar eden degerler olmadan getiriniz.
 
 SELECT DISTINCT
 	country 
@@ -108,54 +127,6 @@ FROM customers c
 ------------------------------------------------------------------------------------------------
 
 -- DERS: 16.12.24
-
-------------------------------------------------------------------------------------------------
-
--- Create table orders
-
-DROP TABLE IF EXISTS orders;
-CREATE TABLE orders (
-	order_id    SERIAL PRIMARY KEY,
-	customer_id INTEGER NOT NULL,
-	order_date  DATE,
-	quantity    INTEGER
-                    );
-
--- Insert orders data
-                   
-INSERT INTO orders (order_id, customer_id, order_date, quantity) VALUES
-(1001,1, '2021-01-11', 250),
-(1002,2, '2021-04-05', 1150),
-(1003,3, '2021-06-18', 500),
-(1004,6, '2021-08-31', 750);
-
-SELECT *
-FROM orders o 
-
-------------------------------------------------------------------------------------------------
-
--- Create table employees
-
-DROP TABLE IF EXISTS employees;
-CREATE TABLE employees (
-	emp_id      SERIAL PRIMARY KEY,
-	first_name  VARCHAR(50) NOT NULL,
-	last_name   VARCHAR(50) NOT NULL,
-	emp_country VARCHAR(50),
-	salary      INTEGER
-                       );
-
--- Insert employees data
-                      
-INSERT INTO employees (emp_id, first_name, last_name, emp_country, salary) VALUES
-(1,'John', 'Steel', 'USA', 55000),
-(2,'Ann', 'Labrune', 'France', 75000),
-(3,'Marie', 'Bertrand', 'Brazil', 75000),
-(4,'Georg', 'Afonso', 'UK', 75000),
-(5,'Marie', 'Steel', 'UK', 75000);
-
-SELECT *
-FROM employees e 
 
 ------------------------------------------------------------------------------------------------
 
@@ -171,10 +142,91 @@ FROM customers c
 
 SELECT
 	salary,
-	salary*0.10 AS bonus -- AS kelimesi opsiyoneldir. Bonus isimli yeni bir fieldi raporladik.
+	salary*0.10 AS bonus -- AS kelimesi opsiyoneldir. Bonus isimli yeni bir field'i raporladik.
 FROM employees e
 
 ------------------------------------------------------------------------------------------------
+
+-- Order By Komutu
+
+SELECT *
+FROM customers c
+
+SELECT *
+FROM customers c
+ORDER BY score ASC -- customer tablosunu score degerlerine göre kücükten büyüge siraladik.
+
+SELECT *
+FROM customers c
+ORDER BY score DESC -- customer tablosunu score degerlerine göre büyükten kücüge siraladik.
+/*
+NOT: PostgreSQL'de NULL degerler ASC siralamasinda en alta gider, DESC'de ise en üste.
+     MYSQL'de ise en üstte gelir. Eger Postgre'de Null degeri en üstte görmek istersek
+     alttaki gibi yazariz: */
+
+SELECT *
+FROM customers c 
+ORDER BY score ASC NULLS FIRST -- NULL hücreler basa geldi.
+
+SELECT *
+FROM customers c
+ORDER BY score DESC NULLS LAST -- NULL hücreler alta geldi.
+
+------------------------------------------------------------------------------------------------
+
+-- Order By Icin Iki Kriter Kullanimi
+
+-- SORU: Tüm customers listesini country'e göre alfabetik olarak ve score'a göre büyükten kücüge sirala.
+
+SELECT *
+FROM customers c 
+ORDER BY country ASC, score DESC
+/*
+Önce country'e göre siraladik, sonra ülkeleri kendi icerisinde score'a göre tekrar siraladik.
+Birden fazla siralamada önce birinci field'dakileri siralar, sonra birinci field'da ayni olanlara
+bagli olarak ikinci field'dakileri kendi arasinda siralar. */
+
+-- Order By kullaniminda field adini yazmak yerine tablodaki sira numarasini da yazabiliriz ama tercih edilmez.
+
+SELECT *
+FROM customers c
+ORDER BY 4 ASC, 5 DESC
+
+------------------------------------------------------------------------------------------------
+
+-- Limit Command
+
+-- Secilen satir sayisi kadar sonucu döndürür.
+
+-- SORU: customer tablosundaki ilk iki satiri getir.
+
+SELECT *
+FROM customers c
+LIMIT 2;
+
+------------------------------------------------------------------------------------------------
+
+-- Ofset ve Limit Kullanimi
+
+-- Ofset: Yazilan rakam kadar satiri atlayip sonrakilerini getirmenizi saglar.
+
+SELECT *
+FROM customers c
+LIMIT 3
+
+SELECT *
+FROM customers c
+OFFSET 2 -- Ilk 2 sirayi atlayacak.
+LIMIT 1 -- Ilk 2 siradan sonra gelen 3. kisiyi gösterecek.
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 17.12.24
+
+------------------------------------------------------------------------------------------------
+
+
+
 
 
 
