@@ -227,14 +227,13 @@ SORU: Elemanlarin adini, soyadini ve maasini listelerken Ad sütununun basligi '
 SELECT *
 FROM personel p
 
--- Bu sekilde giriste a ve s harflerini büyük yapamadik.
+-- Bu sekilde a ve s harflerini büyük yapamadik.
 
 SELECT
 	ad AS A,
 	Soyad S,
 	maas
 FROM personel p
-
 /*
 Dogru Cözüm: Cift tirnak field isimlerini düzenlerken, tek tirnak ise Insert Into gibi
              valuelari ifade etmek icin kullanilir. */
@@ -258,7 +257,6 @@ ORDER BY ad ASC
 SELECT *
 FROM personel p
 ORDER BY ad DESC
-
 /*
 SORU: Bütün sirket calisanlarinin ad, soyad ve maas bilgilerinin
       tam listesini; ada göre ters, soyada göre ters ve maasa göre düz bir sekilde sirali getirin. */
@@ -269,7 +267,7 @@ ORDER BY ad DESC, soyad DESC, maas ASC
 
 ------------------------------------------------------------------------------------------------
 
--- Limit
+-- Limit Uygulamasi
 
 -- SORU: Ilk siparis vermis olan müsteriyi bulun.
 
@@ -277,14 +275,14 @@ SELECT *
 FROM siparis s
 
 SELECT
-	musteri_id AS MUSTERI
+	musteri_id AS "MUSTERI"
 FROM siparis s
 ORDER BY id -- Tarih field'i da kullanilabilirdi.
 LIMIT 1;
 
 ------------------------------------------------------------------------------------------------
 
--- OFFSET ve LIMIT'e alternatif olarak kullanilabilen alttaki sorgu da vardir:
+-- LIMIT'e alternatif olarak kullanilabilen alttaki sorgu da vardir:
 
 SELECT *
 FROM personel p

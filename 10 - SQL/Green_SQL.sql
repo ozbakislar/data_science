@@ -132,7 +132,7 @@ FROM customers c
 
 -- Alias Uygulamasi
 
-SELECT * -- SELECT ile yapilan her sey raporlama icindir.
+SELECT *
 FROM employees AS e -- AS kelimesi opsiyoneldir.
 
 SELECT
@@ -140,7 +140,7 @@ SELECT
 FROM customers c 
 
 
-SELECT
+SELECT -- SELECT ile yapilan her sey raporlama icindir. Kalici degildir.
 	salary,
 	salary*0.10 AS bonus -- AS kelimesi opsiyoneldir. Bonus isimli yeni bir field'i raporladik.
 FROM employees e
@@ -154,15 +154,15 @@ FROM customers c
 
 SELECT *
 FROM customers c
-ORDER BY score ASC -- customer tablosunu score degerlerine göre kücükten büyüge siraladik.
+ORDER BY score ASC -- customers tablosunu score degerlerine göre kücükten büyüge siraladik.
 
 SELECT *
 FROM customers c
-ORDER BY score DESC -- customer tablosunu score degerlerine göre büyükten kücüge siraladik.
+ORDER BY score DESC -- customers tablosunu score degerlerine göre büyükten kücüge siraladik.
 /*
-NOT: PostgreSQL'de NULL degerler ASC siralamasinda en alta gider, DESC'de ise en üste.
-     MYSQL'de ise en üstte gelir. Eger Postgre'de Null degeri en üstte görmek istersek
-     alttaki gibi yazariz: */
+NOT: PostgreSQL'de NULL degerler ASC siralamasinda en alta gider, DESC'de ise en üste. 
+     MYSQL'de ise bu isleyis tam tersidir. Eger Postgre'de Null degeri en üstte görmek
+     istersek alttaki gibi yazariz: */
 
 SELECT *
 FROM customers c 
@@ -198,7 +198,7 @@ ORDER BY 4 ASC, 5 DESC
 
 -- Secilen satir sayisi kadar sonucu döndürür.
 
--- SORU: customer tablosundaki ilk iki satiri getir.
+-- SORU: customers tablosundaki ilk iki satiri getirin.
 
 SELECT *
 FROM customers c

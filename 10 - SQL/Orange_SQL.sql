@@ -270,7 +270,7 @@ INSERT INTO person VALUES (13, 'Ali Can', 4000, 45)  -- Hatali giris: Salary deg
 
 ------------------------------------------------------------------------------------------------
 
--- ALIAS ile yapilan isler sadece raporlamada görülür.
+-- Alias ile yapilan isler sadece raporlamada görülür.
 
 CREATE TABLE workers(
 	calisan_id char(9),
@@ -327,7 +327,7 @@ FROM developers
 
 ------------------------------------------------------------------------------------------------
 
--- Random ile 5 Kisiyi Getirme - Order By Random (Developer Tablosunu Kullanarak)
+-- Random ile Getirme - Order By Random - developers Tablosunu Kullanarak -
 
 SELECT *
 FROM developers d
@@ -404,7 +404,7 @@ SELECT
 FROM person p
 ORDER BY LENGTH(soyisim);
 /*
-Senaryo 4: person tablosunda tüm isim ve soyisim degerlerini aralarinda
+Senaryo 2: person tablosunda tüm isim ve soyisim degerlerini aralarinda
 bir bosluk ile ayni sütunda cagirarak, her bir isim ve soyisim degerinin
 toplam uzunluguna göre siralayiniz. */
 
@@ -412,8 +412,8 @@ SELECT CONCAT(isim, ' ', soyisim) AS "AdSoyad"
 FROM person p
 ORDER BY LENGTH(isim) + LENGTH(soyisim) -- Alternatif: ORDER BY LENGTH(CONCAT(isim, ' ', soyisim));
 /*
-NOT: || Operatörü ile de String birlestirmesi yapilabilir.
-     üstteki CONCAT islemini söyle yapabiliriz:
+NOT: || Operatörü ile de string birlestirmesi yapilabilir.
+     üstteki CONCAT islemini bu sefer söyle yapabiliriz:
 
 SELECT
     isim || ' ' || soyisim
