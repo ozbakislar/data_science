@@ -438,8 +438,71 @@ ORDER BY LENGTH(CONCAT(isim, soyisim))
 
 ------------------------------------------------------------------------------------------------
 
+-- Where Komutu
 
+CREATE TABLE calisanlar1(
+id char(5),
+isim varchar(50),
+maas int,
+ise_baslama date
+                        );
 
+INSERT INTO calisanlar1 VALUES('10002', 'Donatello', 12000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('10003', null, 5000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('10004', 'Donatello', 5000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('10005', 'Michelangelo', 5000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('10006', 'Leonardo', null, '2019-04-12');
+INSERT INTO calisanlar1 VALUES('10007', 'Raphael', null, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('', 'April', 2000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('', 'Ms.April', 2000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('10002', 'Splinter', 12000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES( null, 'Fred', 12000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('10008', 'Barnie',10000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('10009', 'Wilma',11000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES('10010', 'Betty',12000, '2018-04-14');
+
+CREATE TABLE adresler1(
+adres_id char(5),
+sokak varchar(30),
+cadde varchar(30),
+sehir varchar(20)
+                      );
+
+INSERT INTO adresler1 VALUES('10003', 'Ninja Sok.', '40. Cad.', 'İST');
+INSERT INTO adresler1 VALUES('10003', 'Kaya Sok.', '50. Cad.', 'Ankara');
+INSERT INTO adresler1 VALUES('10002', 'Taş Sok.', '30. Cad.', 'Konya');
+INSERT INTO adresler1 VALUES('10012', 'Taş Sok.', '30. Cad.', 'Konya');
+INSERT INTO adresler1 VALUES(NULL, 'Taş Sok.', '23. Cad.', 'Konya');
+INSERT INTO adresler1 VALUES(NULL,'Taş Sok.', '33. Cad.', 'Bursa');
+
+SELECT * FROM calisanlar1;
+SELECT * FROM adresler1;
+
+--SORU: calisanlar1 tablosundan ismi 'Donatello' olanlarin tüm bilgilerini listeleyin.
+
+SELECT *
+FROM calisanlar1 c 
+WHERE isim = 'Donatello'
+
+--SORU: calisanlar1 tablosundan maasi 5000'den fazla olanlarin tüm bilgilerini listeleyin.
+
+SELECT *
+FROM calisanlar1 c 
+WHERE maas > 5000
+
+--SORU: calisanlar1 tablosundan maasi 5000'den fazla olanlarin isim ve maaslarini listeleyin.
+
+SELECT
+	isim,
+	maas 
+FROM calisanlar1 c 
+WHERE maas > 5000
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 18.12.24
+
+------------------------------------------------------------------------------------------------
 
 
 

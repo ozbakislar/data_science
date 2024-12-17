@@ -299,8 +299,116 @@ ROWS FETCH NEXT 3 ROWS ONLY; -- LIMIT 3
 
 ------------------------------------------------------------------------------------------------
 
+-- Where Komutu
+
+-- SORU: Personellerden ulke_id'si TR olanlari getirin.
+
+SELECT *
+FROM personel p
+WHERE ulke_id = 'TR'
+
+-- SORU: Ismi Mehmet olanlari getirin.
+
+SELECT *
+FROM personel p 
+WHERE ad = 'Mehmet'
+
+-- SORU: 1 Kasim 1978 tarihinde dogmus bütün calisanlarin ad, soyad, dogum günü bilgilerini getirin.
+
+SELECT ad, soyad, dogum 
+FROM personel p
+WHERE dogum = '1978-11-01'
 
 
+------------------------------------------------------------------------------------------------
 
+-- AND Kullanimi
 
+-- SORU: Mehmet Ozman isimli personelin tüm özlük bilgilerini getirin.
 
+SELECT *
+FROM personel
+WHERE ad = 'Mehmet' AND soyad = 'Ozman';
+
+------------------------------------------------------------------------------------------------
+
+-- OR Kullanimi
+
+-- SORU: Adi Mehmet veya Dilek olan kisilerin tam listesini getirin.
+
+SELECT *
+FROM personel p
+WHERE
+	ad = 'Mehmet'
+ 	OR
+ 	ad = 'Dilek'
+ 	
+--SORU: Adi Mehmet veya Dilek olan ve maasi 1400'ün üzerinde olan calisanlarin listesini getirin.
+ 	
+SELECT *
+FROM personel p
+WHERE                              
+	(ad = 'Mehmet'OR ad = 'Dilek') 
+    AND 
+    maas > 1400
+/*
+Parantez koyarsak öncelik siralamasindaki karisikligi engelleriz. Sorgulamada parantez kullanilmadigi
+takdirde operatör önceligi AND'e verir. Bu da sorgu sonucunu degistirir. */
+    
+------------------------------------------------------------------------------------------------
+
+-- BETWEEN Kullanimi
+/*
+SORU: Maasi 1000 ile 2000 arasinda olan bütün calisanlarin id, ad, soyad ve maas bilgilerini getirin.
+      Liste maas tutarina göre siralanmis olsun. */
+    
+SELECT
+ 	id,
+ 	ad,
+ 	soyad,
+ 	maas
+FROM personel p
+WHERE maas
+	BETWEEN 1000 AND 2000
+ORDER BY maas;
+
+-- SORU: 1978 yilinda dogmus bütün calisanlarin ad, soyad ve dogum günü bilgilerini getirin.
+
+SELECT
+	ad,
+	soyad,
+	dogum AS dogum_gunu
+FROM personel p
+WHERE dogum
+	BETWEEN '1978-01-01' AND '1978-12-31'
+	
+------------------------------------------------------------------------------------------------
+/*
+Her bir calisanin ID’sini, adini, soyadini ve Marduk geldiginde kac gündür yasiyor olacagini
+iceren bir liste hazirlayin. (Marduk gelis tarihi: 21 Aralik 2012) */
+
+SELECT
+	id,
+	ad,
+	soyad,
+	('2012-12-21' - dogum) AS gunfarki
+FROM personel p
+
+------------------------------------------------------------------------------------------------
+
+-- Birden fazla OR kullanimi IN kullanimi demektir.
+/*
+SORU: İsmi Mehmet, Dilek veya Cengiz olan bütün calisanlari listeleyin.
+      Liste ad ve soyada göre siralanmis olsun. */
+
+SELECT *
+FROM personel p
+WHERE ad
+	IN('Mehmet', 'Dilek', 'Cengiz')
+ORDER BY ad, soyad
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 18.12.24
+
+------------------------------------------------------------------------------------------------

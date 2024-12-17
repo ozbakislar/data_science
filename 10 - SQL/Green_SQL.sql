@@ -225,23 +225,146 @@ LIMIT 1 -- Ilk 2 siradan sonra gelen 3. kisiyi gösterecek.
 
 ------------------------------------------------------------------------------------------------
 
+-- Where Komutu
 
+SELECT *
+FROM customers c
 
+-- SORU: Sadece German olanlari getirin. - Sadece ifadesinden filtreleme yapilacagi anlasilir. -
 
+SELECT * 
+FROM customers c
+WHERE country = 'Germany' -- "Germany" seklinde cift tirnak calismaz.
 
+-- SORU: score degeri 500'den büyük olanlari getirin.
 
+SELECT *
+FROM customers c
+WHERE score > 500
 
+-- SORU: score degeri 500'den kücük olanlari getirin.
 
+SELECT *
+FROM customers c
+WHERE score < 500
 
+-- SORU: Germany olmayanlari getirin.
 
+-- 1. yol
 
+SELECT * 
+FROM customers c
+WHERE country != 'Germany'
 
+-- 2. yol
 
+SELECT * 
+FROM customers c
+WHERE  country <> 'Germany'
 
+-- 3. yol
 
+SELECT *
+FROM customers c
+WHERE NOT country = 'Germany'
 
+------------------------------------------------------------------------------------------------
+/*
+AND Operatörü: WHERE ifadesi icinde birden fazla kosulu birlestirmek icin kullanilir.
+               Bu ifade, tüm kosullarin dogru oldugu satirlari secer.
+               Yani, AND ifadesiyle birlestirilen her bir kosulun saglanmasi gereklidir. */
 
+-- SORU: customers tablosundan ülkesi Germany ve score 400'den kücük olanlari listeleyin.
 
+SELECT *
+FROM customers c
+WHERE
+	country = 'Germany'
+	AND
+	score < 400
 
+------------------------------------------------------------------------------------------------
+/*
+OR Operatörü: WHERE ifadesi icinde birden fazla kosulu birlestirmek icin kullanilir. 
+              OR ifadesi, belirtilen kosullardan en az birinin dogru oldugu satirlari secer. 
+              Yani, herhangi bir kosulun saglanmasi yeterlidir. */
+	
+-- SORU: Ülkesi Germany olanlari veya score 800'den kücük olanlari getirin.
+	
+SELECT *
+FROM customers c
+WHERE
+	country = 'Germany'
+	OR
+	score < 800;
 
+------------------------------------------------------------------------------------------------
+/*
+NOT Operatörü: Bir kosulun tersini almak icin kullanilir.
+               Bu ifade, belirtilen kosul dogru degilse satirlari secer.
+               NOT, WHERE, HAVING ifadesinde veya baska bir kosul ifadesinde kullanilabilir. */
 
+-- SORU: score 400'den kücük olanlari düsünün ve tam tersini alin:
+
+SELECT *
+FROM customers c
+WHERE NOT score < 400
+
+------------------------------------------------------------------------------------------------
+/*
+BETWEEN Operatörü: Bir field'daki degerlerin belirli bir aralik icinde olup olmadigini
+                   kontrol etmek icin kullanilir. BETWEEN ifadesi, iki sinir deger belirterek
+                   bu degerler arasindaki (sinir degerler de dahil) satirlari secer. Bu ifade,
+                   sayisal, tarihsel veya alfabetik araliklari belirlemek icin kullanilabilir. */
+
+-- SORU: score degeri 100 ve 500 arasinda olanlari getir. (100 ve 500 ikisi de dahil.)
+
+-- 1. yol
+
+SELECT *
+FROM customers c
+WHERE score
+	BETWEEN 100 AND 500;
+
+-- 2. yol
+
+SELECT *
+FROM customers c 
+WHERE 
+	score >= 100 
+	AND 
+	score <= 500;
+
+------------------------------------------------------------------------------------------------
+/*
+IN Operatörü: Bir field degerinin belirli bir dizi degerlerden biri olup olmadigini kontrol etmek
+              icin kullanilir. Bu ifade, birden fazla degeri kontrol etmek istediginizde OR operatörüne
+              göre daha okunabilir ve daha kisa bir yazim saglar. */
+
+--SORU: Tüm customers icerisinde custumer_id'si 1, 2, 5 olanlari getirin.
+
+-- 1. yol
+
+SELECT *
+FROM customers c
+WHERE customer_id
+	IN (1, 2, 5)
+	
+	
+-- 2. yol
+
+SELECT *
+FROM customers c
+WHERE
+	customer_id = 1
+	OR 
+	customer_id = 2
+	OR 
+	customer_id = 3
+	
+------------------------------------------------------------------------------------------------
+
+-- DERS: 18.12.24
+
+------------------------------------------------------------------------------------------------
+	
