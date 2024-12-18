@@ -405,7 +405,7 @@ SELECT *
 FROM personel p
 WHERE ad
 	IN('Mehmet', 'Dilek', 'Cengiz')
-ORDER BY ad, soyad
+ORDER BY ad, soyad -- DEFAULT deger ASC
 
 ------------------------------------------------------------------------------------------------
 

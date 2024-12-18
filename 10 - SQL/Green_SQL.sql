@@ -274,7 +274,7 @@ AND Operatörü: WHERE ifadesi icinde birden fazla kosulu birlestirmek icin kull
                Bu ifade, tüm kosullarin dogru oldugu satirlari secer.
                Yani, AND ifadesiyle birlestirilen her bir kosulun saglanmasi gereklidir. */
 
--- SORU: customers tablosundan ülkesi Germany ve score 400'den kücük olanlari listeleyin.
+-- SORU: customers tablosundan ülkesi Germany ve score degeri 400'den kücük olanlari listeleyin.
 
 SELECT *
 FROM customers c
@@ -289,7 +289,7 @@ OR Operatörü: WHERE ifadesi icinde birden fazla kosulu birlestirmek icin kulla
               OR ifadesi, belirtilen kosullardan en az birinin dogru oldugu satirlari secer. 
               Yani, herhangi bir kosulun saglanmasi yeterlidir. */
 	
--- SORU: Ülkesi Germany olanlari veya score 800'den kücük olanlari getirin.
+-- SORU: Ülkesi Germany olanlari veya score degeri 800'den kücük olanlari getirin.
 	
 SELECT *
 FROM customers c
@@ -304,7 +304,7 @@ NOT Operatörü: Bir kosulun tersini almak icin kullanilir.
                Bu ifade, belirtilen kosul dogru degilse satirlari secer.
                NOT, WHERE, HAVING ifadesinde veya baska bir kosul ifadesinde kullanilabilir. */
 
--- SORU: score 400'den kücük olanlari düsünün ve tam tersini alin:
+-- SORU: score degeri 400'den kücük olanlari düsünün ve tam tersini alin:
 
 SELECT *
 FROM customers c
@@ -317,7 +317,7 @@ BETWEEN Operatörü: Bir field'daki degerlerin belirli bir aralik icinde olup ol
                    bu degerler arasindaki (sinir degerler de dahil) satirlari secer. Bu ifade,
                    sayisal, tarihsel veya alfabetik araliklari belirlemek icin kullanilabilir. */
 
--- SORU: score degeri 100 ve 500 arasinda olanlari getir. (100 ve 500 ikisi de dahil.)
+-- SORU: score degeri 100 ve 500 arasinda olanlari getirin. (100 ve 500 ikisi de dahil.)
 
 -- 1. yol
 
@@ -341,7 +341,7 @@ IN Operatörü: Bir field degerinin belirli bir dizi degerlerden biri olup olmad
               icin kullanilir. Bu ifade, birden fazla degeri kontrol etmek istediginizde OR operatörüne
               göre daha okunabilir ve daha kisa bir yazim saglar. */
 
---SORU: Tüm customers icerisinde custumer_id'si 1, 2, 5 olanlari getirin.
+--SORU: Tüm customers icerisinden custumer_id'si 1, 2, 5 olanlari getirin.
 
 -- 1. yol
 
