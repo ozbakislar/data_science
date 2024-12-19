@@ -412,3 +412,103 @@ ORDER BY ad, soyad -- DEFAULT deger ASC
 -- DERS: 18.12.24
 
 ------------------------------------------------------------------------------------------------
+
+-- SORU: Ismi 'A' ile baslayan bütün calisanlarin listesini getirin.
+
+SELECT *
+FROM personel p
+
+SELECT *
+FROM personel p
+WHERE ad
+	LIKE 'A%'
+	
+-- SORU: Soyadi 'oğlu' ile biten bütün calisanlarin listesini getirin.
+
+SELECT *
+FROM personel p
+WHERE soyad 
+	LIKE '%oğlu'
+
+------------------------------------------------------------------------------------------------
+	
+-- Aggregate Fonksiyonlari
+
+-- count(): Bu fonksiyon, bir tablo veya sorgu sonucunda döndürülen satirlarin sayisini hesaplar.
+
+-- SORU: Toplam calisan sayisini getirin.
+	
+SELECT *
+FROM personel p
+	
+SELECT COUNT (*) AS total_personel -- count(id) de kullanilabilirdi.
+FROM personel p
+
+------------------------------------------------------------------------------------------------
+
+-- sum(): SQL'de bir sütundaki sayisal degerlerin toplamini hesaplamak icin kullanilan bir toplu islevdir.
+
+-- SORU: Önümüzdeki ay elemanlara toplam ne kadar maas verilmesi gerektigini hesaplayin.
+
+SELECT *
+FROM personel p
+
+SELECT SUM(maas) AS toplam_maas
+FROM personel;
+
+-- SORU: İsmi Mehmet olan personellerin toplam maasini hesaplayin.
+
+SELECT sum(maas) AS "Mehmetler_toplam_maas"
+FROM personel p
+WHERE ad = 'Mehmet'
+
+-- Yukaridaki soruya ilave olarak toplam maas degerinin sonuna TL isareti eklemek icin
+
+SELECT CONCAT(SUM(maas),' ', 'TL') AS "Mehmetler_toplam_maas"
+FROM personel p
+WHERE ad = 'Mehmet'
+
+-- SORU: Muhasebe depertmanina ödenmesi gereken toplam maas ne kadar hesaplayin.
+
+SELECT *
+FROM personel p -- personel tablosunda muhasebe depertmaninin id'si direkt belirtilmemis.
+
+SELECT id
+FROM departman d 
+WHERE ad = 'Muhasebe' -- depertman tablosundan muhasebe departmaninin id'sinin 1 oldugunu ögrendik.
+
+SELECT sum(maas) AS muhasebe_toplam_maas
+FROM personel p
+WHERE departman_id = 1
+
+------------------------------------------------------------------------------------------------
+
+-- SORU: Sirkette en yüksek maas alan kisi ne kadar aliyor bulun
+
+SELECT max(maas) AS max_maas
+FROM personel 
+
+-- SORU: Sirkette en düsük maas alan kisi ne kadar aliyor bulun.
+
+SELECT min(maas) AS min_maas
+FROM personel
+
+-- SORU: Sirkette ödenen en yüksek maas ile en düsük maas farki nedir hesaplayin.
+
+SELECT max(maas) - min(maas) AS maas_farki
+FROM personel
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 19.12.24
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

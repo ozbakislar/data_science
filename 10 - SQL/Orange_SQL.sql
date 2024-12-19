@@ -504,6 +504,122 @@ WHERE maas > 5000
 
 ------------------------------------------------------------------------------------------------
 
+-- IN: Bir degerin belirli bir degerler listesi icinde olup olmadigini kontrol eder.
+
+CREATE TABLE musteriler (
+urun_id int,  
+musteri_isim varchar(50),
+urun_isim varchar(50)
+                        );
+
+INSERT INTO musteriler VALUES (10, 'Mark', 'Orange');
+INSERT INTO musteriler VALUES (10, 'Mark', 'Orange');
+INSERT INTO musteriler VALUES (20, 'John', 'Apple');
+INSERT INTO musteriler VALUES (30, 'Amy', 'Palm');
+INSERT INTO musteriler VALUES (20, 'Mark', 'Apple');
+INSERT INTO musteriler VALUES (10, 'Adem', 'Orange');
+INSERT INTO musteriler VALUES (40, 'John', 'Apricot');
+INSERT INTO musteriler VALUES (20, 'Eddie', 'Apple');
+
+SELECT * FROM musteriler;
+
+-- SORU: Müsteriler tablosundan ürün ismi Orange, Apple veya Apricot olan verileri listeleyin.
+
+SELECT *
+FROM musteriler
+WHERE urun_isim 
+	IN ('Orange', 'Apple', 'Apricot');
+
+-- SORU: Müsteriler tablosundan ürün ismi Orange, Apple veya Apricot olmayan verileri listeleyin.
+
+SELECT *
+FROM musteriler
+WHERE urun_isim 
+	NOT IN ('Orange', 'Apple', 'Apricot');
+
+------------------------------------------------------------------------------------------------
+
+CREATE TABLE markalar (
+marka_id int, 
+marka_isim VARCHAR(20), 
+calisan_sayisi int
+                      );
+
+INSERT INTO markalar VALUES(100, 'Vakko', 12000);
+INSERT INTO markalar VALUES(101, 'Pierre Cardin', 18000);
+INSERT INTO markalar VALUES(102, 'Adidas', 10000);
+INSERT INTO markalar VALUES(103, 'LCWaikiki', 21000);
+
+CREATE TABLE calisanlar3 (
+id int, 
+isim VARCHAR(50), 
+sehir VARCHAR(50), 
+maas int, 
+isyeri VARCHAR(20)
+                         );
+
+INSERT INTO calisanlar3 VALUES(123456789, 'Ali Şeker', 'İstanbul', 2500, 'Vakko');
+INSERT INTO calisanlar3 VALUES(234567890, 'Ayşe Gül', 'İstanbul', 1500, 'LCWaikiki');
+INSERT INTO calisanlar3 VALUES(345678901, 'Veli Yılmaz', 'Ankara', 3000, 'Vakko');
+INSERT INTO calisanlar3 VALUES(456789012, 'Veli Yılmaz', 'İzmir', 1000, 'Pierre Cardin');
+INSERT INTO calisanlar3 VALUES(567890123, 'Veli Yılmaz', 'Ankara', 7000, 'Adidas');
+INSERT INTO calisanlar3 VALUES(456789012, 'Ayşe Gül', 'Ankara', 1500, 'Pierre Cardin');
+INSERT INTO calisanlar3 VALUES(123456710, 'Fatma Yaşa', 'Bursa', 2500, 'Vakko');
+
+SELECT * FROM markalar;
+SELECT * FROM calisanlar3;
+
+--SORU: calisanlar3 tablosunda max maas degerini bulun.
+
+SELECT max(maas)
+FROM calisanlar3
+
+--SORU: calisanlar3 tablosunda min maas degerini bulun.
+
+SELECT min(maas)
+FROM calisanlar3
+
+--SORU: calisanlar3 tablosunda toplam maas degerini bulun.
+
+SELECT sum(maas)
+FROM calisanlar3
+
+--SORU: calisanlar3 tablosunda ortalama maas degerini bulun.
+
+SELECT avg(maas)
+FROM calisanlar3
+
+-- SORU: calisanlar3 tablosundaki kayit sayisini bulun.
+
+SELECT count(*)
+FROM calisanlar3
+
+-- SORU: calisanlar3 tablosunda maasi 2500 olanlarin kayit sayisini bulun.
+
+SELECT count(*)
+FROM calisanlar3
+WHERE maas = 2500
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 19.12.24
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

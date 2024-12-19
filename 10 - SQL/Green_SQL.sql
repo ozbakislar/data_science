@@ -367,4 +367,191 @@ WHERE
 -- DERS: 18.12.24
 
 ------------------------------------------------------------------------------------------------
+
+-- LIKE Komutu
+
+-- SQL'de örüntü eslesmesi yapmak icin kullanilan bir operatördür. Büyük kücük harf duyarliligi vardir.
+	
+-- SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan 'n' karakteri ile biten kayitlari getirin.
+	
+SELECT *
+FROM customers c
+WHERE first_name
+	LIKE '%n' -- Basi ne olursa olsun 'n' ile biten.
+	
+-- SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan 'M' ile baslayan kayitlari getirin.	
+	
+SELECT *
+FROM customers c
+WHERE first_name
+	LIKE 'M%' -- Sonu ne olursa olsun 'M' ile baslayan.	
+	
+-- SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan ortasinda 'r' gecenleri getirin.	
+	
+SELECT *
+FROM customers c
+WHERE first_name
+	LIKE '%r%' -- Basi ve sonu ne olursa olsun arasinda 'r' olan.
+	
+------------------------------------------------------------------------------------------------
+
+-- ILIKE Komutu
+
+-- Büyük/kücük harf duyarliligi olmadan arama yapmak icin kullanilir. (no case sensitive)
+/*	
+SORU: customers tablosunda, country sütununda "usa" kelimesini büyük/kücük harf duyarliligi
+      olmadan listeleyin. */
+	
+SELECT *
+FROM customers c
+WHERE country ILIKE 'usa';	
+	
+------------------------------------------------------------------------------------------------	
+	
+-- Aggregate Fonksiyonlari
+
+-- Count() Fonksiyonu
+/*
+Count(): SQL'de bir sorgu sonucunda belirli bir sütundaki degerlerin sayisini döndüren bir toplu islevdir.
+         Hesaplamalar, yeni deger türetmeler veya gruplandirilmis verileri Select icinde tanimladigimizdan
+         count fonksiyonunu da SELECT'ten sonra yazariz. Count fonksiyonunu kullanip kullanmayacagimizi anlamak
+         adina total number anahtar kelimesini akilda tutabiliriz. */
+
+-- SORU: custmers icin total sayi nedir hesaplayin.
+
+SELECT *
+FROM customers c 
+
+SELECT count(*) AS total_customers -- 1. yol
+FROM customers c
+
+SELECT count(customer_id) total_customers -- 2. yol
+FROM customers c
+/*
+Eger müsteri sayisinin tamamini elde etmek istersek count fonksiyonunu (*) ile kullanmaliyiz ya da
+customer_id gibi bir field'i saydirmaliyiz. (Primary Key olan) */
+
+SELECT count(score) total_scores -- count() NULL hücreyi saymaz.
+FROM customers c
+
+SELECT 
+	COUNT(distinct country) as country_unique_deger_sayisi, -- unique olan deger sayisini sayar.
+	COUNT(c.*) as hepsi_null_olmayan_row_sayisi -- COUNT(TableName.*)
+FROM customers c
+
+-- COUNT(TableName.*) kullaniminda eger tüm satir degerleri NULL olan bir satir olsaydi o zaman bu satiri saymayacakti.
+
+------------------------------------------------------------------------------------------------
+
+-- Sum() Fonksiyonu
+/*
+sum(): SQL'de bir sütundaki sayisal degerlerin toplamini hesaplamak icin kullanilan bir toplu islevdir.
+       Bir sütundaki tüm değerlerin toplamini döndürür. Yalnizca sayisal sütunlarla calisir.
+       NULL'lar 0 olarak ele alinir. */
+
+-- SORU: orders icin toplam quantity ne kadardir hesaplayin.
+
+SELECT *
+FROM orders o 
+
+SELECT sum(quantity) AS total_quantity
+FROM orders o 
+
+------------------------------------------------------------------------------------------------
+
+-- Avg() Fonksiyonu
+/*
+avg(): SQL'de bir sütundaki sayisal degerlerin ortalamasini hesaplamak icin kullanilir.
+       Bir sütundaki degerlerin ortalamasini döndürür. Yalnizca sayisal sütunlarla calisir. NULL
+       degerleri dikkate almaz. */
+
+-- SORU: Tüm customers icin ortalama score nedir hesaplayin.
+
+SELECT avg(score) AS average_scores -- NULL hücreyi dikkate almayip 4'e böler, 5 kisi olmasina ragmen.
+FROM customers 
+
+-- Eger NULL hücreye bir deger atayarak ortalamaya katilmasini istersek. 
+
+SELECT avg(COALESCE(score, 0)) AS average_scores -- NULL degerini 0 olarak degistirdik.
+FROM customers c
+
+SELECT AVG(COALESCE(score, (SELECT AVG(score) FROM customers))) AS average_scores -- NULL degerini ortalama ile degistirdik.
+FROM customers;
+
+SELECT sum(score) / count(*) AS average_scores -- COALESCE kullanmadan NULL degerini 0 olarak atadik.
+FROM customers c
+
+------------------------------------------------------------------------------------------------
+
+-- min() max() Fonksiyonlari
+
+-- SORU: customers icin en yüksek score degeri nedir hesaplayin.
+
+SELECT max(score) AS max_score
+FROM customers c 
+
+-- SORU: customers icin en düsük score degeri nedir hesaplayin.
+
+SELECT min(score) AS min_score
+FROM customers c
+
+-- SORU: Ilk ve son siparisin tarihini min-max fonksiyonlarini kullarak hesaplayin.
+
+SELECT *
+FROM orders o
+
+SELECT min(order_date) AS first_order
+FROM orders o
+
+SELECT max(order_date) AS last_order
+FROM orders o
+
+-- Alternatif yol min()
+
+SELECT order_date AS first_order
+FROM orders o
+ORDER BY order_date ASC
+LIMIT 1
+
+-- Alternatif yol max()
+
+SELECT order_date AS last_order
+FROM orders o
+ORDER BY order_date DESC 
+LIMIT 1
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 19.12.24
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
