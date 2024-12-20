@@ -688,11 +688,59 @@ GROUP BY sirket
 
 ------------------------------------------------------------------------------------------------
 
+CREATE TABLE calisanlar4 (
+id INT UNIQUE, 
+isim VARCHAR(50), 
+sehir VARCHAR(50), 
+maas INT, 
+isyeri VARCHAR(20)
+                         );	
+	
+INSERT INTO calisanlar4 VALUES(123456789, 'Ali Şeker', 'İstanbul', 2500, 'Vakko');
+INSERT INTO calisanlar4 VALUES(234567890, 'Ayşe Gül', 'İstanbul', 1500, 'LCWaikiki');
+INSERT INTO calisanlar4 VALUES(345678901, null, 'Ankara', 3000, 'Vakko');
+INSERT INTO calisanlar4 VALUES(456789012, 'Veli Yılmaz', 'İzmir', 1000, 'Pierre Cardin');
+INSERT INTO calisanlar4 VALUES(567890123, 'Veli Yılmaz', 'Ankara', 7000, 'Adidas');
+INSERT INTO calisanlar4 VALUES(678901234, 'Ayşe Gül', 'Ankara', 1500, 'Pierre Cardin');
+INSERT INTO calisanlar4 VALUES(789012345, 'Fatma Yaşa', null, 2500, 'Vakko');
+INSERT INTO calisanlar4 VALUES(890123456, null, 'Bursa', 2500, 'Vakko');
+INSERT INTO calisanlar4 VALUES(901234567, 'Ali Han', null, 2500, 'Vakko');
 
+SELECT * FROM calisanlar4;	
 
+-- SORU: id'si 123456789 olan calisanin isyeri ismini 'Trendyol' olarak güncelleyin.
 
+UPDATE calisanlar4
+SET isyeri = 'Trendyol'
+WHERE id = 123456789;
 
+-- SORU: id’si 567890123 olan calisanin ismini 'Veli Yıldırım' ve sehrini 'Bursa' olarak güncelleyin.
 
+UPDATE calisanlar4
+SET isim = 'Veli Yıldırım', sehir = 'Bursa'
+WHERE id = 567890123
+
+-- SORU: Markalar tablosundaki marka_id degeri 102’ye esit veya büyük olanlarin marka_id’sini 2 ile carparak degistirin.
+
+SELECT *
+FROM markalar 
+
+UPDATE markalar
+SET marka_id = marka_id * 2
+WHERE marka_id >= 102
+
+-- SORU: Markalar tablosundaki tüm markalarin calisan_sayisi degerlerini marka_id ile toplayarak güncelleyin.
+
+-- Bu sorguyu icra ederken tüm tablo degisecegi icin DBeaver bize uyari verir.
+
+UPDATE markalar
+SET calisan_sayisi = calisan_sayisi + marka_id
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 21.12.24 (Pratik)
+
+------------------------------------------------------------------------------------------------
 
 
 

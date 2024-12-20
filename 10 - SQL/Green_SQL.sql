@@ -576,7 +576,7 @@ GROUP BY country
 
 ------------------------------------------------------------------------------------------------
 
--- HAVING 
+-- HAVING()
 
 -- HAVING: GROUP BY ifadesi ile gruplanmis sonuc kümelerini filtrelemek icin kullanilir. (Group By'siz asla!)
 -- WHERE: Satirlari gruplamadan önce genel tabloyu filtreler.
@@ -643,7 +643,7 @@ FROM customers c
 SQL'de bir metin veya karakter dizisinin basindaki ve/veya sonundaki bosluklari
 (veya belirli karakterleri) kaldirmak icin kullanilir. */
 
--- TRIM öncesi ve sonrasindaki uzunluklarla birlikte gösteren karsilastirma
+-- TRIM öncesi ve sonrasi uzunluklar
 
 SELECT
 	last_name,
@@ -660,39 +660,148 @@ FROM customers c
 
 ------------------------------------------------------------------------------------------------
 
+-- SUBSTRING()
 
+-- SQL'de bir metin veya karakter dizisinden belirli bir alt dizesini almak icin kullanilir.
 
+SELECT *
+FROM customers c
 
+SELECT
+	last_name,
+	substring(last_name, 2, 3)
+FROM customers c
 
+------------------------------------------------------------------------------------------------
 
+-- REPLACE()
 
+-- String ifadeleri yenisi ile degistirmek icin kullanilir.
+/*
+SORU: customers tablosundaki müsterilerin country alaninda bulunan "USA" degerlerini
+"United States" olarak güncelleyin. */
 
+SELECT *
+FROM customers c
 
+SELECT
+	customer_id ,
+	first_name ,
+	last_name ,
+	REPLACE(country, 'USA', 'United States') AS country2,
+	score
+FROM customers c
 
+------------------------------------------------------------------------------------------------
 
+-- REVERSE()
 
+-- String ifadeyi ters cevirir.
 
+-- SORU: customers tablosundaki firs_name'i ters cevirerek görüntüleyin.
 
+SELECT *
+FROM customers c
 
+SELECT
+	customer_id,
+	REVERSE(first_name) AS reversed_name,
+	last_name 
+FROM customers c 
 
+------------------------------------------------------------------------------------------------
 
+-- REPLACE() REVERSE() Birlikte Kullanimi
 
+-- SORU: Employee tablosundakilerin isimlerini tersine cevirin ve icindeki 'a' harflerini '@' isaretiyle degistirin.
 
+SELECT *
+FROM employees e 
 
+SELECT
+	emp_id,
+	REPLACE(REVERSE(first_name), 'a', '@') AS replaced_reversed_name,
+	last_name 
+FROM employees e
 
+------------------------------------------------------------------------------------------------
 
+-- UPDATE()
 
+-- syntax acisindan mutlaka bu 3'lü kelime grubunu alt alta kullanmaliyiz:
 
+-- UPDATE
+-- SET
+-- WHERE
 
+SELECT *
+FROM customers c
 
+INSERT INTO customers VALUES (6, 'Anna', 'Nixon', 'UK', NULL)
 
+INSERT INTO customers (customer_id, first_name, last_name) VALUES (7, 'Max', 'Lang')
+
+-- SORU: customer_id'si 6 olan kisinin ülkesini Germany olarak güncelleyin.
+
+UPDATE customers
+SET country = 'Germany'
+WHERE customer_id = 6
+
+-- Saglikli güncelleme olmasi icin kisinin ismi yerine ID'si üzerinden gitmek dogrudur.
+
+SELECT * -- UPDATE edilen deger en alta gider.
+FROM customers c
+
+-- SORU: Anna isimli kisinin score degerini 100 ve ülkesini USA olarak degistirin, güncelleyin.
+
+UPDATE customers
+SET country = 'USA', score = 100
+WHERE customer_id = 6
+
+------------------------------------------------------------------------------------------------
+
+-- DELETE() / TRUNCATE()
+
+-- DELETE ile TRUNCATE ve DROP sorgusu arasindaki fark nedir?
+-- DELETE, veritabanindaki tablodan bir veya daha fazla mevcut kaydi siler.
+-- TRUNCATE, mevcut tablodaki tüm satirlari siler ve sütunlari adlariyla birakir.
+-- DROP, tablonun tamamini veritabanindan cikarir.
+
+-- SORU: Yeni eklenen Anna'yi ve Max'i customers tablosundan silin.
+
+DELETE
+FROM customers
+WHERE customer_id IN (6, 7)
+
+SELECT *
+FROM customers c 
+
+--SORU: Tüm customers'lari database'den kaldir ama tablo sablonu kalsin.
+
+TRUNCATE TABLE customers
 	
+INSERT INTO customers (customer_id, first_name, last_name, country, score) VALUES
+(1, 'Maria', 'Cramer', 'Germany', 350),
+(2, 'John', 'Steel', 'USA', 900),
+(3, 'Georg', 'Pipps', 'UK', 750),
+(4, 'Martin', 'Müller', 'Germany', 500),
+(5, 'Peter', 'Franken', 'USA', NULL);
 	
+------------------------------------------------------------------------------------------------
+
+-- VACUUM()
+/*
+ PostgreSQL'de bir tablo veya veri silindiginde disk alanini geri kazanmak istiyorsaniz, VACUUM
+ komutunu kullanabilirsiniz. VACUUM komutu silinen verilerin yer kaplamasini önler, bos alani
+ temizler ve veritabanindaki diger islemler icin kullanilabilir hale getirir. 
+
+Syntax: VACUUM FULL table_name; */
 	
-	
-	
-	
-	
+------------------------------------------------------------------------------------------------
+
+-- DERS: 21.12.24 (Pratik)
+
+------------------------------------------------------------------------------------------------	
 	
 
 	

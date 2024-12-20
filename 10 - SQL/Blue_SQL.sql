@@ -544,6 +544,35 @@ GROUP BY departman_id
 
 ------------------------------------------------------------------------------------------------
 
+-- SORU: 59 ID'li personeli Almanya'ya gönderip maasini da 100 Birim zam yapin.
+
+UPDATE personel 
+SET maas = maas + 100, ulke_id = 'DE'
+WHERE id = 59
+
+SELECT *
+FROM personel p 
+
+-- Eger WHERE kosulu olmadan yazilirsa tüm tablo SET ifadesindeki gibi degismis olur.
+
+------------------------------------------------------------------------------------------------
+
+-- SORU: ID'si 59 olan kisinin kayitlarini database'den kaldirin.
+
+DELETE
+FROM personel
+WHERE id = 59
+
+SELECT *
+FROM personel p
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 21.12.24 (Pratik)
+
+------------------------------------------------------------------------------------------------
+
+
 
 
 
