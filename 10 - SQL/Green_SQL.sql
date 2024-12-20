@@ -114,9 +114,10 @@ FROM customers c
 -- DERS: 13.12.24
 
 ------------------------------------------------------------------------------------------------
-/*
-SELECT DISTINCT: Sorgu sonucunda tekrar eden verileri cikarip yalnizca essiz (unique) verilerin
-                 görüntülenmesini saglar. */
+
+-- SELECT DISTINCT
+
+-- Sorgu sonucunda tekrar eden verileri cikarip yalnizca essiz verilerin görüntülenmesini saglar.
 
 -- SORU: country degerlerini tekrar eden degerler olmadan getiriniz.
 
@@ -130,7 +131,7 @@ FROM customers c
 
 ------------------------------------------------------------------------------------------------
 
--- Alias Uygulamasi
+-- ALIAS - AS 
 
 SELECT *
 FROM employees AS e -- AS kelimesi opsiyoneldir.
@@ -147,7 +148,7 @@ FROM employees e
 
 ------------------------------------------------------------------------------------------------
 
--- Order By Komutu
+-- ORDER BY
 
 SELECT *
 FROM customers c
@@ -160,9 +161,8 @@ SELECT *
 FROM customers c
 ORDER BY score DESC -- customers tablosunu score degerlerine göre büyükten kücüge siraladik.
 /*
-NOT: PostgreSQL'de NULL degerler ASC siralamasinda en alta gider, DESC'de ise en üste. 
-     MYSQL'de ise bu isleyis tam tersidir. Eger Postgre'de Null degeri en üstte görmek
-     istersek alttaki gibi yazariz: */
+PostgreSQL'de NULL degerler ASC siralamasinda en alta gider, DESC'de ise en üste. MYSQL'de ise bu
+isleyis tam tersidir. Eger Postgre'de Null degeri en üstte görmek istersek alttaki gibi yazariz: */
 
 SELECT *
 FROM customers c 
@@ -174,7 +174,7 @@ ORDER BY score DESC NULLS LAST -- NULL hücreler alta geldi.
 
 ------------------------------------------------------------------------------------------------
 
--- Order By Icin Iki Kriter Kullanimi
+-- ORDER BY Icin Iki Kriter Kullanimi
 
 -- SORU: Tüm customers listesini country'e göre alfabetik olarak ve score'a göre büyükten kücüge sirala.
 
@@ -186,7 +186,7 @@ ORDER BY country ASC, score DESC
 Birden fazla siralamada önce birinci field'dakileri siralar, sonra birinci field'da ayni olanlara
 bagli olarak ikinci field'dakileri kendi arasinda siralar. */
 
--- Order By kullaniminda field adini yazmak yerine tablodaki sira numarasini da yazabiliriz ama tercih edilmez.
+-- Order By kullaniminda field adini yazmak yerine tablodaki sira numarasini da yazabiliriz.
 
 SELECT *
 FROM customers c
@@ -194,7 +194,7 @@ ORDER BY 4 ASC, 5 DESC
 
 ------------------------------------------------------------------------------------------------
 
--- Limit Command
+-- LIMIT
 
 -- Secilen satir sayisi kadar sonucu döndürür.
 
@@ -206,7 +206,7 @@ LIMIT 2;
 
 ------------------------------------------------------------------------------------------------
 
--- Ofset ve Limit Kullanimi
+-- OFSET VE LIMIT
 
 -- Ofset: Yazilan rakam kadar satiri atlayip sonrakilerini getirmenizi saglar.
 
@@ -225,12 +225,12 @@ LIMIT 1 -- Ilk 2 siradan sonra gelen 3. kisiyi gösterecek.
 
 ------------------------------------------------------------------------------------------------
 
--- Where Komutu
+-- WHERE
 
 SELECT *
 FROM customers c
 
--- SORU: Sadece German olanlari getirin. - Sadece ifadesinden filtreleme yapilacagi anlasilir. -
+-- SORU: Sadece German olanlari getirin. - Sadece ifadesinden filtreleme yapilacagi anlasilir.
 
 SELECT * 
 FROM customers c
@@ -269,10 +269,12 @@ FROM customers c
 WHERE NOT country = 'Germany'
 
 ------------------------------------------------------------------------------------------------
+
+-- AND
 /*
-AND Operatörü: WHERE ifadesi icinde birden fazla kosulu birlestirmek icin kullanilir.
-               Bu ifade, tüm kosullarin dogru oldugu satirlari secer.
-               Yani, AND ifadesiyle birlestirilen her bir kosulun saglanmasi gereklidir. */
+WHERE ifadesi icinde birden fazla kosulu birlestirmek icin kullanilir. Bu ifade, tüm kosullarin
+dogru oldugu satirlari secer. Yani, AND ifadesiyle birlestirilen her bir kosulun saglanmasi
+gereklidir. */
 
 -- SORU: customers tablosundan ülkesi Germany ve score degeri 400'den kücük olanlari listeleyin.
 
@@ -284,10 +286,12 @@ WHERE
 	score < 400
 
 ------------------------------------------------------------------------------------------------
+
+-- OR	
 /*
-OR Operatörü: WHERE ifadesi icinde birden fazla kosulu birlestirmek icin kullanilir. 
-              OR ifadesi, belirtilen kosullardan en az birinin dogru oldugu satirlari secer. 
-              Yani, herhangi bir kosulun saglanmasi yeterlidir. */
+WHERE ifadesi icinde birden fazla kosulu birlestirmek icin kullanilir. OR ifadesi, belirtilen
+kosullardan en az birinin dogru oldugu satirlari secer. Yani, herhangi bir kosulun saglanmasi
+yeterlidir. */
 	
 -- SORU: Ülkesi Germany olanlari veya score degeri 800'den kücük olanlari getirin.
 	
@@ -299,10 +303,11 @@ WHERE
 	score < 800;
 
 ------------------------------------------------------------------------------------------------
+
+-- NOT
 /*
-NOT Operatörü: Bir kosulun tersini almak icin kullanilir.
-               Bu ifade, belirtilen kosul dogru degilse satirlari secer.
-               NOT, WHERE, HAVING ifadesinde veya baska bir kosul ifadesinde kullanilabilir. */
+Bir kosulun tersini almak icin kullanilir. Bu ifade, belirtilen kosul dogru degilse satirlari
+secer. NOT, WHERE, HAVING ifadesinde veya baska bir kosul ifadesinde kullanilabilir. */
 
 -- SORU: score degeri 400'den kücük olanlari düsünün ve tam tersini alin:
 
@@ -311,11 +316,13 @@ FROM customers c
 WHERE NOT score < 400
 
 ------------------------------------------------------------------------------------------------
+
+-- BETWEEN
 /*
-BETWEEN Operatörü: Bir field'daki degerlerin belirli bir aralik icinde olup olmadigini
-                   kontrol etmek icin kullanilir. BETWEEN ifadesi, iki sinir deger belirterek
-                   bu degerler arasindaki (sinir degerler de dahil) satirlari secer. Bu ifade,
-                   sayisal, tarihsel veya alfabetik araliklari belirlemek icin kullanilabilir. */
+Bir field'daki degerlerin belirli bir aralik icinde olup olmadigini kontrol etmek icin
+kullanilir. BETWEEN ifadesi, iki sinir deger belirterek bu degerler arasindaki
+(sinir degerler de dahil) satirlari secer. Bu ifade, sayisal, tarihsel veya alfabetik araliklari
+belirlemek icin kullanilabilir. */
 
 -- SORU: score degeri 100 ve 500 arasinda olanlari getirin. (100 ve 500 ikisi de dahil.)
 
@@ -336,10 +343,12 @@ WHERE
 	score <= 500;
 
 ------------------------------------------------------------------------------------------------
+
+-- IN
 /*
-IN Operatörü: Bir field degerinin belirli bir dizi degerlerden biri olup olmadigini kontrol etmek
-              icin kullanilir. Bu ifade, birden fazla degeri kontrol etmek istediginizde OR operatörüne
-              göre daha okunabilir ve daha kisa bir yazim saglar. */
+Bir field degerinin belirli bir dizi degerlerden biri olup olmadigini kontrol etmek icin
+kullanilir. Bu ifade, birden fazla degeri kontrol etmek istediginizde OR operatörüne göre daha
+okunabilir ve daha kisa bir yazim saglar. */
 
 --SORU: Tüm customers icerisinden custumer_id'si 1, 2, 5 olanlari getirin.
 
@@ -368,25 +377,28 @@ WHERE
 
 ------------------------------------------------------------------------------------------------
 
--- LIKE Komutu
+-- LIKE
 
--- SQL'de örüntü eslesmesi yapmak icin kullanilan bir operatördür. Büyük kücük harf duyarliligi vardir.
-	
--- SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan 'n' karakteri ile biten kayitlari getirin.
+-- SQL'de örüntü eslesmesi yapmak icin kullanilan bir operatördür.
+/*	
+SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan 'n' karakteri ile biten
+kayitlari getirin. */
 	
 SELECT *
 FROM customers c
 WHERE first_name
 	LIKE '%n' -- Basi ne olursa olsun 'n' ile biten.
-	
--- SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan 'M' ile baslayan kayitlari getirin.	
+/*	
+SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan 'M' ile baslayan
+kayitlari getirin. */
 	
 SELECT *
 FROM customers c
 WHERE first_name
 	LIKE 'M%' -- Sonu ne olursa olsun 'M' ile baslayan.	
-	
--- SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan ortasinda 'r' gecenleri getirin.	
+/*
+SORU: customers tablosundaki first_name field'i icerisindeki kayitlardan ortasinda 'r'
+gecenleri getirin. */
 	
 SELECT *
 FROM customers c
@@ -398,9 +410,8 @@ WHERE first_name
 -- ILIKE Komutu
 
 -- Büyük/kücük harf duyarliligi olmadan arama yapmak icin kullanilir. (no case sensitive)
-/*	
-SORU: customers tablosunda, country sütununda "usa" kelimesini büyük/kücük harf duyarliligi
-      olmadan listeleyin. */
+
+-- SORU: customers tablosunda, country sütununda "usa" kelimesini büyük/kücük harf duyarliligi olmadan listeleyin.
 	
 SELECT *
 FROM customers c
@@ -408,14 +419,14 @@ WHERE country ILIKE 'usa';
 	
 ------------------------------------------------------------------------------------------------	
 	
--- Aggregate Fonksiyonlari
+-- AGGREGATE Fonksiyonlari
 
--- Count() Fonksiyonu
+-- COUNT()
 /*
-Count(): SQL'de bir sorgu sonucunda belirli bir sütundaki degerlerin sayisini döndüren bir toplu islevdir.
-         Hesaplamalar, yeni deger türetmeler veya gruplandirilmis verileri Select icinde tanimladigimizdan
-         count fonksiyonunu da SELECT'ten sonra yazariz. Count fonksiyonunu kullanip kullanmayacagimizi anlamak
-         adina total number anahtar kelimesini akilda tutabiliriz. */
+SQL'de bir sorgu sonucunda belirli bir sütundaki degerlerin sayisini döndüren bir toplu islevdir.
+Hesaplamalar, yeni deger türetmeler veya gruplandirilmis verileri Select icinde tanimladigimizdan
+count fonksiyonunu da SELECT'ten sonra yazariz. Count fonksiyonunu kullanip kullanmayacagimizi
+anlamak adina total number anahtar kelimesini akilda tutabiliriz. */
 
 -- SORU: custmers icin total sayi nedir hesaplayin.
 
@@ -428,8 +439,8 @@ FROM customers c
 SELECT count(customer_id) total_customers -- 2. yol
 FROM customers c
 /*
-Eger müsteri sayisinin tamamini elde etmek istersek count fonksiyonunu (*) ile kullanmaliyiz ya da
-customer_id gibi bir field'i saydirmaliyiz. (Primary Key olan) */
+Eger müsteri sayisinin tamamini elde etmek istersek count fonksiyonunu (*) ile kullanmaliyiz
+ya da customer_id gibi bir field'i saydirmaliyiz. (Primary Key olan) */
 
 SELECT count(score) total_scores -- count() NULL hücreyi saymaz.
 FROM customers c
@@ -438,16 +449,17 @@ SELECT
 	COUNT(distinct country) as country_unique_deger_sayisi, -- unique olan deger sayisini sayar.
 	COUNT(c.*) as hepsi_null_olmayan_row_sayisi -- COUNT(TableName.*)
 FROM customers c
-
--- COUNT(TableName.*) kullaniminda eger tüm satir degerleri NULL olan bir satir olsaydi o zaman bu satiri saymayacakti.
+/*
+COUNT(TableName.*) kullaniminda eger tüm satir degerleri NULL olan bir satir olsaydi o zaman bu
+satiri saymayacakti. */
 
 ------------------------------------------------------------------------------------------------
 
--- Sum() Fonksiyonu
+-- SUM()
 /*
-sum(): SQL'de bir sütundaki sayisal degerlerin toplamini hesaplamak icin kullanilan bir toplu islevdir.
-       Bir sütundaki tüm değerlerin toplamini döndürür. Yalnizca sayisal sütunlarla calisir.
-       NULL'lar 0 olarak ele alinir. */
+SQL'de bir sütundaki sayisal degerlerin toplamini hesaplamak icin kullanilan bir toplu islevdir.
+Bir sütundaki tüm değerlerin toplamini döndürür. Yalnizca sayisal sütunlarla calisir. NULL'lar
+0 olarak ele alinir. */
 
 -- SORU: orders icin toplam quantity ne kadardir hesaplayin.
 
@@ -459,20 +471,20 @@ FROM orders o
 
 ------------------------------------------------------------------------------------------------
 
--- Avg() Fonksiyonu
+-- AVG()
 /*
-avg(): SQL'de bir sütundaki sayisal degerlerin ortalamasini hesaplamak icin kullanilir.
-       Bir sütundaki degerlerin ortalamasini döndürür. Yalnizca sayisal sütunlarla calisir. NULL
-       degerleri dikkate almaz. */
+SQL'de bir sütundaki sayisal degerlerin ortalamasini hesaplamak icin kullanilir. Bir sütundaki
+degerlerin ortalamasini döndürür. Yalnizca sayisal sütunlarla calisir. NULL degerleri dikkate
+almaz. */
 
 -- SORU: Tüm customers icin ortalama score nedir hesaplayin.
 
-SELECT avg(score) AS average_scores -- NULL hücreyi dikkate almayip 4'e böler, 5 kisi olmasina ragmen.
+SELECT avg(score) AS average_scores -- NULL hücreyi dikkate almayip 4'e böldü, 5 deger olmasina ragmen.
 FROM customers 
 
 -- Eger NULL hücreye bir deger atayarak ortalamaya katilmasini istersek. 
 
-SELECT avg(COALESCE(score, 0)) AS average_scores -- NULL degerini 0 olarak degistirdik.
+SELECT AVG(COALESCE(score, 0)) AS average_scores -- NULL degerini 0 olarak degistirdik.
 FROM customers c
 
 SELECT AVG(COALESCE(score, (SELECT AVG(score) FROM customers))) AS average_scores -- NULL degerini ortalama ile degistirdik.
@@ -483,7 +495,7 @@ FROM customers c
 
 ------------------------------------------------------------------------------------------------
 
--- min() max() Fonksiyonlari
+-- MIN() MAX()
 
 -- SORU: customers icin en yüksek score degeri nedir hesaplayin.
 
@@ -525,6 +537,135 @@ LIMIT 1
 -- DERS: 19.12.24
 
 ------------------------------------------------------------------------------------------------
+
+-- GROUP BY
+/*
+SQL sorgularinda verileri belirli bir sütuna göre gruplamak ve bu gruplar üzerinde toplu islemler
+yapmak icin kullanilir. Özellikle SELECT ifadesi icinde ve genellikle COUNT, SUM, AVG, MIN, MAX
+gibi toplu islevlerle birlikte kullanilir. */
+
+-- SORU: Her bir ülke icin total customers sayilarini getirin. (Her bir kelimesine dikkat edin.)
+
+SELECT *
+FROM customers c 
+
+SELECT
+	count(*) AS total_customers,
+	country -- GROUP BY ifadesinin icinde yazan burada da yazilmali
+FROM customers c
+GROUP BY country
+
+-- SORU: Her bir ülke icin total customers sayilarini getirirken toplam sayiya göre büyükten kücüge siralayin.
+
+SELECT
+	COUNT() (*) AS total_customers,
+	country
+FROM customers c
+GROUP BY country
+ORDER BY COUNT(*) DESC
+
+-- SORU: Her bir ülke icin en yüksek score degerini getirin.
+
+SELECT
+	country,
+	max(score) AS max_score
+FROM customers c
+GROUP BY country
+
+-- Her bir ifadesi --> Group By, en yüksek ifadesi --> max()
+
+------------------------------------------------------------------------------------------------
+
+-- HAVING 
+
+-- HAVING: GROUP BY ifadesi ile gruplanmis sonuc kümelerini filtrelemek icin kullanilir. (Group By'siz asla!)
+-- WHERE: Satirlari gruplamadan önce genel tabloyu filtreler.
+
+-- SORU: Her bir ülke icin toplam müsteri sayisini bulup sadece 1'den fazla olan sonuclari getirin.
+
+
+SELECT *
+FROM customers c 
+
+SELECT 
+	country,
+	COUNT(*) AS total_customers
+FROM customers c 
+GROUP BY country 
+HAVING COUNT(*) > 1; 
+
+------------------------------------------------------------------------------------------------
+
+-- STRING Fonksiyonlari
+
+-- CONCAT()
+/*
+SQL'de bir veya daha fazla karakter dizisini birlestirmek veya birlesik bir karakter dizisi
+olusturmak icin kullanilir. */
+
+-- SORU: customers tablosunda first_name ve last_name'i, araya tire (-) isareti ekleyerek combine edin.
+
+SELECT * FROM customers c
+
+SELECT
+	CONCAT(first_name, '-', last_name) AS full_name
+FROM customers c
+
+------------------------------------------------------------------------------------------------
+
+-- UPPER() - LOWER()
+/*
+SQL'de metin sütunlarindaki karakterleri büyük harfe (UPPER) veya kücük harfe (LOWER) dönüstürmek
+icin kullanilir. */
+
+-- SORU: customers icin first_name'i büyük harflere, last_name'i kücük harflere dönüstürün.
+
+SELECT
+	UPPER(first_name) AS upper_first_name,
+	LOWER(last_name) AS lower_last_name
+FROM customers c
+
+------------------------------------------------------------------------------------------------
+
+-- LENGTH()
+
+-- Bir metin veya karakter dizisinin uzunlugunu (karakter sayisini) döndüren bir fonksiyondur.
+
+SELECT 
+	last_name,
+	LENGTH(last_name) AS leng_last_name
+FROM customers c
+
+------------------------------------------------------------------------------------------------
+
+-- TRIM()
+/*
+SQL'de bir metin veya karakter dizisinin basindaki ve/veya sonundaki bosluklari
+(veya belirli karakterleri) kaldirmak icin kullanilir. */
+
+-- TRIM öncesi ve sonrasindaki uzunluklarla birlikte gösteren karsilastirma
+
+SELECT
+	last_name,
+	LENGTH(last_name) AS leng_last_name, -- TRIM öncesi uzunluklar
+	TRIM(last_name) AS clean_lastname, -- TRIM isleminin kendisi
+	LENGTH(TRIM(last_name)) AS clean_length_lastname -- TRIM sonrasi uzunluklar
+FROM customers c 
+
+-- Uzunluklar ayni cikti cünkü kirli bir data degildi.
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 20.12.24
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 
 

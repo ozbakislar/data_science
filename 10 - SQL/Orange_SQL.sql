@@ -18,9 +18,9 @@
 
 ------------------------------------------------------------------------------------------------
 /*
-SORU: students isimli bir table olusturun. Bu table'da student_id, first_name,
-      last_name, birth_date ve department olsun. (Data tiplerini uygun sekilde seciniz.)
-      student_id field'i Primary Key olsun. */
+SORU: students isimli bir table olusturun. Bu table'da student_id, first_name, last_name
+birth_date ve department olsun. (Data tiplerini uygun sekilde seciniz.) student_id field'i
+Primary Key olsun. */
  
 DROP TABLE IF EXISTS students;
 CREATE TABLE students (
@@ -40,8 +40,6 @@ FROM students
 
 INSERT INTO students (first_name, last_name, birth_date, department) VALUES
 ('John', 'Doe', '2000-05-15', 'Computer Science');
-
-------------------------------------------------------------------------------------------------
 /*
 SORU: Alttaki girisleri students tablosuna yapin:
 
@@ -56,15 +54,13 @@ INSERT INTO students (first_name, last_name, birth_date, department) VALUES
 ('Emily', 'Johnson', '2001-03-18', 'Physics'),
 ('Michael', 'Brown', '1998-12-01', 'Biology');
 
-SELECT *
-FROM students s
-
-------------------------------------------------------------------------------------------------
-
 -- SORU: Sadece belli field'lara bilgi girisi yapin ---> first name: Alice, depart: Chemistry
 
 INSERT INTO students (first_name, department) VALUES
 ('Alice', 'Chemistry')
+
+SELECT *
+FROM students s
 
 ------------------------------------------------------------------------------------------------
 
@@ -79,8 +75,6 @@ CREATE TABLE ogrenciler(
 SELECT *
 FROM ogrenciler o
 
-------------------------------------------------------------------------------------------------
-
 -- Var olan tablodan yeni tablo create etmek (isim, soyisim ve not_ort field'larini kullanarak)
 
 CREATE TABLE ogrenci_notlar
@@ -90,8 +84,6 @@ FROM ogrenciler o
 
 SELECT *
 FROM ogrenci_notlar
-
-------------------------------------------------------------------------------------------------
 
 INSERT INTO ogrenciler VALUES
 ('1234567', 'Tom', 'Cruise', 85.5, '2024-12-12')
@@ -136,10 +128,6 @@ INSERT INTO aktorler(name) VALUES ('Türkan Şoray');
 
 ------------------------------------------------------------------------------------------------
 
---CONSTRAINTS / KISITLAMALAR / BELIRLEYICILER
-
--- UNIQUE ve NOT NULL
-
 CREATE TABLE ogrenciler2 (
 	ogrenci_no char (7) UNIQUE, -- UNIQUE sütunda birden fazla NULL olabilir.
 	isim varchar(20) NOT NULL,
@@ -166,10 +154,8 @@ FROM ogrenciler2 o
 
 ------------------------------------------------------------------------------------------------
 /*
-Primary Key:
-            Eger bir field "primary key" olarak deklare edilmisse, 
-            field datalari "unique" ve "not null" olmali.
-            Bir tabloda sadece 1 tane "primary key" olabilir. */
+Primary Key: Eger bir field "primary key" olarak deklare edilmisse, field datalari "unique" ve
+"not null" olmali. Bir tabloda sadece 1 tane "primary key" olabilir. */
 
 -- Primary Key atamasi icin 1. yol:
 
@@ -209,19 +195,17 @@ INSERT INTO ogrenciler4 (isim, soyisim) VALUES ('John', 'Steve') /* Hata aliriz.
 
 /*
 Parent Tablo: Birincil anahtari (Primary Key) veya Unique Key iceren ve referans verilen tablodur.
-              Diger bir deyisle, parent tablo, child tablonun foreign key tarafindan referans alinan tablodur.
-              Child tablo, Foreign Key iceren ve parent tabloya referansla baglanan tablodur.
-              Child tablo, parent tablonun primary key veya Unique anahtarini Foreign Key olarak kendi
-              icinde barindirir ve bu Foreign Key üzerinden parent tabloyla iliskilendirilir. */
+Diger bir deyisle, parent tablo, child tablonun foreign key tarafindan referans alinan tablodur.
+
+Child tablo: Foreign Key iceren ve parent tabloya referansla baglanan tablodur. Child tablo
+parent tablonun primary key veya Unique anahtarini Foreign Key olarak kendi icinde barindirir
+ve bu Foreign Key üzerinden parent tabloyla iliskilendirilir. */
              
 /*
-Foreign Key: Foreign Key baska bir tablodaki Primary Key ile iliskilendirilmis olmalidir.
-			 Deger olarak "null" kabul eder.
-			 Tekrarlanan verileri kabul eder.
-			 Bir tablo birden cok "Foreign Key" alanina sahip olabilir. */
+Foreign Key: Foreign Key baska bir tablodaki Primary Key ile iliskilendirilmis olmalidir. Deger
+olarak "null" kabul eder. Tekrarlanan verileri kabul eder. Bir tablo birden cok "Foreign Key"
+alanina sahip olabilir. */
 			
-------------------------------------------------------------------------------------------------
-
 CREATE TABLE sirketler(
 	sirket_id integer, 
 	sirket varchar(50) PRIMARY KEY,
@@ -243,11 +227,8 @@ FOREIGN KEY(sirket) REFERENCES sirketler(sirket)
 -- Eger sirketler tablosunda olmayan bir sirket adi personel tablosuna eklenmeye calisilirsa, bu islem hata verir.
 
 ------------------------------------------------------------------------------------------------
-
--- CHECK Constraints
-                    
-/* Age ve salary icin veri giris sarti olusturalim:
-salary 5000'den büyük olmali, age 0'dan kücük olmamali. */
+                 
+-- SORU: Age ve salary icin veri giris sarti olusturalim: salary 5000'den büyük olmali, age 0'dan kücük olmamali.
 
 CREATE TABLE person(
 	id INTEGER,
@@ -256,13 +237,13 @@ CREATE TABLE person(
 	age INTEGER CHECK(age>0)  -- negatif deger olmamali
                    );
 
-SELECT * FROM person p 
-
 INSERT INTO person VALUES (11, 'Ali Can', 6000, 35)
 
 INSERT INTO person VALUES (12, 'Ruşen Ece', 5500, -3) -- Hatali giris: Age degeri sarti saglamiyor. (age>0)
 
 INSERT INTO person VALUES (13, 'Ali Can', 4000, 45)  -- Hatali giris: Salary degeri sarti saglamiyor. (>5000)
+
+SELECT * FROM person p 
  
 ------------------------------------------------------------------------------------------------
 
@@ -270,13 +251,11 @@ INSERT INTO person VALUES (13, 'Ali Can', 4000, 45)  -- Hatali giris: Salary deg
 
 ------------------------------------------------------------------------------------------------
 
--- Alias ile yapilan isler sadece raporlamada görülür.
-
-CREATE TABLE workers(
+CREATE TABLE workers (
 	calisan_id char(9),
 	calisan_isim varchar(50),
 	calisan_dogdugu_sehir varchar(50)
-);
+                     );
 
 INSERT INTO workers VALUES(123456789, 'Ali Can', 'İstanbul'); 
 INSERT INTO workers VALUES(234567890, 'Veli Cem', 'Ankara');  
@@ -336,27 +315,27 @@ LIMIT 5;
 
 ------------------------------------------------------------------------------------------------
 
--- Senaryo 1: developers tablosundan ekleme sirasina göre ilk 3 kaydi getirin.
+-- SORU: developers tablosundan ekleme sirasina göre ilk 3 kaydi getirin.
 
 SELECT *
 FROM developers d
 LIMIT 3;
 
--- Senaryo 2: developers tablosundan ekleme sirasina göre ilk 2 kayittan sonraki ilk 3 kaydi getirin.
+-- SORU: developers tablosundan ekleme sirasina göre ilk 2 kayittan sonraki ilk 3 kaydi getirin.
 
 SELECT *
 FROM developers d
 OFFSET 2
 LIMIT 3;
 
--- Senaryo 3: developers tablosundan maasi en düsük ilk 3 kaydi getirin.
+-- SORU: developers tablosundan maasi en düsük ilk 3 kaydi getirin.
 
 SELECT *
 FROM developers d
 ORDER BY salary ASC
 LIMIT 3;
 
--- Senaryo 4: developers tablosundan maasi en yüksek 2. developerin tüm bilgilerini getiriniz.
+-- SORU: developers tablosundan maasi en yüksek 2. developerin tüm bilgilerini getiriniz.
 
 SELECT *
 FROM developers d
@@ -365,10 +344,6 @@ OFFSET 1
 LIMIT 1;
 
 ------------------------------------------------------------------------------------------------
-
--- Order By ve Length Kullanimi
-
--- person tablosu üzerinde calisalim.
 
 SELECT *
 FROM person
@@ -396,7 +371,7 @@ INSERT INTO person VALUES(256789010, 'Samet', 'Bulut', 'Ankara');
 SELECT *
 FROM person;
 
--- Senaryo 1: person isim ve soyisim degerlerini, soyisim kelime uzunluklarina göre siralayarak listeleyiniz.
+-- SORU: person isim ve soyisim degerlerini, soyisim kelime uzunluklarina göre siralayarak listeleyiniz.
 
 SELECT
 	isim,
@@ -404,16 +379,15 @@ SELECT
 FROM person p
 ORDER BY LENGTH(soyisim);
 /*
-Senaryo 2: person tablosunda tüm isim ve soyisim degerlerini aralarinda
-bir bosluk ile ayni sütunda cagirarak, her bir isim ve soyisim degerinin
-toplam uzunluguna göre siralayiniz. */
+SORU: person tablosunda tüm isim ve soyisim degerlerini aralarinda bir bosluk ile ayni sütunda
+cagirarak, her bir isim ve soyisim degerinin toplam uzunluguna göre siralayiniz. */
 
 SELECT CONCAT(isim, ' ', soyisim) AS "AdSoyad"
 FROM person p
 ORDER BY LENGTH(isim) + LENGTH(soyisim) -- Alternatif: ORDER BY LENGTH(CONCAT(isim, ' ', soyisim));
 /*
-NOT: || Operatörü ile de string birlestirmesi yapilabilir.
-     üstteki CONCAT islemini bu sefer söyle yapabiliriz:
+|| Operatörü ile de string birlestirmesi yapilabilir. üstteki CONCAT islemini bu sefer söyle
+yapabiliriz:
 
 SELECT
     isim || ' ' || soyisim
@@ -437,8 +411,6 @@ ORDER BY LENGTH(CONCAT(isim, soyisim))
 -- DERS: 17.12.24
 
 ------------------------------------------------------------------------------------------------
-
--- Where Komutu
 
 CREATE TABLE calisanlar1(
 id char(5),
@@ -504,8 +476,6 @@ WHERE maas > 5000
 
 ------------------------------------------------------------------------------------------------
 
--- IN: Bir degerin belirli bir degerler listesi icinde olup olmadigini kontrol eder.
-
 CREATE TABLE musteriler (
 urun_id int,  
 musteri_isim varchar(50),
@@ -540,9 +510,9 @@ WHERE urun_isim
 ------------------------------------------------------------------------------------------------
 
 CREATE TABLE markalar (
-marka_id int, 
+marka_id INT, 
 marka_isim VARCHAR(20), 
-calisan_sayisi int
+calisan_sayisi INT
                       );
 
 INSERT INTO markalar VALUES(100, 'Vakko', 12000);
@@ -551,10 +521,10 @@ INSERT INTO markalar VALUES(102, 'Adidas', 10000);
 INSERT INTO markalar VALUES(103, 'LCWaikiki', 21000);
 
 CREATE TABLE calisanlar3 (
-id int, 
+id INT, 
 isim VARCHAR(50), 
 sehir VARCHAR(50), 
-maas int, 
+maas INT, 
 isyeri VARCHAR(20)
                          );
 
@@ -605,6 +575,122 @@ WHERE maas = 2500
 -- DERS: 19.12.24
 
 ------------------------------------------------------------------------------------------------
+
+CREATE TABLE manav (
+isim varchar(50),
+urun_adi varchar(50),
+urun_miktar int
+                   );
+
+INSERT INTO manav VALUES( 'Ali', 'Elma', 5);
+INSERT INTO manav VALUES( 'Ayşe', 'Armut', 3);
+INSERT INTO manav VALUES( 'Veli', 'Elma', 2);  
+INSERT INTO manav VALUES( 'Hasan', 'Üzüm', 4);  
+INSERT INTO manav VALUES( 'Ali', 'Armut', 2);  
+INSERT INTO manav VALUES( 'Ayşe', 'Elma', 3);  
+INSERT INTO manav VALUES( 'Veli', 'Üzüm', 5);  
+INSERT INTO manav VALUES( 'Ali', 'Armut', 2);  
+INSERT INTO manav VALUES( 'Veli', 'Elma', 3);  
+INSERT INTO manav VALUES( 'Ayşe', 'Üzüm', 2);
+
+SELECT * FROM manav;
+
+-- SORU: Manav tablosundaki tüm isimleri ve her bir isim icin, toplam ürün miktarini görüntüleyin.
+
+SELECT
+	isim,
+	Sum(urun_miktar) as toplam_urun
+FROM  manav
+Group by isim
+/*
+SORU: Manav tablosundaki tüm isimleri ve her bir isim icin toplam ürün miktarini görüntüleyin ve
+toplam ürün miktarina göre azalan olarak siralayiniz. */
+
+SELECT 
+	isim,
+	SUM(urun_miktar) AS top_urun_miktari
+FROM manav m 
+GROUP BY isim 
+ORDER BY SUM(urun_miktar) DESC 
+
+-- SORU: Her bir ismin aldigi, her bir ürünün toplam miktarini, isme göre sirali bicimde görüntüleyin.
+
+SELECT 
+	isim,
+	urun_adi,
+	SUM(urun_miktar) AS top_urun_miktari
+FROM manav m 
+GROUP BY isim, urun_adi -- Önce isim sonra urun_adi'na göre grupladik.
+ORDER BY isim 
+
+-- SORU: Ürün adina göre, her bir ürünü alan toplam kisi sayisini gösterin.
+
+SELECT
+	urun_adi,
+	count(DISTINCT isim) AS toplam_urun_kisi
+FROM manav m
+GROUP BY urun_adi
+
+-- Elma ve Armut 2 kez ayni kisi (Ali ve Veli) tarafindan alindigi icin bunu saymamasi adina DISTINCT kullandik.
+
+-- SORU: Her bir isme göre, alinan toplam ürün miktari ve ürün cesit miktarini bulun.
+
+SELECT
+	isim,
+	sum(urun_miktar) AS toplam_urun,
+	count(DISTINCT urun_adi) AS urun_cesit_sayisi
+FROM manav
+GROUP BY isim
+
+------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS personel;
+CREATE TABLE personel (
+id int,
+isim varchar(50),
+sehir varchar(50),
+maas int,
+sirket varchar(20)
+                      );
+
+INSERT INTO personel VALUES(123456789, 'Ali Yılmaz', 'İstanbul', 5500, 'Honda'); 
+INSERT INTO personel VALUES(234567890, 'Veli Şahin', 'İstanbul', 4500, 'Toyota'); 
+INSERT INTO personel VALUES(345678901, 'Mehmet Öztürk', 'Ankara', 3500, 'Honda');
+INSERT INTO personel VALUES(456789012, 'Mehmet Öztürk', 'İzmir', 6000, 'Ford'); 
+INSERT INTO personel VALUES(567890123, 'Mehmet Öztürk', 'Ankara', 7000, 'Tofas');
+INSERT INTO personel VALUES(678901245, 'Veli Şahin', 'Ankara', 4500, 'Ford');  
+INSERT INTO personel VALUES(123456710, 'Hatice Şahin', 'Bursa', 4500, 'Honda');
+
+SELECT * FROM personel p 
+
+-- SORU: Her bir sirketin MIN maas bilgisini eger bu bilgi 4000'den yüksekse getirin.
+
+SELECT
+	sirket,
+	min(maas) AS min_maas
+FROM personel p
+GROUP BY sirket
+HAVING min(maas) > 4000
+/*
+SORU: Maasi 4000'den fazla olan calisanlarin sirketlerini bulduktan sonra, bu sinirin üstünde olan
+MIN maas bilgisini her sirket icin görüntüleyin. */
+
+SELECT
+	sirket,
+	min(maas) AS min_maas
+FROM personel p
+WHERE maas > 4000 -- Soruda ilk etapta genel filtreleme olarak verilmisti.
+GROUP BY sirket
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 20.12.24
+
+------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 

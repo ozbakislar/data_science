@@ -192,8 +192,6 @@ FROM ulke
 SELECT *
 FROM personel p 
 
-------------------------------------------------------------------------------------------------
-
 -- SORU: Sirkette calisan bütün elemanlarin ad, soyad ve maas bilgilerini iceren listeyi getir.
 
 SELECT
@@ -215,12 +213,9 @@ FROM siparis s
 -- DERS: 16.12.24
 
 ------------------------------------------------------------------------------------------------
-
--- ALIAS Konusu
 /*
-SORU: Elemanlarin adini, soyadini ve maasini listelerken Ad sütununun basligi 'A', 
-      soyad sütununun basligi ise 'S' olsun. Maas sütununun basligi 
-      yine 'maas' olarak kalabilir. */
+SORU: Elemanlarin adini, soyadini ve maasini listelerken Ad sütununun basligi 'A', soyad
+sütununun basligi ise 'S' olsun. Maas sütununun basligi yine 'maas' olarak kalabilir. */
 
 -- Önce tablomuzu cagirip hatirlayalim.
 
@@ -235,8 +230,8 @@ SELECT
 	maas
 FROM personel p
 /*
-Dogru Cözüm: Cift tirnak field isimlerini düzenlerken, tek tirnak ise Insert Into gibi
-             valuelari ifade etmek icin kullanilir. */
+Dogru Cözüm: Cift tirnak field isimlerini düzenlerken, tek tirnak ise Insert Into gibi valuelari
+ifade etmek icin kullanilir. */
 
 SELECT
 	ad AS "A",
@@ -246,28 +241,26 @@ FROM personel p
 
 ------------------------------------------------------------------------------------------------
 
--- SORU: Sirkette calisan herkesin listesini kisilerin ismine göre dizilmis halde getirin. (Order By kullanin.)
+-- SORU: Sirkette calisan herkesin listesini kisilerin ismine göre dizilmis halde getirin. 
 
 SELECT *
 FROM personel p
 ORDER BY ad ASC
 
--- SORU: Sirkette calisan herkesin listesini kisilerin ismine göre tersten dizilmis halde getirin. (Order By kullanin.)
+-- SORU: Sirkette calisan herkesin listesini kisilerin ismine göre tersten dizilmis halde getirin.
 
 SELECT *
 FROM personel p
 ORDER BY ad DESC
 /*
-SORU: Bütün sirket calisanlarinin ad, soyad ve maas bilgilerinin
-      tam listesini; ada göre ters, soyada göre ters ve maasa göre düz bir sekilde sirali getirin. */
+SORU: Bütün sirket calisanlarinin ad, soyad ve maas bilgilerinin tam listesini; ada göre ters
+soyada göre ters ve maasa göre düz bir sekilde sirali getirin. */
       
 SELECT ad, soyad, maas
 FROM personel p
 ORDER BY ad DESC, soyad DESC, maas ASC
 
 ------------------------------------------------------------------------------------------------
-
--- Limit Uygulamasi
 
 -- SORU: Ilk siparis vermis olan müsteriyi bulun.
 
@@ -279,8 +272,6 @@ SELECT
 FROM siparis s
 ORDER BY id -- Tarih field'i da kullanilabilirdi.
 LIMIT 1;
-
-------------------------------------------------------------------------------------------------
 
 -- LIMIT'e alternatif olarak kullanilabilen alttaki sorgu da vardir:
 
@@ -298,8 +289,6 @@ ROWS FETCH NEXT 3 ROWS ONLY; -- LIMIT 3
 -- DERS: 17.12.24
 
 ------------------------------------------------------------------------------------------------
-
--- Where Komutu
 
 -- SORU: Personellerden ulke_id'si TR olanlari getirin.
 
@@ -322,8 +311,6 @@ WHERE dogum = '1978-11-01'
 
 ------------------------------------------------------------------------------------------------
 
--- AND Kullanimi
-
 -- SORU: Mehmet Ozman isimli personelin tüm özlük bilgilerini getirin.
 
 SELECT *
@@ -331,8 +318,6 @@ FROM personel
 WHERE ad = 'Mehmet' AND soyad = 'Ozman';
 
 ------------------------------------------------------------------------------------------------
-
--- OR Kullanimi
 
 -- SORU: Adi Mehmet veya Dilek olan kisilerin tam listesini getirin.
 
@@ -352,15 +337,13 @@ WHERE
     AND 
     maas > 1400
 /*
-Parantez koyarsak öncelik siralamasindaki karisikligi engelleriz. Sorgulamada parantez kullanilmadigi
-takdirde operatör önceligi AND'e verir. Bu da sorgu sonucunu degistirir. */
+Parantez koyarsak öncelik siralamasindaki karisikligi engelleriz. Sorgulamada parantez
+kullanilmadigi takdirde operatör önceligi AND'e verir. Bu da sorgu sonucunu degistirir. */
     
 ------------------------------------------------------------------------------------------------
-
--- BETWEEN Kullanimi
 /*
-SORU: Maasi 1000 ile 2000 arasinda olan bütün calisanlarin id, ad, soyad ve maas bilgilerini getirin.
-      Liste maas tutarina göre siralanmis olsun. */
+SORU: Maasi 1000 ile 2000 arasinda olan bütün calisanlarin id, ad, soyad ve maas bilgilerini
+getirin. Liste maas tutarina göre siralanmis olsun. */
     
 SELECT
  	id,
@@ -395,8 +378,6 @@ SELECT
 FROM personel p
 
 ------------------------------------------------------------------------------------------------
-
--- Birden fazla OR kullanimi IN kullanimi demektir.
 /*
 SORU: İsmi Mehmet, Dilek veya Cengiz olan bütün calisanlari listeleyin.
       Liste ad ve soyada göre siralanmis olsun. */
@@ -406,6 +387,8 @@ FROM personel p
 WHERE ad
 	IN('Mehmet', 'Dilek', 'Cengiz')
 ORDER BY ad, soyad -- DEFAULT deger ASC
+
+-- Birden fazla OR kullanimi IN kullanimi demektir.
 
 ------------------------------------------------------------------------------------------------
 
@@ -431,10 +414,6 @@ WHERE soyad
 	LIKE '%oğlu'
 
 ------------------------------------------------------------------------------------------------
-	
--- Aggregate Fonksiyonlari
-
--- count(): Bu fonksiyon, bir tablo veya sorgu sonucunda döndürülen satirlarin sayisini hesaplar.
 
 -- SORU: Toplam calisan sayisini getirin.
 	
@@ -445,8 +424,6 @@ SELECT COUNT (*) AS total_personel -- count(id) de kullanilabilirdi.
 FROM personel p
 
 ------------------------------------------------------------------------------------------------
-
--- sum(): SQL'de bir sütundaki sayisal degerlerin toplamini hesaplamak icin kullanilan bir toplu islevdir.
 
 -- SORU: Önümüzdeki ay elemanlara toplam ne kadar maas verilmesi gerektigini hesaplayin.
 
@@ -503,6 +480,70 @@ FROM personel
 -- DERS: 19.12.24
 
 ------------------------------------------------------------------------------------------------
+
+-- SORU: Her bir departmanda kac kisi calisiyor, departman numarasina göre siralayin.
+
+SELECT *
+FROM personel p
+
+SELECT
+	departman_id,
+	count(*) AS toplam_calisan
+FROM personel p
+GROUP BY departman_id
+ORDER BY departman_id
+
+-- SORU: Herbir ülkeden kac calisan bulunuyor bulunuz.
+
+SELECT
+	ulke_id,
+	count(*) AS toplam_kisi_sayisi
+FROM personel p
+GROUP BY ulke_id
+ORDER BY count(*)
+
+-- SORU: Her bir departmana toplam ne kadar maas ödenecegini hesaplayin.
+
+SELECT
+	departman_id,
+	sum(maas) AS toplam_departman_maas
+FROM personel p
+GROUP BY departman_id
+ORDER BY departman_id
+
+-- SORU: Her bir departmana ortalama ne kadar maas ödenecegini hesaplayin.
+
+SELECT
+	departman_id,
+	avg(maas) AS ort_departman_maas
+FROM personel p
+GROUP BY departman_id
+ORDER BY departman_id
+
+-- SORU: Bir de küsuratli bu sayilari yuvarlayarak hesaplayin.
+
+-- virgülden sonra 0 hane olacak sekilde:
+
+SELECT 
+	departman_id,
+	ROUND(AVG(maas)) AS ort_departman_maas
+FROM personel p 
+GROUP BY departman_id
+
+-- Virgülden sonra 2 hane olacak sekilde:
+
+SELECT 
+	departman_id,
+	ROUND(AVG(maas), 2) AS ort_departman_maas
+FROM personel p 
+GROUP BY departman_id
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 20.12.24
+
+------------------------------------------------------------------------------------------------
+
 
 
 
