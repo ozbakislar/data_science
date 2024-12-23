@@ -742,15 +742,147 @@ SET calisan_sayisi = calisan_sayisi + marka_id
 
 ------------------------------------------------------------------------------------------------
 
+CREATE TABLE teachers(
+	id int,
+	firstname varchar(50),
+	lastname varchar(50),
+	age int,	
+	city varchar(20),
+	course_name varchar(20),
+	salary real	
+                      );
 
+INSERT INTO teachers VALUES(111, 'AhmeT  ', '  Han', 35, 'İstanbul', 'SpringMVC', 5000);
+INSERT INTO teachers VALUES(112, 'Mehmet', 'Ran ', 33, 'Van', 'HTML', 4000);
+INSERT INTO teachers VALUES(113, ' Bilal', 'Fan ', 34, 'Bursa', 'SQL', 3000);
+INSERT INTO teachers VALUES(114, 'Celal', ' San', 30, 'Bursa', 'Java', 3000);
+INSERT INTO teachers VALUES(115, 'Deniz', ' Can', 30, 'İstanbul', 'SQL', 3500);
+INSERT INTO teachers VALUES(116, 'ekreM', 'Demir', 36, 'İstanbul', 'Java', 4000.5);
+INSERT INTO teachers VALUES(117, 'Fatma', 'Çelik', 38, 'Van', 'SpringBOOT', 5550);
+INSERT INTO teachers VALUES(118, 'Hakan', 'Çetin', 44, 'İzmir', 'Java', 3999.5);
+INSERT INTO teachers VALUES(119, 'mert', 'Çetin', 32, 'İzmir', 'HTML', 2999.5);
+INSERT INTO teachers VALUES(120, 'Nilay', 'Çetin', 32, 'İzmir', 'CSS', 2999.5);
+INSERT INTO teachers VALUES(121, 'Selma', 'Çelik', 40, 'Ankara', 'SpringBOOT', 5550);
+INSERT INTO teachers VALUES(122, 'fatiH', 'Can', 32, 'Ankara', 'HTML', 2550.22);
+INSERT INTO teachers VALUES(123, 'Nihat', 'Keskin', 32, 'İzmir', 'CSS', 3000.5);
+INSERT INTO teachers VALUES(124, 'Hasan', 'Temel', 37, 'İstanbul', 'S.Security', 3000.5);
 
+SELECT * FROM teachers;
+/*
+SORU: teachers tablosundaki tüm kayitlarin, firstname degerlerini büyük harfe, lastname
+degerlerini kücük harfe cevirerek, uzunluklari ile birlikte listeleyin. */
 
+SELECT 
+	UPPER(firstname) AS upper_firstname,
+	LENGTH(firstname) AS len_firstname,
+	LOWER(lastname) AS lower_lastname,
+	LENGTH(lastname) AS len_lastname
+FROM teachers t 
+/*
+SORU: teachers tablosunda firstname#i upper yapIn, lastname#i lower yapIn ve bu field#lardaki 
+deGerlerin baslangic ve sondaki bosluklari kaldirin, bosluk kaldirma öncesi-sonrasi sütunlari da
+uzunluklariyla birlikte raporlayin.
 
+TRIM: Bosluklari kaldirmak icin kullanilir. */
 
+SELECT 
+	UPPER(firstname) AS upper_firstname,
+	LENGTH(firstname) AS len_firstname,-- TRIM öncesi uzunluklar
+	LENGTH(TRIM(firstname)) AS trim_len_first , -- TRIM sonrasi uzunluk 
+	LOWER(lastname) AS lower_lastname,
+	LENGTH(lastname) AS len_lastname, -- TRIM öncesi uzunluklar
+	LENGTH(TRIM(lastname)) AS trim_len_last -- TRIM sonrasi uzunluk 
+FROM teachers t 
 
+-- Alternatif Cözüm
 
+SELECT
+	UPPER(firstname) AS upper_firstname,
+	LENGTH(firstname) AS len_first,
+	TRIM(UPPER(firstname)) AS trim_first,
+	LENGTH(TRIM(firstname)) AS trim_len_first,
+	LOWER(lastname) AS lower_lastname,
+	LENGTH(lastname) AS len_last,
+	TRIM(LOWER(lastname)) AS trim_last,
+	LENGTH(TRIM(lastname)) AS trim_len_last
+FROM teachers t
+/*
+SORU: teachers tablosundaki tüm kayitlarin firstname degerlerinin ilk harfini büyük digerlerini
+kücük harfe cevirerek görüntüleyin. 
 
+INITCAP fonksiyonu kelimelerin ilk harfini büyük digerlerini kücük yapar. (Python capitalize() gibi)
 
+SELECT INITCAP('HELLO WORLD, SQL IS AWESOME!') AS formatted_text; */
+
+SELECT 
+	firstname,
+	INITCAP(firstname) AS init_firstname
+FROM teachers t
+
+------------------------------------------------------------------------------------------------
+
+-- SORU: calisanlar4 tablosuna yas(int) seklinde yeni bir sütun ekleyin.
+
+ALTER TABLE calisanlar4
+ADD yas INT
+
+SELECT *
+FROM calisanlar4 c 
+/*
+SORU: calisanlar4 tablosuna remote field'ini boolean data tipi seklinde yeni bir sütun olarak
+ekleyin. Varsayilan olarak remote degeri TRUE olsun. */
+
+ALTER TABLE calisanlar4
+ADD remote BOOLEAN DEFAULT TRUE
+
+-- SORU: calisanlar4 tablosunda yas sütununu silin.
+
+ALTER TABLE calisanlar4
+DROP yas
+
+-- SORU: calisanlar4 tablosundaki maas sütununun data tipini real olarak güncelleyin.
+
+ALTER TABLE calisanlar4
+ALTER COLUMN maas TYPE REAL
+
+-- SORU: calisanlar4 tablosunda isim sütununa NOT NULL constraint'i ekleyin.
+
+ALTER TABLE calisanlar4
+ALTER COLUMN isim SET NOT NULL -- Bu kodda hata alinir cünkü mevcut field'da NULL degerler var.
+
+------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS markalar;
+CREATE TABLE markalar (
+	marka_id int,
+	marka_isim varchar(20),
+	calisan_sayisi int
+                      );
+
+INSERT INTO markalar VALUES(100, 'Vakko', 12000);
+INSERT INTO markalar VALUES(101, 'Pierre Cardin', 18000);
+INSERT INTO markalar VALUES(102, 'Adidas', 10000);
+INSERT INTO markalar VALUES(103, 'LCWaikiki', 21000);
+
+SELECT * FROM markalar m 
+
+-- SORU: marka_id'si 100 olan firmada calisanlarin bilgilerini listeleyin.
+
+SELECT *
+FROM calisanlar3 c
+WHERE isyeri IN (
+	SELECT marka_isim
+	FROM markalar m
+	WHERE marka_id = 100
+				)
+				
+-- SORU: calisanlar3 tablosunda max maasi alan calisanin tüm field'larini listeleyiniz.
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 24.12.24
+
+------------------------------------------------------------------------------------------------
 
 
 

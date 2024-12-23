@@ -803,5 +803,104 @@ Syntax: VACUUM FULL table_name; */
 
 ------------------------------------------------------------------------------------------------	
 	
+-- ALTER TABLE
+/*
+ALTER TABLE tabloda ADD, MODIFY veya DROP/DELETE COLUMNS islemleri icin kullanilir.
+ALTER TABLE ifadesi tablolari yeniden isimlendirmek (RENAME) icin de kullanilir. */
+
+CREATE TABLE public.persons ( -- public ifadesi Schemas'i gösterir burada yazilmayabilirdi.
+	id SERIAL PRIMARY KEY,
+	person_name VARCHAR(50) NOT NULL,
+	birth_date DATE,
+	phone VARCHAR(15) NOT NULL UNIQUE
+                            );
+
+-- SORU: persons tablosuna email diye bir field ekleyin.
+
+ALTER TABLE persons
+ADD email varchar(20) UNIQUE 
+
+SELECT *
+FROM persons
+
+-- SORU: persons tablosuna adress isimli bir field ekleyin.
+
+ALTER TABLE persons
+ADD COLUMN adress varchar(100) NOT NULL -- COLUMN ifadesi opyisoneldir.
+
+-- SORU: persons tablosundan adress isimli field'i kaldirin.
+
+ALTER TABLE persons
+DROP adress;
+
+-- SORU: persons tablosunda phone field'inin veri tipini varchar(20) olarak degistirin.
+
+ALTER TABLE persons
+ALTER COLUMN phone TYPE VARCHAR(20)
+
+-- SORU: persons tablosunun adini contacts olarak degistirin.
+
+ALTER TABLE persons
+RENAME TO contacts
+
+SELECT * FROM persons p -- Hata verir cünkü tablonun adini degistirdik.
+
+SELECT * FROM contacts
+
+-- SORU: contacts tablosundaki phone field'inin adini contact_number olarak degistirin.
+
+ALTER TABLE contacts
+RENAME COLUMN phone TO contact_number;
+
+SELECT * FROM contacts c
+
+-- SORU: customers tablosundaki score field'ina NOT NULL contraint'i ekleyin.
+
+ALTER TABLE customers
+ALTER COLUMN score SET NOT NULL -- Bu kodda hata alinir cünkü mevcut field'da NULL degerler var.
+
+------------------------------------------------------------------------------------------------
+
+-- SUBqueries - Nested Query
+/*
+Bir SQL sorgusunun icinde baska bir SQL sorgusunun yer almasidir. İc ice sorgular, daha karmasik
+sorgular olusturmamizi saglar ve genellikle alt sorgunun sonucuna bagli olarak dis sorgunun
+calismasini saglar. */
+
+-- SORU: customers ID'i kullanarak score degeri 500'den büüyk olan customers'larin order detaylarini getirin.
+
+SELECT * FROM customers c
+
+SELECT * FROM orders o 
+/*
+SELECT *
+FROM orders
+WHERE customer_id IN (2, 3) -> customer_id = 2 OR customer_id = 3 seklinde de yazabiliriz.
+
+2, 3 degerini asagidaki tablodan buldugumuz icin asagidaki sorguyu yukaridaki sorgunun icine gömebiliriz.
+
+SELECT customer_id 
+FROM customers c
+WHERE score > 500 */
+
+SELECT *
+FROM orders
+WHERE customer_id IN (
+	SELECT customer_id
+	FROM customers c
+	WHERE score > 500
+                     );
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 24.12.24
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 
 	

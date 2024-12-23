@@ -572,13 +572,100 @@ FROM personel p
 
 ------------------------------------------------------------------------------------------------
 
+CREATE TABLE haber (
+    id SERIAL PRIMARY KEY,
+    tarih DATE,
+    baslik CHAR(50),
+    metin TEXT,
+    görüntü INTEGER
+                   );
 
+SELECT *
+FROM haber
 
+-- SORU: haber tablosun özet isimli field'i ekleyin.
 
+ALTER TABLE haber
+ADD özet varchar(100)
 
+-- SORU: özet alani icin 100 karakter yeterli degil, bu alanin uzunlugunu 250 karakter yapin.
 
+ALTER TABLE haber
+ALTER COLUMN özet TYPE VARCHAR(250)
 
+-- SORU: özet alanini silin.
 
+ALTER TABLE haber
+DROP özet 
 
+------------------------------------------------------------------------------------------------
+
+-- SORU: Ilk siparis vermis olan müsterinin özlük bilgilerini getirin.
+
+SELECT * FROM musteri m
+
+SELECT * FROM siparis s
+
+SELECT *
+FROM musteri m
+WHERE id = 18
+
+SELECT musteri_id 
+FROM siparis s
+ORDER BY tarih 
+LIMIT 1
+
+SELECT *
+FROM musteri m
+WHERE id IN (
+	SELECT musteri_id 
+	FROM siparis s
+	ORDER BY tarih
+	LIMIT 1
+			)
+
+-- SORU: Son siparis vermis olan müsterinin özlk bilgilerini getirin.
+
+SELECT *
+FROM musteri m
+WHERE id = 18
+
+SELECT musteri_id 
+FROM siparis s
+ORDER BY tarih DESC 
+LIMIT 1
+
+SELECT *
+FROM musteri m
+WHERE id IN (
+	SELECT musteri_id 
+	FROM siparis s
+	ORDER BY tarih DESC 
+	LIMIT 1
+            )
+
+-- SORU: Sirkette en yüksek maasi alan kisinin özlük bilgilerini getirin.
+			
+SELECT *
+FROM personel p
+WHERE maas IN (
+	SELECT maas
+	FROM personel p2
+	ORDER BY maas DESC
+	LIMIT 1
+			  );
+
+-- Ayni tabloda oldugumuz icin daha kisa bir yollada cözebiliriz.
+
+SELECT *
+FROM personel p
+ORDER BY maas DESC
+LIMIT 1
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 24.12.24
+
+------------------------------------------------------------------------------------------------
 
 
