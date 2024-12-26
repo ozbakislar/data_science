@@ -667,5 +667,25 @@ LIMIT 1
 -- DERS: 24.12.24
 
 ------------------------------------------------------------------------------------------------
+/*
+-- SORU: Her bir personelin ID'sini, adini ve soyadini; bunun yani sira calistigi departmanin
+ID'sini ve adini bir arada listeleyip getirin. */
 
+SELECT
+	p.id AS personel_id,
+	p.ad AS "AD",
+	p.soyad AS "SOYAD",
+	d.id AS departman_id,
+	d.ad AS departman_adi
+FROM personel p
+INNER JOIN departman d
+ON p.departman_id  = d.id
+/*
+SORU: Her bir personelin adini, soyadini ve ülkesinin ismini listeleyin. Liste; ülke adi,
+personel adi ve personel soyadina göre siralanmis olsun. */
 
+------------------------------------------------------------------------------------------------
+
+-- DERS:
+
+------------------------------------------------------------------------------------------------

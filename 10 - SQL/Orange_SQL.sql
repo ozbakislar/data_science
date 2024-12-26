@@ -876,15 +876,183 @@ WHERE isyeri IN (
 	WHERE marka_id = 100
 				)
 				
--- SORU: calisanlar3 tablosunda max maasi alan calisanin tüm field'larini listeleyiniz.
-
 ------------------------------------------------------------------------------------------------
 
 -- DERS: 24.12.24
 
 ------------------------------------------------------------------------------------------------
+				
+-- SORU: calisanlar3 tablosunda max maasi alan calisanin tüm field'larini listeleyin.
 
+SELECT *
+FROM calisanlar3 c
+WHERE maas IN (
+	SELECT max(maas)
+	FROM calisanlar3 c 
+	          )
+	          
+-- SORU: calisanlar3 tablosunda max veya min maasi alan calisanlarin tüm fieldlarini listeleyin.
+	          
+SELECT *
+FROM calisanlar3 c
+WHERE
+	maas = (SELECT max(maas) FROM calisanlar3 c)
+	OR 
+	maas = (SELECT min(maas) FROM calisanlar3 c)
 
+-- SORU: calisanlar3 tablosunda max maasdan bir düsük maas alan calisanin tüm fieldlarini listeleyin.
+	  
+SELECT *
+FROM calisanlar3 c
+WHERE maas IN (
+	SELECT maas
+	FROM calisanlar3 c
+	ORDER BY maas DESC
+	OFFSET 1
+	LIMIT 1
+	          )
+	          
+-- SORU: Ankara'da calisani olan markalarin id'lerini, calisan sayilarini ve marka isimlerini listeleyin.
+	         
+SELECT marka_id, calisan_sayisi, marka_isim 
+FROM markalar m
+WHERE marka_isim IN (
+	SELECT isyeri
+	FROM calisanlar3 c
+	WHERE sehir = 'Ankara'
+				    )
+/*				    
+SORU: Calisan sayisi 15.000'den cok olan markalarin isimlerini ve bu markada calisanlarin isimlerini
+ve maaslarini listeleyin. */
+				    
+SELECT isim, maas, isyeri
+FROM calisanlar3 c 
+WHERE isyeri IN (
+	SELECT marka_isim
+	FROM markalar m 
+	WHERE calisan_sayisi > 15000
+				)
+
+-- SORU: Her markanin id’sini, ismini ve toplam kac sehirde bulundugunu listeleyin.
+
+SELECT * FROM markalar m 
+SELECT * FROM calisanlar3 c 
+
+SELECT 
+	marka_id,
+	marka_isim,
+	(
+	SELECT COUNT(DISTINCT sehir) AS sehir
+	FROM calisanlar3 c 
+	WHERE c.isyeri = m.marka_isim -- Eslestirme yapilmazsa ayni degeri döndürür.
+	)
+FROM markalar m 
+
+-- SORU: Her markanin ismini, calisan sayisini ve o markaya ait calisanlarin maksimum ve min maasini listeleyin.
+
+SELECT * FROM markalar m 
+SELECT * FROM calisanlar3 c
+
+SELECT
+	marka_isim,
+	calisan_sayisi,
+	(
+	SELECT max(maas) AS max_maas
+	FROM calisanlar3 c
+	WHERE c.isyeri = m.marka_isim
+	),
+	(
+	SELECT min(maas) AS min_maas
+	FROM calisanlar3 c
+	WHERE c.isyeri = m.marka_isim
+	)
+FROM markalar m 
+	
+------------------------------------------------------------------------------------------------
+
+CREATE TABLE mart (     
+	urun_id int,      
+	musteri_isim varchar(50),
+	urun_isim varchar(50)
+                  ); 
+
+INSERT INTO mart VALUES (10, 'Mark', 'Honda');
+INSERT INTO mart VALUES (20, 'John', 'Toyota');
+INSERT INTO mart VALUES (30, 'Amy', 'Ford');
+INSERT INTO mart VALUES (20, 'Mark', 'Toyota');
+INSERT INTO mart VALUES (10, 'Adam', 'Honda');
+INSERT INTO mart VALUES (40, 'John', 'Hyundai');
+INSERT INTO mart VALUES (20, 'Eddie', 'Toyota');
+
+CREATE TABLE nisan (     
+	urun_id int,
+	musteri_isim varchar(50),
+	urun_isim varchar(50)
+                   );
+
+INSERT INTO nisan VALUES (10, 'Hasan', 'Honda');
+INSERT INTO nisan VALUES (10, 'Kemal', 'Honda');
+INSERT INTO nisan VALUES (20, 'Ayşe', 'Toyota');
+INSERT INTO nisan VALUES (50, 'Yaşar', 'Volvo');
+INSERT INTO nisan VALUES (20, 'Mine', 'Toyota');
+
+SELECT * FROM mart;
+SELECT * FROM nisan;
+
+-- SORU: Mart ayinda 'Toyota' satisi yapilmis ise Nisan ayindaki tüm ürünlerin bilgilerini listeleyin.
+
+SELECT *
+FROM nisan n 
+WHERE EXISTS ( -- EXIST ile cözüm
+	SELECT 1 -- Var olmak yok olmak durumuna bakildigi icin genel kullanim bu sekilde.
+	FROM mart m 
+	WHERE urun_isim = 'Toyota'
+			 );
+
+-- SORU: Mart ayinda 'Volvo' satisi yapilmissa Nisan ayindaki tüm ürünlerin bilgilerini listeleyin.
+
+SELECT *
+FROM nisan n 
+WHERE EXISTS (
+	SELECT 1
+	FROM mart m 
+	WHERE urun_isim = 'Volvo'
+			 );
+
+-- Mart ayinda Volvo satisi olmadigi icin Subquery kismi False döndürdü ve sonuc bos geldi.
+/*
+-- SORU: Mart ayinda satilan ürünlerin urun_id ve musteri_isim'lerini, eger ürun (urun_isim)
+Nisan ayinda da satilmissa listeleyin. */
+
+SELECT 
+	urun_id,
+	urun_isim 
+FROM mart m 
+WHERE EXISTS (
+	SELECT *
+	FROM nisan n 
+	WHERE m.urun_isim = n.urun_isim
+             );
+/*
+SORU: Her iki ayda birden satilan ürünlerin urun_isim'lerini, bu ürünleri NİSAN ayinda satin alan
+musteri_isim'lerine göre listeleyin. */
+
+SELECT
+	musteri_isim,
+	urun_isim
+FROM nisan n
+WHERE EXISTS (
+	SELECT *
+	FROM mart m
+	WHERE m.urun_isim = n.urun_isim
+             )
+
+------------------------------------------------------------------------------------------------
+
+-- DERS:
+
+------------------------------------------------------------------------------------------------
+             
 
 
 

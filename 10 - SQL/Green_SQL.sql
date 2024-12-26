@@ -10,6 +10,11 @@
 
 ------------------------------------------------------------------------------------------------
 
+-- Python ve SQL Baglantisini Nasil Saglayabilirim?
+-- https://medium.com/academy-team/python-ve-sql-ba%C4%9Flant%C4%B1s%C4%B1n%C4%B1-nas%C4%B1l-sa%C4%9Flayabilirim-4f1d5f4a5585
+
+------------------------------------------------------------------------------------------------
+
 -- create table customers
 
 DROP TABLE IF EXISTS customers;
@@ -897,10 +902,79 @@ WHERE customer_id IN (
 
 ------------------------------------------------------------------------------------------------
 
+-- JOINS
+/*
+SQL (Structured Query Language) sorgularinda birden fazla tablodan veri almak icin kullanilan
+bir terimdir. İki veya daha fazla tabloyu belirli bir iliski veya kosul üzerinde birlestirerek
+iliskili verileri birlestirilmis sonuclar olarak döndürmeyi saglar. */
 
+-- INNER JOIN
 
+--SORU: customer_id, first_name, order_id ve quantity field'larini sadece eslesen satirlari alarak listeleyin.
 
+SELECT * FROM customers c
 
+SELECT * FROM orders o
 
+SELECT
+	c.customer_id,
+	c.first_name,
+	o.order_id,
+	o.quantity
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id
+
+-- LEFT JOIN
+/*
+Sol tablodaki tüm kayitlari, sag tablodaki eslesen kayitlarla birlikte döndürür.
+Eger sag tabloda eslesen bir kayit yoksa, sol tablodaki kayit yine döner ancak sag tablo icin
+alanlar NULL degeri alir. */
+/*
+-- SORU: customers tablosundan customer_id, first_name ve orders tablosundan orderid, quantity
+field'larini left join tarzinda birlestirerek getirin. */
+
+SELECT
+	c.customer_id,
+	c.first_name,
+	o.order_id,
+	o.quantity 
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+
+-- RIGHT JOIN
+
+SELECT
+	c.customer_id,
+	c.first_name,
+	o.order_id,
+	o.quantity 
+FROM customers c 
+RIGHT JOIN orders o 
+ON c.customer_id = o.customer_id
+
+-- FULL JOIN
+/*
+Sol ve sag tablodaki tüm kayitlari (eslesenler ve eslesmeyenler dahil) birlestirir. Eslesmeyen alanlar
+icin NULL degerler döner. */
+/*
+SORU: customers tablosundan customer_id, first_name ve orders tablosundan orderid, quantity field'larini
+full join tarzinda birlestirerek getiriniz. */
+
+SELECT 
+	c.customer_id,
+	c.first_name,
+	o.order_id,
+	o.quantity 
+FROM customers c 
+FULL JOIN orders o 
+ON c.customer_id = o.customer_id 
+
+------------------------------------------------------------------------------------------------
+
+-- DERS:
+
+------------------------------------------------------------------------------------------------
 
 	
