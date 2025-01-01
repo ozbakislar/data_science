@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
@@ -22,8 +23,9 @@
     HTML komutuna tag denir. Tag'lar büyüktür kücüktür isareti arasina yazilir.
 
     Istisnalar disinda tag'larin baslangic ve bitisleri vardir. Bitis taglari / isareti
-    ile belirtilir.<br>Istisna: img, br ve hr tag'larinin bitis isareti yoktur.
+    ile belirtilir.
 
+    <br>Istisna: img, br ve hr tag'larinin bitis isareti yoktur.
 
     <hr>
 
@@ -63,8 +65,7 @@
     <h2>Element</h2>
 
     Tag ve icindekilerle birlikte olusan yapiya element denir. Örnegin title tag'i ile birlikte yazdigimiz HTML Özet
-    ifadesi
-    bir element olusturur.
+    ifadesi bir element olusturur.
 
     <hr>
 
@@ -105,6 +106,7 @@
     <h2>&lt;br&gt;</h2>
 
     Metin icinde satir basi yapmak icin br tag'i kullanilir.
+
     <p>Bitis isareti olmayan istisnai bir tag'dir.</p>
 
     <hr>
@@ -119,6 +121,7 @@
     <h2>&lt;hr&gt;</h2>
 
     Yatay cizgi olusturmak icin kullanilir.
+
     <p>Bitis isareti olmayan istisnai bir tag'dir.</p>
 
     <hr>
@@ -142,6 +145,7 @@
         Semantic tag'lar, arama motorlari veya gelistiriciler icin bir anlam icerirler. Bu tür tag'lar kapsadiklari
         elemani tasidiklari anlama göre belli bir forma sokarlar. Paragraf tag'i bunlara örnek verilebilir.
     </p>
+
     <p>
         Semantic olmayan tag'lar, anlamsizdirlar. Sadece semantic tag'lari gruplamak icin kullanilirlar.
         Arama motorlari icin de bu tag'larin hicbir degeri yoktur. &lt;div&gt; ve &lt;span&gt; tag'lari
@@ -184,8 +188,7 @@
 
     <h2>&lt;del&gt;</h2>
 
-    Yazinin üstünü cizmek icin kullanilir. Özellikle alisveris sitelerindeki
-    indirimsiz fiyati gösterirken kullanilir.
+    Yazinin üstünü cizmek icin kullanilir. Özellikle alisveris sitelerindeki indirimsiz fiyati gösterirken kullanilir.
 
     <p><del>52 TL</del></p>
 
@@ -268,9 +271,9 @@
     Tanimlama listesi olusturmak icin kullanilir. 2 farkli tag ile beraber kullanilir:
 
     <ul>
-        <li>&lt;dl&gt; -> Tanimlama listesi olusturmak icin kullanilir.</li>
-        <li>&lt;dt&gt; -> Listeye tanimlama terimi eklemek icin kullanilir.</li>
-        <li>&lt;dd&gt; -> Terimin aciklamasini eklemek icin kullanilir.</li>
+        <li>&lt;dl&gt; => Tanimlama listesi olusturmak icin kullanilir.</li>
+        <li>&lt;dt&gt; => Listeye tanimlama terimi eklemek icin kullanilir.</li>
+        <li>&lt;dd&gt; => Terimin aciklamasini eklemek icin kullanilir.</li>
     </ul>
 
     <dl>
@@ -310,7 +313,7 @@
 
     <h2>Liste Üzerinde Degisiklikler</h2>
 
-    <p>Sirali listelerin (&lt;ol&gt;) type özelligini degistirebiliriz: <br>1 (default) | A | a | I | i kullanilir.</p>
+    Sirali listelerin (&lt;ol&gt;) type özelligini degistirebiliriz: <br>1 (default) | A | a | I | i kullanilir.
 
     <p>Sirasiz listelerin (&lt;ul&gt;) type özelligini degistirebiliriz: <br>disc (default) | square | circle
         kullanilir.</p>
@@ -337,6 +340,10 @@
 
     <hr>
 
+    <h1>3. DERS</h1>
+
+    <hr>
+
     <h2>Baglanti Tag'i</h2>
 
     &lt;a&gt; tag'i ile asagida belirtildigi gibi bir yerden baska yere baglanti olusturmak icin kullanilir:
@@ -352,33 +359,107 @@
     </ul>
 
     <p>ul/ol>li>a => Liste icinde link olusturmak icin kisayol</p>
+
     <p>ul/ol>li*3>a => Liste icinde coklu link olusturmak icin kisayol</p>
 
     <ul>
-        <p>
-            <li><a href="HTML_Link_Calismasi.html">Link Calismasi</a></li>Bir sayfadan baska bir sayfaya gittik.
-        </p>
-        <p>
-            <li><a href="#tagnedir">Tag Nedir?</a></li>Ayni sayfanin farkli bölümlerine gitmek icin # isaretini
-            kullaniriz,
-            ayrica gidilecek yere de bir id tanimlayip, #'den sonra bu id'yi yazariz.
-        </p>
-        <p>
-            <li><a href="HTML_Link_Calismasi.html#burayagel">Link Calismasi (Buraya gel!)</a></li>Hedef sayfada
-            gidilecek yere gene id
-            tanimladik ve devaminda sayfanin adresini yazip ardindan # ile birlikte id'yi girdik.
-        </p>
-        <p>
-            <li><a href="https://www.techproeducation.com/">TechproEducation</a></li> Farkli bir siteye gittik.
-        </p>
-        <li><a href=""></a></li>
-        <li><a href=""></a></li>
-        <li><a href=""></a></li>
 
-        <br> NOT: type, id gibi özellikleri ancak bir tag'in icinde kullanabiliriz!
+        <p>
+            <li><a href="HTML_Link_Calismasi.html" title="HTML'de sayfalar arasi gecis linki">Link Calismasi</a></li>
+            Bir sayfadan baska bir sayfaya gittik.
+        </p>
+
+        <p>
+            <li><a href="#tagnedir">Tag Nedir?</a></li>
+            Ayni sayfanin farkli bölümlerine gitmek icin # isaretini kullaniriz, ayrica gidilecek yere de bir id
+            tanimlayip #'den sonra bu id'yi yazariz.
+        </p>
+
+        <p>
+            <a href="HTML_Link_Calismasi.html#burayagel">
+                Link Calismasi (Buraya gel!)</a></li>Hedef sayfada gidilecek yere gene id tanimladik ve devaminda
+            sayfanin adresini yazip ardindan # ile birlikte id'yi girdik.
+        </p>
+
+        <p>
+            <li><a href="https://www.techproeducation.com/" target="_blank">TechproEducation</a></li>
+            Farkli bir siteye gittik. Link girilirken https:// ile birlikte girilmeli ve sayfanin baska bir segmede
+            acilmasi isteniyorsa target="_blank" parametresi eklenmelidir.
+        </p>
+
+        <p>
+            <li><a href="mailto:ozbakislar@gmx.de">E-Posta gönder</a></li>
+            Tipki web sitesi girisi gerceklestirirken https:// yazmamiz nasil zorunluysa burada da mailto: yazmamiz
+            zorunludur.
+        </p>
+
+        <p>
+            <li><a href="tel:Telefon_Numarasi">Ara</a></li>
+            tel: yazmamiz zorunludur. Telefon numarasi + ve 0 icermemeli alan kodu girisi de unutulmamalidir.
+        </p>
+
+        <p>
+            <li><a href="https://wa.me/Telefon_Numarasi" target="_blank">Whatsapp</a></li>
+            https://wa.me/Telefon_Numarasi formatinda yazilmalidir. Telefon_Numarasi'ndan sonra ?text=Mesaj girisiyle
+            iletisime gecen icin bir otomatik mesaj da olusturabiliriz. Telefon numarasi + ve 0 icermemeli alan kodu
+            girisi de unutulmamalidir.
+        </p>
+
+        <p>NOT: type, id gibi parametreleri ancak bir tag'in icinde kullanabiliriz!</p>
+
+        <p>
+            NOT: Link girisi gerceklestirirken title parametresi de girebiliriz, SEO acisindan önemlidir. Linke
+            gelindiginde title'a girilen aciklama görünür.
+        </p>
+
     </ul>
 
     <hr>
+
+    <h2>Fotograf Ekleme</h2>
+
+    Fotograf ekleme islemi img tag'i ile yapilir. jpg, png, gif gibi formatlarda fotograf ekleyebiliriz. img tag'i
+    icinde kullanilan alt attribute'u SEO acisindan önemlidir. Arama motorlarinin indeksleme icin baktiklari
+    yerlerden biridir. Telifsiz resim temini icin asagidaki siteler kullanilabilir:
+    
+    <p>&lt;img src="" alt=""&gt; => Söz dizimi</p>
+
+    <ul>
+        <li><a href="http://freepik.com" target="_blank">freepik</a></li>
+        <li><a href="http://unsplash.com" target="_blank">unsplash</a></li>
+        <li><a href="http://pexels.com" target="_blank">pexels</a></li>
+        <li><a href="http://flaticon.com" target="_blank">flaticon</a></li>
+    </ul>
+
+    <img src="HTML_Resim.webp" alt="DS_Resim" width="350">
+
+    <h3>Fotografa Link Verme</h3>
+
+    &lt;a&gt; tag'i icerisine resmin adresini koyup target ile farkli segmede tekrar resmin acilmasini sagladik.
+
+    <p><a href="HTML_Resim.webp" target="_blank"><img src="HTML_Resim.webp" alt="DS_Resim" width="150"></a></p>
+
+    <hr>
+
+    <h1>4. DERS</h1>
+
+    <hr>
+
+    <h2>Sayfaya Ses Ekleme</h2>
+
+    &lt;audio&gt; tag'i ile sayfaya ses ekleyebiliriz. Ses dosyasi mp3, wav, ogg gibi formatlarda olabilir. Ama tarayicilarin
+    en cok destekledigi format mp3'tür. Telifsiz müzikleri indirmek icin <a href="http://www.pixabay.com" target="_blank">pixabay</a> sitesi
+    kullanilabilir. Ses dosyalarinin kullanici deneyimi acisindan olumsuzluklar olusturmasi acisindan modern tarayicilar ses dosyalarinin direkt
+    siteye girer girmez baslamasini istememektedir o yüzden kod icerisinde controls parametresi eklenmelidir.
+
+    <p><audio src="HTML_Ses.mp3" controls></audio></p>
+
+
+
+
+
+
+
 
 </body>
 
