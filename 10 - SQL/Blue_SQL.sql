@@ -686,6 +686,76 @@ personel adi ve personel soyadina göre siralanmis olsun. */
 
 ------------------------------------------------------------------------------------------------
 
--- DERS:
+-- DERS: 02.01.25
 
 ------------------------------------------------------------------------------------------------
+/*
+SORU: Her bir personelin adini, soyadini ve ülkesinin ismini listeleyin. Liste; ülke adi, personel
+adi ve personel soyadina göre siralanmis olsun.*/
+
+SELECT
+	p.ad AS ad,
+	p.soyad AS soyad,
+	u.orjinalad AS ulkesi
+FROM personel p
+INNER JOIN ulke u
+ON p.ulke_id = u.ad
+ORDER BY u.orjinalad, p.ad, p.soyad
+
+-- SORU: Bir liste hazirlayin, her bir ülkenin ID’si, ismi ve o ülkeden gelen personelin sayisi olsun.
+
+SELECT
+	u.id AS ulke_id,
+	u.orjinalad AS ulke_ad,
+	COUNT(p.id) AS calisan_sayisi
+FROM personel p
+INNER JOIN ulke u
+ON p.ulke_id = u.ad 
+GROUP BY u.id 
+/*
+Pratikte; COUNT; SUM gibi matematiksel komutlar söz konusu oldugunda, sayilan alan haricindeki
+(COUNT(*) gibi) bütün alanlari GROUP BY listesine dahil etmemiz gerekecektir. */
+
+------------------------------------------------------------------------------------------------
+
+-- SORU: Bütun personelin ve bütün müsterilerin ad, soyad, E-Posta ve dogum günü bilgilerini tek listede getirin.
+
+SELECT
+	ad,
+	soyad,
+	dogum,
+	email
+FROM personel p
+UNION
+SELECT
+	ad,
+	soyad,
+	dogum,
+	email
+FROM musteri m
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 03.01.25
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

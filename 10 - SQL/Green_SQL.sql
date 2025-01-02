@@ -973,8 +973,93 @@ ON c.customer_id = o.customer_id
 
 ------------------------------------------------------------------------------------------------
 
--- DERS:
+-- DERS: 02.01.25
 
 ------------------------------------------------------------------------------------------------
+
+-- UNION ve UNION ALL
+
+-- SORU: Müsterilerden (customers) ve calisanlardan (employee) tüm kisilerin adini, soyadini ve ülkesini listeleyin.
+
+-- UNION kullaninca tekrar eden satirlari getirmez, UNION ALL ise tekrar edenleri de getirir.
+
+SELECT *
+FROM customers c
+
+SELECT *
+FROM employees e
+/*
+PostgreSQL'de UNION operatörünü kullanabilmek icin, birlestirmek istediginiz sorgu sonuclarinin su kosullari karsilamasi gerekir:
+
+1. Ayni sayida sütun: UNION islemini uygulayabilmeniz icin her iki sorgu da ayni sayida sütuna sahip olmalidir.
+
+2. Uyumlu veri türleri: Sütunlarin ayni veri türünde olmasi gerekir. Örnegin, bir sorgu integer türünde bir sütun döndürürken,
+diger sorgu text türünde bir sütun döndürüyorsa, UNION islemini uygulayamazsiniz.
+
+3. Uyumlu sirali sütunlar: Her iki sorgunun ayni sirada ayni veri türündeki sütunlari döndürmesi gerekir. Yani, ilk sorgunun ilk
+sütunu integer türünde ise, ikinci sorgunun ilk sütunu da integer türünde olmalidir.
+
+4. Uyumlu siralama kurallari: UNION islemi sonuclari, her iki sorgudan gelen verileri ayni siralama kurallarina göre birlestirir.
+Bu, her iki sorguda da ayni ORDER BY ifadesinin kullanilmasi gerektigi anlamina gelir.
+
+5. Aynı sütun adlari (istege bagli): Her iki sorgunun ayni sütun adlarini kullanmasi gerekmez, ancak sütun adlari farkliysa, sonuc
+kümesinde sütun adlari ilk sorgudaki adlara göre belirlenir.*/
+
+SELECT
+	first_name,
+	last_name,
+	country
+FROM customers c
+UNION
+SELECT
+	first_name,
+	last_name,
+	emp_country -- Ulke field basligi farkli olsa bile yukaridakini esas alir.
+FROM employees e
+
+-- Eger tekrar eden kisiyi (John Steel) birlesime iki kez katmak istersek SELECT ALL kullanabiliriz.
+
+SELECT
+	first_name,
+	last_name,
+	country
+FROM customers c
+UNION ALL 
+SELECT
+	first_name,
+	last_name,
+	emp_country
+FROM employees e
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 03.01.25
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	

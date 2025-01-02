@@ -64,13 +64,13 @@ FROM students s
 
 ------------------------------------------------------------------------------------------------
 
-CREATE TABLE ogrenciler(
+CREATE TABLE ogrenciler (
 	ogrenci_no char(7), -- Mutlaka 7 karakter yer kaplayacak
 	isim varchar(20),
 	soyisim varchar(30),
 	not_ort real, -- Ondalikli sayilari belirtmek icin
 	kayit_tarihi date
-                       );
+                        );
 
 SELECT *
 FROM ogrenciler o
@@ -742,7 +742,7 @@ SET calisan_sayisi = calisan_sayisi + marka_id
 
 ------------------------------------------------------------------------------------------------
 
-CREATE TABLE teachers(
+CREATE TABLE teachers (
 	id int,
 	firstname varchar(50),
 	lastname varchar(50),
@@ -750,7 +750,7 @@ CREATE TABLE teachers(
 	city varchar(20),
 	course_name varchar(20),
 	salary real	
-                      );
+                       );
 
 INSERT INTO teachers VALUES(111, 'AhmeT  ', '  Han', 35, 'İstanbul', 'SpringMVC', 5000);
 INSERT INTO teachers VALUES(112, 'Mehmet', 'Ran ', 33, 'Van', 'HTML', 4000);
@@ -1049,9 +1049,226 @@ WHERE EXISTS (
 
 ------------------------------------------------------------------------------------------------
 
--- DERS:
+-- DERS: 02.01.25
 
 ------------------------------------------------------------------------------------------------
+             
+-- VIEW
+/*
+Bazi sorgulari tekrar tekrar yazmak yeine ilgili kismi hafizasina almak icin Create View yapilir
+ve daha sonra da Select ile cagirilir. Yaptigimiz sorgulari hafizaya alir ve tekrar bizden istenen
+sorgulama yerine view'e atadigimiz ismi SELECT komutuyla cagiririz.
+
+Python'daki def function'a benzeyen bir yapidir.*/
+/*           
+SORU: Her markanin ismini, calisan sayisini ve o markaya ait calisanlarin maksimum ve minimum
+maasini listeleyen bir sorgu yazin. */
+             
+CREATE VIEW max_min_maas
+AS
+SELECT 	calisan_sayisi,
+		marka_isim,
+		(
+	SELECT max(maas) AS max_maas
+	FROM calisanlar3 c
+	WHERE c.isyeri = m.marka_isim),
+		(
+	select min(maas) AS min_maas
+	FROM calisanlar3 c
+	WHERE isyeri = m.marka_isim
+		)
+FROM markalar m
+
+-- Simdi olusturdugumuz VIEW'i cagiralim
+
+SELECT *
+FROM max_min_maas mmm
+
+-- Silmek icin
+
+DROP VIEW max_min_maas
+
+-- Degistirmek icin REPLACE VIEW
+
+CREATE OR REPLACE VIEW max_min_maas
+AS 
+SELECT 
+    marka_isim, 
+    calisan_sayisi, 
+    (SELECT MAX(maas) FROM calisanlar3 WHERE isyeri = marka_isim) AS max_maas,
+    (SELECT MIN(maas) FROM calisanlar3 WHERE isyeri = marka_isim) AS min_maas,
+    (SELECT AVG(maas) FROM calisanlar3 WHERE isyeri = marka_isim) AS avg_maas
+FROM markalar;
+
+-- 2. Degisim yolu:
+
+DROP VIEW IF EXISTS max_min_maas;
+CREATE VIEW max_min_maas
+AS 
+SELECT 
+    marka_isim, 
+    calisan_sayisi, 
+    (SELECT MAX(maas) FROM calisanlar3 WHERE isyeri = marka_isim) AS max_maas,
+    (SELECT MIN(maas) FROM calisanlar3 WHERE isyeri = marka_isim) AS min_maas,
+    (SELECT AVG(maas) FROM calisanlar3 WHERE isyeri = marka_isim) AS avg_maas
+FROM markalar;
+
+-- Simdi olusturdugumuz VIEW'i cagiralim.
+
+SELECT *
+FROM max_min_maas
+             
+------------------------------------------------------------------------------------------------
+
+-- Index numarasini istenen degerden baslatmayi örnegin 1000'den baslatmayi deneyelim.
+
+-- Öncelikle örnek bir tablo create edelim, üzerinde degistirelim.
+
+CREATE TABLE sample_table (
+	id SERIAL PRIMARY KEY, -- Serial field olmali
+	other_column TEXT 
+						  )
+						 
+-- SEQUENCE güncellemesi
+						 
+SELECT pg_get_serial_sequence('sample_table', 'id');
+
+-- Üstteki komut SEQUENCE'in adini döndürür.
+
+-- Sequence'in baslangic degerini güncelleyelim.
+
+ALTER SEQUENCE sample_table_id_seq RESTART WITH 1000;
+
+--Yeni kayit ekleyerek deneme yapalim.
+
+INSERT INTO sample_table (other_column) VALUES ('First Record');
+
+SELECT * FROM sample_table
+
+------------------------------------------------------------------------------------------------             
+             
+-- WHERE EXISTS Konusuna Ilave Örnekler
+
+CREATE TABLE customers1 (
+    customer_id INTEGER PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL
+                        );
+
+CREATE TABLE orders1 (
+    order_id INTEGER PRIMARY KEY,
+    customer_id INTEGER,
+    product_name TEXT NOT NULL,
+    order_date DATE NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers1(customer_id)
+					 );
+
+
+INSERT INTO customers1 (customer_id, first_name, last_name, email) VALUES
+(1, 'John', 'Smith', 'john.smith@example.com'),
+(2, 'Jane', 'Doe', 'jane.doe@example.com'),
+(3, 'Michael', 'Brown', 'michael.brown@example.com'),
+(4, 'Emily', 'Davis', 'emily.davis@example.com'),
+(5, 'Sarah', 'Wilson', 'sarah.wilson@example.com'),
+(6, 'David', 'Taylor', 'david.taylor@example.com'),
+(7, 'Laura', 'Moore', 'laura.moore@example.com'),
+(8, 'James', 'Anderson', 'james.anderson@example.com');
+
+
+INSERT INTO orders1 (order_id, customer_id, product_name, order_date) VALUES
+(1, 1, 'Smartphone', '2025-01-01'),
+(2, 3, 'Laptop', '2025-01-01'),
+(3, 1, 'Tablet', '2025-01-02'),
+(4, 5, 'Camera', '2025-01-03'),
+(5, 6, 'Headphones', '2025-01-04'),
+(6, 3, 'Monitor', '2025-01-05'),
+(7, 8, 'Speaker', '2025-01-06');
+
+SELECT * FROM customers1;
+
+SELECT * FROM orders1;         
+
+-- SORU: Sadece siparis vermis müsterileri listeleyin.
+
+SELECT *
+FROM customers1 c
+WHERE EXISTS (
+	SELECT 1
+	FROM orders1 o
+	WHERE c.customer_id = o.customer_id
+ 			 );
+
+-- Sonuc sadece siparis kaydi olan müsterileri icerir.
+             
+-- SORU: Siparisi olmayan müsterileri listeleyin.
+
+SELECT *
+FROM customers1
+WHERE NOT EXISTS (
+	SELECT 1
+	FROM orders1
+	WHERE customers1.customer_id = orders1.customer_id
+				 );
+
+-- SORU: Belirli bir ürünü örnegin 'Laptop' siparis eden müsterileri listeleyin.
+
+SELECT *
+FROM customers1 c
+WHERE EXISTS (
+	SELECT 1
+	FROM orders1 o
+	WHERE c.customer_id = o.customer_id
+	AND
+	o.product_name ='Laptop'
+			 );
+
+------------------------------------------------------------------------------------------------
+
+-- ISNULL
+
+-- Filtreleme gibi calisir ve bos mu demektir.
+
+-- SORU: calisanlar4 tablosundan isim sütunu NULL olanlari listeleyin.
+
+SELECT *
+FROM calisanlar4 c
+WHERE isim IS NULL;
+
+-- SORU: calisanlar4 tablosunda isim sütunu NULL olmayanlari listeleyin.
+
+SELECT *
+FROM calisanlar4 c
+WHERE isim IS NOT NULL
+
+-- SORU: calisanlar4 tablosundaki NULL olan isimlerini unknown olarak güncelleyin.
+
+UPDATE calisanlar4
+SET isim = 'Unknown'
+WHERE isim IS NULL
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 03.01.25
+
+------------------------------------------------------------------------------------------------
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
              
 
 
