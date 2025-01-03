@@ -112,7 +112,7 @@
     <h2>&lt;hx&gt;</h2>
 
     Baslik olusturmak icin kullanilir. hx seklinde gösterilir. x 1'den baslar 6'ya kadar gider. 1 en büyük
-    6 en kücük baslik anlamina gelir. Sayfadaki en önemli bilgi h1 icine yazilmalidir. Bir sayfada 1 tane h1 olmalidir.
+    6 en kücük baslik anlamina gelir.
 
     <hr>
 
@@ -267,7 +267,6 @@
     Tanimlama listesi olusturmak icin kullanilir. 2 farkli tag ile beraber kullanilir:
 
     <ul>
-        <li>&lt;dl&gt; => Tanimlama listesi olusturmak icin kullanilir.</li>
         <li>&lt;dt&gt; => Listeye tanimlama terimi eklemek icin kullanilir.</li>
         <li>&lt;dd&gt; => Terimin aciklamasini eklemek icin kullanilir.</li>
     </ul>
@@ -344,7 +343,7 @@
 
     <h2>Baglanti Tag'i</h2>
 
-    &lt;a&gt; tag'i ile asagida belirtildigi gibi bir yerden baska yere baglanti olusturmak icin kullanilir:
+    &lt;a&gt; tag'i ile asagida belirtildigi gibi bir yerden baska yere baglanti olusturulur:
 
     <ul>
         <li>Bir sayfadan baska bir sayfaya,</li>
@@ -364,12 +363,12 @@
         <p>
             <li><a href="#tagnedir">Tag Nedir?</a></li>
             Ayni sayfanin farkli bölümlerine gitmek icin # isaretini kullaniriz, ayrica gidilecek yere de bir id
-            tanimlayip #'den sonra bu id'yi yazariz.
+            tanimlayip #'den sonra bu id'yi href parametresine yazariz.
         </p>
         <p>
             <li><a href="HTML_Link_Calismasi.html#burayagel">Link Calismasi (Buraya gel!)</a></li>
             Hedef sayfada gidilecek yere gene id tanimladik ve devaminda sayfanin adresini yazip ardindan #
-            ile birlikte id'yi girdik.
+            ile birlikte id'yi yazdik.
         </p>
         <p>
             <li><a href="https://www.techproeducation.com/" target="_blank">TechproEducation</a></li>
@@ -403,7 +402,7 @@
     <h2>Fotograf Ekleme</h2>
 
     Fotograf ekleme islemi img tag'i ile yapilir. jpg, png, gif gibi formatlarda fotograf ekleyebiliriz. img tag'i
-    icinde kullanilan alt attribute'u SEO acisindan önemlidir. Arama motorlarinin indeksleme icin baktiklari
+    icinde kullanilan alt parametresi SEO acisindan önemlidir. Arama motorlarinin indeksleme icin baktiklari
     yerlerden biridir. Telifsiz resim temini icin asagidaki siteler kullanilabilir:
 
     <p>&lt;img src="" alt=""&gt; => Söz dizimi</p>
@@ -478,9 +477,8 @@
 
     <p>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/DW3fJ3plSjg?si=AbvE9CZE-K_L3_rC"
-            title="YouTube video player" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </p>
 
     <hr>
@@ -500,7 +498,7 @@
         <li>&lt;th&gt; => Baslik hücreleri olusturmak icin kullanilir.</li>
     </ul>
 
-    <p>NOT: thead, tbody, tfoot kullanmak zorunlu degildir ancak CSS ile stil tanimlarken büyük kolaylik olur.</p>
+    <p>NOT: thead, tbody, tfoot kullanmak zorunlu degildir ancak CSS ile stil tanimlarken büyük kolaylik saglar.</p>
 
     <p>
         NOT: table icerisine yazdigimiz border kirmizi gözüküyor cünkü eski bir özellik, artik cerceveyi HTML ile degil
@@ -671,7 +669,7 @@
     </form>
 
     <strong>
-        <p>Form tag'inin sahip oldugu cesitli attribute'lar vardir:</p>
+        <p>Form tag'inin sahip oldugu cesitli parametreler vardir:</p>
     </strong>
 
     <ul>
@@ -777,7 +775,7 @@
 
     <ul>
         <li>button => Özellestirilebilir butondur.</li>
-        <li>submit => Özelligi belli buton türüdür: action'deki yola gönderimi saglar.</li>
+        <li>submit => Özelligi belli buton türüdür: action'daki yola gönderimi saglar.</li>
         <li>reset => Özelligi belli buton türüdür: Formu ilk haline cevirir.</li>
     </ul>
 
@@ -925,6 +923,10 @@
 
     <hr>
 
+    <strong>
+        SORU: E-Posta, sifre ve güvenlik kodu alanlari iceren bir form olusturalim:
+    </strong>
+
     <form>
 
         <p>
@@ -952,7 +954,7 @@
     <strong>
         <p>
             Direkt form olarak tasarladigimizda görüntü olarak sorunlu geldi o yüzden form yapisini tablo yapisinin icine
-            yedirecegiz:
+            gömecegiz:
         </p>
     </strong>
 
@@ -992,8 +994,7 @@
 
     label tag'i ile input tag'i arasinda bir iliski kurulabilir. Bu sayede kullanici input alanina tikladiginda
     label tag'i da etkilenir. Kullaniciya hangi alani dolduracagi daha net bir sekilde gösterilmis olur. Bunun icin
-    label tag'i icine for attribute'i ile input tag'inin id'si yazilir. Yani id ile for parametrelerinin degerleri
-    ayni olmalidir.
+    label tag'i icindeki for parametresi ile input tag'inin id'si ayni olmalidir.
 
     <p>
     <form>
