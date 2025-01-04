@@ -740,6 +740,106 @@ FROM musteri m
 
 ------------------------------------------------------------------------------------------------
 
+-- SORU: Herbir departmanin id'sini, adini ve o departmana ödenen toplam maasi tek bir liste icinde getirin.
+
+SELECT * FROM personel p 
+
+SELECT * FROM departman d
+
+SELECT 
+	d.id AS departman_id,
+	d.ad AS departman_ad,
+	SUM(p.maas) AS toplam_maas
+FROM departman d
+INNER JOIN personel p
+ON p.departman_id = d.id
+GROUP BY d.id, d.ad
+
+-- SORU: Yukaridaki listeyi maas toplamina göre artan sekilde siralayin.
+
+SELECT 
+	d.id AS departman_id,
+	d.ad AS departman_ad,
+	SUM(p.maas) AS toplam_maas
+FROM departman d
+INNER JOIN personel p
+ON p.departman_id = d.id
+GROUP BY d.id, d.ad
+ORDER BY SUM(p.maas)
+
+-- SORU: Personele ödenen maaslari ülke bazinda toplayip listeleyin, ciktilar ülke ismine göre siralanmis olsun.
+
+SELECT * FROM ulke u
+
+SELECT
+	u.id AS ulke_id,
+	u.ad AS millet,
+	SUM(p.maas) AS toplam_maas
+FROM ulke u
+INNER JOIN personel p
+ON p.ulke_id = u.ad
+GROUP BY u.id, u.ad
+ORDER BY u.ad
+/*
+SORU: Aylik maasi 2000'den fazla olan kisilerin maaslarinin toplamini ülke bazinda getirin. Cikti listesinde
+ülkenin id'si, adi ve maas toplami yer alsin. */
+
+SELECT
+	u.id AS ulke_id,
+	u.ad AS millet,
+	SUM(p.maas) AS toplam_maas
+FROM ulke u
+INNER JOIN personel p
+ON p.ulke_id = u.ad
+WHERE p.maas > 2000
+GROUP BY u.id, u.ad
+/*
+SORU: Departmanlara ödenecek toplam maaslari departman id'si ve ad bazinda (her bir departman icin)
+listeleyin. Ancak, bu listede sadece toplam ödenecek maas tutari 10.000'in üzerinde olan departmanlar 
+yer alsin. */
+
+SELECT * FROM departman d 
+
+SELECT 
+	d.id AS id,
+	d.ad AS departman,
+	SUM(p.maas) AS toplam_maas
+FROM personel p 
+INNER JOIN departman d 
+ON d.id = p.departman_id 
+GROUP BY d.id, d.ad
+HAVING SUM(p.maas) > 10000;
+
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 06.01.25
+
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
