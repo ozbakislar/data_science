@@ -1,6 +1,6 @@
 ,dept,job,sales,age,first_name,last_name,skills,skills2,HR,IT
-0,HR,manager,180000.0,55.0,Tyler,Durden,[],[],1,0
-1,IT,data analyst,150000.0,28.0,Maria,Puder,"['Python', 'Tableau', 'SQL']","Python, Tableau, SQL",0,1
-2,HR,recruiter,120000.0,30.0,Dorothy,Gale,[],[],1,0
-3,IT,data scientist,170000.0,,Edmond,Dantes,"['ML', 'DL', 'NLP']","['ML', 'DL', 'NLP']",0,1
-4,IT,frontend developer,120000.0,32.0,Gregor,Samsa,"['React', 'Django']","['React', 'Django']",0,1
+0,HR,manager,"$180,000",55.0,Tyler,Durden,[],[],1,0
+1,IT,data analyst,150000dolar,28.0,Maria,Puder,"['Python', 'Tableau', 'SQL']","Python, Tableau, SQL",0,1
+2,HR,recruiter,"$120,000",30.0,Dorothy,Gale,[],[],1,0
+3,IT,data scientist,"$170,000",,Edmond,Dantes,"['ML', 'DL', 'NLP']","['ML', 'DL', 'NLP']",0,1
+4,IT,frontend developer,120000dolar,32.0,Gregor,Samsa,"['React', 'Django']","['React', 'Django']",0,1
