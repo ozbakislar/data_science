@@ -2,7 +2,7 @@
 
 ------------------------------------------------------------------------------------------------
 
--- GreenPages Database
+-- Green SQL
 
 ------------------------------------------------------------------------------------------------
 
@@ -1033,17 +1033,29 @@ FROM employees e
 
 ------------------------------------------------------------------------------------------------
 
--- DERS: 06.01.25
+-- DERS: 07.01.25
 
 ------------------------------------------------------------------------------------------------
 
- 
+-- DATE FUNCTION
 
+-- NOW Function
 
+-- Mevcut tarih ve zamani döndürür.
 
+SELECT NOW() AS current_datetime;
 
+-- Müsterilerin son siparis tarihlerine göre kac gün gectigini hesaplayalim.
 
+SELECT
+	customer_id,
+	(now() - max(order_date)) AS days_since_last_order
+FROM orders
+GROUP BY customer_id
 
+-- NOW()::date::
+
+-- NOW'dan farki suanki zamani getirirken sadece tarihi döndürmesidir.
 
 
 

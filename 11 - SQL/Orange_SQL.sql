@@ -2,7 +2,7 @@
 
 ------------------------------------------------------------------------------------------------
 
--- OrangePages Database
+-- Orange SQL
 
 ------------------------------------------------------------------------------------------------
 
@@ -142,9 +142,9 @@ INSERT INTO ogrenciler2 VALUES ('2345678', 'Ali', 'Veli', 90, now())
 
 INSERT INTO ogrenciler2 VALUES ('2345679', ' ', 'Ece',  50, now()) -- Bosluk karakteri NULL degildir.
 
-INSERT INTO ogrenciler2 (isim,soyisim) VALUES ('Bilal', 'Ece')
+INSERT INTO ogrenciler2 (isim, soyisim) VALUES ('Bilal', 'Ece')
 
-INSERT INTO ogrenciler2 (isim,soyisim) VALUES ('John', 'Steve')
+INSERT INTO ogrenciler2 (isim, soyisim) VALUES ('John', 'Steve')
 
 -- NULL'larin hepsi UNIQUE kabul edilir. 
 --Her field'da birden fazla null olabilir. (Postgre ve MysQL böyle kabul ediyor.)
@@ -172,14 +172,14 @@ FROM ogrenciler3 o
 
 -- Primary Key atamasi icin 2. yol (Cok tercih edilmez.):
 
-CREATE TABLE ogrenciler4( 
+CREATE TABLE ogrenciler4 ( 
 	ogrenci_no char(7),
 	isim varchar(20) NOT NULL,
 	soyisim varchar (30) NOT NULL,
 	not_ort real,
 	kayit_tarihi date,
 CONSTRAINT ogr_no_pk PRIMARY KEY(ogrenci_no)
-                        );
+                         );
                        
 -- NOT: 2. metotta PK icin, istedigimiz özel ismi (custom) verebiliriz. (ogr_no_pk yazdik.)                      
 
@@ -206,20 +206,20 @@ Foreign Key: Foreign Key baska bir tablodaki Primary Key ile iliskilendirilmis o
 olarak "null" kabul eder. Tekrarlanan verileri kabul eder. Bir tablo birden cok "Foreign Key"
 alanina sahip olabilir. */
 			
-CREATE TABLE sirketler(
+CREATE TABLE sirketler (
 	sirket_id integer, 
 	sirket varchar(50) PRIMARY KEY,
 	personel_sayisi integer
-                      );
+                       );
 
-CREATE TABLE personel(
+CREATE TABLE personel (
 	id integer,
 	isim varchar(50),
 	sehir varchar(50),
 	maas real,
 	sirket varchar(50),
 FOREIGN KEY(sirket) REFERENCES sirketler(sirket)
-                     );
+                      );
 
 -- CONSTRAINT per_fk FOREIGN KEY(sirket) REFERENCES sirketler(sirket)); bu yazim seklinde custom foreign key baglanti ismi verilmis olur.
 -- Personel tablosundaki sirket field'i sirketler tablosundaki sirket ile iliskili olacak.
@@ -230,12 +230,12 @@ FOREIGN KEY(sirket) REFERENCES sirketler(sirket)
                  
 -- SORU: Age ve salary icin veri giris sarti olusturalim: salary 5000'den büyük olmali, age 0'dan kücük olmamali.
 
-CREATE TABLE person(
+CREATE TABLE person (
 	id INTEGER,
 	name VARCHAR(50),
 	salary REAL CHECK(salary>5000), -- 5000 degerinden yüksek giris olmali
 	age INTEGER CHECK(age>0)  -- negatif deger olmamali
-                   );
+                    );
 
 INSERT INTO person VALUES (11, 'Ali Can', 6000, 35)
 
@@ -257,9 +257,9 @@ CREATE TABLE workers (
 	calisan_dogdugu_sehir varchar(50)
                      );
 
-INSERT INTO workers VALUES(123456789, 'Ali Can', 'İstanbul'); 
-INSERT INTO workers VALUES(234567890, 'Veli Cem', 'Ankara');  
-INSERT INTO workers VALUES(345678901, 'Mine Bulut', 'İzmir');
+INSERT INTO workers VALUES (123456789, 'Ali Can', 'İstanbul'); 
+INSERT INTO workers VALUES (234567890, 'Veli Cem', 'Ankara');  
+INSERT INTO workers VALUES (345678901, 'Mine Bulut', 'İzmir');
 
 SELECT * FROM workers;
 /*
@@ -275,7 +275,7 @@ FROM workers w
 
 ------------------------------------------------------------------------------------------------
 
-CREATE TABLE developers(
+CREATE TABLE developers (
 	id SERIAL PRIMARY KEY,
 	name varchar(50),
 	email varchar(50) UNIQUE,
@@ -285,21 +285,21 @@ CREATE TABLE developers(
 	age int	
 						);
 
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Abdullah Berk', 'abdullah@mail.com', 4000, 'Java', 'Ankara', 28);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Mehmet Cenk', 'mehmet@mail.com', 5000, 'JavaScript', 'İstanbul', 35);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Ayşenur Han', 'aysenur@mail.com', 5000, 'Java', 'İzmir', 38);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Kübra Han', 'kubra@mail.com', 4000, 'JavaScript', 'İstanbul', 32);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Muhammed Demir', 'muhammed@mail.com', 6000, 'Java', 'İzmir', 25);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Fevzi Kaya', 'fevzi@mail.com', 6000, 'Html', 'İstanbul', 28);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Enes Can', 'enes@mail.com', 5500, 'Css', 'Ankara', 28);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Tansu Han', 'tansu@mail.com', 5000, 'Java', 'Bursa', 32);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Said Ran', 'said@mail.com', 4500, 'Html', 'İzmir', 33);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Mustafa Pak', 'mustafa@mail.com', 4500, 'Css', 'Bursa', 32);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Hakan Tek', 'hakan@mail.com', 7000, 'C++', 'Konya', 38);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Deniz Çetin', 'deniz@mail.com', 4000, 'C#', 'İstanbul', 30);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Betül Çetin', 'btl@mail.com', 4000, 'C#', 'Bursa', 29);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Ayse Gül', 'ayse@mail.com', 4000, 'C#', 'Ankara', 29);
-INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES('Ali Şeker', 'ali@mail.com', 4000, 'C#', 'Ankara', 29);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Abdullah Berk', 'abdullah@mail.com', 4000, 'Java', 'Ankara', 28);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Mehmet Cenk', 'mehmet@mail.com', 5000, 'JavaScript', 'İstanbul', 35);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Ayşenur Han', 'aysenur@mail.com', 5000, 'Java', 'İzmir', 38);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Kübra Han', 'kubra@mail.com', 4000, 'JavaScript', 'İstanbul', 32);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Muhammed Demir', 'muhammed@mail.com', 6000, 'Java', 'İzmir', 25);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Fevzi Kaya', 'fevzi@mail.com', 6000, 'Html', 'İstanbul', 28);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Enes Can', 'enes@mail.com', 5500, 'Css', 'Ankara', 28);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Tansu Han', 'tansu@mail.com', 5000, 'Java', 'Bursa', 32);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Said Ran', 'said@mail.com', 4500, 'Html', 'İzmir', 33);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Mustafa Pak', 'mustafa@mail.com', 4500, 'Css', 'Bursa', 32);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Hakan Tek', 'hakan@mail.com', 7000, 'C++', 'Konya', 38);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Deniz Çetin', 'deniz@mail.com', 4000, 'C#', 'İstanbul', 30);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Betül Çetin', 'btl@mail.com', 4000, 'C#', 'Bursa', 29);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Ayse Gül', 'ayse@mail.com', 4000, 'C#', 'Ankara', 29);
+INSERT INTO developers(name, email, salary, prog_lang, city, age) VALUES ('Ali Şeker', 'ali@mail.com', 4000, 'C#', 'Ankara', 29);
 
 SELECT *
 FROM developers
@@ -358,15 +358,15 @@ CREATE TABLE person (
 	adres varchar(50)
                     );
                    
-INSERT INTO person VALUES(123456789, 'Ali', 'Can', 'İstanbul');
-INSERT INTO person VALUES(234567890, 'Veli', 'Cem', 'Ankara');  
-INSERT INTO person VALUES(345678901, 'Mine', 'Bulut', 'Ankara');  
-INSERT INTO person VALUES(256789012, 'Mahmut', 'Bulut', 'İstanbul'); 
+INSERT INTO person VALUES (123456789, 'Ali', 'Can', 'İstanbul');
+INSERT INTO person VALUES (234567890, 'Veli', 'Cem', 'Ankara');  
+INSERT INTO person VALUES (345678901, 'Mine', 'Bulut', 'Ankara');  
+INSERT INTO person VALUES (256789012, 'Mahmut', 'Bulut', 'İstanbul'); 
 INSERT INTO person VALUES (344678901, 'Mine', 'Yaşa', 'Ankara');  
 INSERT INTO person VALUES (345678901, 'Veli', 'Yılmaz', 'İstanbul');
-INSERT INTO person VALUES(256789018, 'Samet', 'Bulut', 'İzmir'); 
-INSERT INTO person VALUES(256789013, 'Veli', 'Cem', 'Bursa'); 
-INSERT INTO person VALUES(256789010, 'Samet', 'Bulut', 'Ankara'); 
+INSERT INTO person VALUES (256789018, 'Samet', 'Bulut', 'İzmir'); 
+INSERT INTO person VALUES (256789013, 'Veli', 'Cem', 'Bursa'); 
+INSERT INTO person VALUES (256789010, 'Samet', 'Bulut', 'Ankara'); 
 
 SELECT *
 FROM person;
@@ -412,40 +412,40 @@ ORDER BY LENGTH(CONCAT(isim, soyisim))
 
 ------------------------------------------------------------------------------------------------
 
-CREATE TABLE calisanlar1(
+CREATE TABLE calisanlar1 (
 id char(5),
 isim varchar(50),
 maas int,
 ise_baslama date
-                        );
+                         );
 
-INSERT INTO calisanlar1 VALUES('10002', 'Donatello', 12000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('10003', null, 5000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('10004', 'Donatello', 5000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('10005', 'Michelangelo', 5000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('10006', 'Leonardo', null, '2019-04-12');
-INSERT INTO calisanlar1 VALUES('10007', 'Raphael', null, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('', 'April', 2000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('', 'Ms.April', 2000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('10002', 'Splinter', 12000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES( null, 'Fred', 12000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('10008', 'Barnie',10000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('10009', 'Wilma',11000, '2018-04-14');
-INSERT INTO calisanlar1 VALUES('10010', 'Betty',12000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10002', 'Donatello', 12000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10003', null, 5000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10004', 'Donatello', 5000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10005', 'Michelangelo', 5000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10006', 'Leonardo', null, '2019-04-12');
+INSERT INTO calisanlar1 VALUES ('10007', 'Raphael', null, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('', 'April', 2000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('', 'Ms.April', 2000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10002', 'Splinter', 12000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ( null, 'Fred', 12000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10008', 'Barnie',10000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10009', 'Wilma',11000, '2018-04-14');
+INSERT INTO calisanlar1 VALUES ('10010', 'Betty',12000, '2018-04-14');
 
-CREATE TABLE adresler1(
+CREATE TABLE adresler1 (
 adres_id char(5),
 sokak varchar(30),
 cadde varchar(30),
 sehir varchar(20)
-                      );
+                       );
 
-INSERT INTO adresler1 VALUES('10003', 'Ninja Sok.', '40. Cad.', 'İST');
-INSERT INTO adresler1 VALUES('10003', 'Kaya Sok.', '50. Cad.', 'Ankara');
-INSERT INTO adresler1 VALUES('10002', 'Taş Sok.', '30. Cad.', 'Konya');
-INSERT INTO adresler1 VALUES('10012', 'Taş Sok.', '30. Cad.', 'Konya');
-INSERT INTO adresler1 VALUES(NULL, 'Taş Sok.', '23. Cad.', 'Konya');
-INSERT INTO adresler1 VALUES(NULL,'Taş Sok.', '33. Cad.', 'Bursa');
+INSERT INTO adresler1 VALUES ('10003', 'Ninja Sok.', '40. Cad.', 'İST');
+INSERT INTO adresler1 VALUES ('10003', 'Kaya Sok.', '50. Cad.', 'Ankara');
+INSERT INTO adresler1 VALUES ('10002', 'Taş Sok.', '30. Cad.', 'Konya');
+INSERT INTO adresler1 VALUES ('10012', 'Taş Sok.', '30. Cad.', 'Konya');
+INSERT INTO adresler1 VALUES (NULL, 'Taş Sok.', '23. Cad.', 'Konya');
+INSERT INTO adresler1 VALUES (NULL,'Taş Sok.', '33. Cad.', 'Bursa');
 
 SELECT * FROM calisanlar1;
 SELECT * FROM adresler1;
@@ -515,10 +515,10 @@ marka_isim VARCHAR(20),
 calisan_sayisi INT
                       );
 
-INSERT INTO markalar VALUES(100, 'Vakko', 12000);
-INSERT INTO markalar VALUES(101, 'Pierre Cardin', 18000);
-INSERT INTO markalar VALUES(102, 'Adidas', 10000);
-INSERT INTO markalar VALUES(103, 'LCWaikiki', 21000);
+INSERT INTO markalar VALUES (100, 'Vakko', 12000);
+INSERT INTO markalar VALUES (101, 'Pierre Cardin', 18000);
+INSERT INTO markalar VALUES (102, 'Adidas', 10000);
+INSERT INTO markalar VALUES (103, 'LCWaikiki', 21000);
 
 CREATE TABLE calisanlar3 (
 id INT, 
@@ -528,13 +528,13 @@ maas INT,
 isyeri VARCHAR(20)
                          );
 
-INSERT INTO calisanlar3 VALUES(123456789, 'Ali Şeker', 'İstanbul', 2500, 'Vakko');
-INSERT INTO calisanlar3 VALUES(234567890, 'Ayşe Gül', 'İstanbul', 1500, 'LCWaikiki');
-INSERT INTO calisanlar3 VALUES(345678901, 'Veli Yılmaz', 'Ankara', 3000, 'Vakko');
-INSERT INTO calisanlar3 VALUES(456789012, 'Veli Yılmaz', 'İzmir', 1000, 'Pierre Cardin');
-INSERT INTO calisanlar3 VALUES(567890123, 'Veli Yılmaz', 'Ankara', 7000, 'Adidas');
-INSERT INTO calisanlar3 VALUES(456789012, 'Ayşe Gül', 'Ankara', 1500, 'Pierre Cardin');
-INSERT INTO calisanlar3 VALUES(123456710, 'Fatma Yaşa', 'Bursa', 2500, 'Vakko');
+INSERT INTO calisanlar3 VALUES (123456789, 'Ali Şeker', 'İstanbul', 2500, 'Vakko');
+INSERT INTO calisanlar3 VALUES (234567890, 'Ayşe Gül', 'İstanbul', 1500, 'LCWaikiki');
+INSERT INTO calisanlar3 VALUES (345678901, 'Veli Yılmaz', 'Ankara', 3000, 'Vakko');
+INSERT INTO calisanlar3 VALUES (456789012, 'Veli Yılmaz', 'İzmir', 1000, 'Pierre Cardin');
+INSERT INTO calisanlar3 VALUES (567890123, 'Veli Yılmaz', 'Ankara', 7000, 'Adidas');
+INSERT INTO calisanlar3 VALUES (456789012, 'Ayşe Gül', 'Ankara', 1500, 'Pierre Cardin');
+INSERT INTO calisanlar3 VALUES (123456710, 'Fatma Yaşa', 'Bursa', 2500, 'Vakko');
 
 SELECT * FROM markalar;
 SELECT * FROM calisanlar3;
@@ -582,16 +582,16 @@ urun_adi varchar(50),
 urun_miktar int
                    );
 
-INSERT INTO manav VALUES( 'Ali', 'Elma', 5);
-INSERT INTO manav VALUES( 'Ayşe', 'Armut', 3);
-INSERT INTO manav VALUES( 'Veli', 'Elma', 2);  
-INSERT INTO manav VALUES( 'Hasan', 'Üzüm', 4);  
-INSERT INTO manav VALUES( 'Ali', 'Armut', 2);  
-INSERT INTO manav VALUES( 'Ayşe', 'Elma', 3);  
-INSERT INTO manav VALUES( 'Veli', 'Üzüm', 5);  
-INSERT INTO manav VALUES( 'Ali', 'Armut', 2);  
-INSERT INTO manav VALUES( 'Veli', 'Elma', 3);  
-INSERT INTO manav VALUES( 'Ayşe', 'Üzüm', 2);
+INSERT INTO manav VALUES ( 'Ali', 'Elma', 5);
+INSERT INTO manav VALUES ( 'Ayşe', 'Armut', 3);
+INSERT INTO manav VALUES ( 'Veli', 'Elma', 2);  
+INSERT INTO manav VALUES ( 'Hasan', 'Üzüm', 4);  
+INSERT INTO manav VALUES ( 'Ali', 'Armut', 2);  
+INSERT INTO manav VALUES ( 'Ayşe', 'Elma', 3);  
+INSERT INTO manav VALUES ( 'Veli', 'Üzüm', 5);  
+INSERT INTO manav VALUES ( 'Ali', 'Armut', 2);  
+INSERT INTO manav VALUES ( 'Veli', 'Elma', 3);  
+INSERT INTO manav VALUES ( 'Ayşe', 'Üzüm', 2);
 
 SELECT * FROM manav;
 
@@ -653,13 +653,13 @@ maas int,
 sirket varchar(20)
                       );
 
-INSERT INTO personel VALUES(123456789, 'Ali Yılmaz', 'İstanbul', 5500, 'Honda'); 
-INSERT INTO personel VALUES(234567890, 'Veli Şahin', 'İstanbul', 4500, 'Toyota'); 
-INSERT INTO personel VALUES(345678901, 'Mehmet Öztürk', 'Ankara', 3500, 'Honda');
-INSERT INTO personel VALUES(456789012, 'Mehmet Öztürk', 'İzmir', 6000, 'Ford'); 
-INSERT INTO personel VALUES(567890123, 'Mehmet Öztürk', 'Ankara', 7000, 'Tofas');
-INSERT INTO personel VALUES(678901245, 'Veli Şahin', 'Ankara', 4500, 'Ford');  
-INSERT INTO personel VALUES(123456710, 'Hatice Şahin', 'Bursa', 4500, 'Honda');
+INSERT INTO personel VALUES (123456789, 'Ali Yılmaz', 'İstanbul', 5500, 'Honda'); 
+INSERT INTO personel VALUES (234567890, 'Veli Şahin', 'İstanbul', 4500, 'Toyota'); 
+INSERT INTO personel VALUES (345678901, 'Mehmet Öztürk', 'Ankara', 3500, 'Honda');
+INSERT INTO personel VALUES (456789012, 'Mehmet Öztürk', 'İzmir', 6000, 'Ford'); 
+INSERT INTO personel VALUES (567890123, 'Mehmet Öztürk', 'Ankara', 7000, 'Tofas');
+INSERT INTO personel VALUES (678901245, 'Veli Şahin', 'Ankara', 4500, 'Ford');  
+INSERT INTO personel VALUES (123456710, 'Hatice Şahin', 'Bursa', 4500, 'Honda');
 
 SELECT * FROM personel p 
 
@@ -696,15 +696,15 @@ maas INT,
 isyeri VARCHAR(20)
                          );	
 	
-INSERT INTO calisanlar4 VALUES(123456789, 'Ali Şeker', 'İstanbul', 2500, 'Vakko');
-INSERT INTO calisanlar4 VALUES(234567890, 'Ayşe Gül', 'İstanbul', 1500, 'LCWaikiki');
-INSERT INTO calisanlar4 VALUES(345678901, null, 'Ankara', 3000, 'Vakko');
-INSERT INTO calisanlar4 VALUES(456789012, 'Veli Yılmaz', 'İzmir', 1000, 'Pierre Cardin');
-INSERT INTO calisanlar4 VALUES(567890123, 'Veli Yılmaz', 'Ankara', 7000, 'Adidas');
-INSERT INTO calisanlar4 VALUES(678901234, 'Ayşe Gül', 'Ankara', 1500, 'Pierre Cardin');
-INSERT INTO calisanlar4 VALUES(789012345, 'Fatma Yaşa', null, 2500, 'Vakko');
-INSERT INTO calisanlar4 VALUES(890123456, null, 'Bursa', 2500, 'Vakko');
-INSERT INTO calisanlar4 VALUES(901234567, 'Ali Han', null, 2500, 'Vakko');
+INSERT INTO calisanlar4 VALUES (123456789, 'Ali Şeker', 'İstanbul', 2500, 'Vakko');
+INSERT INTO calisanlar4 VALUES (234567890, 'Ayşe Gül', 'İstanbul', 1500, 'LCWaikiki');
+INSERT INTO calisanlar4 VALUES (345678901, null, 'Ankara', 3000, 'Vakko');
+INSERT INTO calisanlar4 VALUES (456789012, 'Veli Yılmaz', 'İzmir', 1000, 'Pierre Cardin');
+INSERT INTO calisanlar4 VALUES (567890123, 'Veli Yılmaz', 'Ankara', 7000, 'Adidas');
+INSERT INTO calisanlar4 VALUES (678901234, 'Ayşe Gül', 'Ankara', 1500, 'Pierre Cardin');
+INSERT INTO calisanlar4 VALUES (789012345, 'Fatma Yaşa', null, 2500, 'Vakko');
+INSERT INTO calisanlar4 VALUES (890123456, null, 'Bursa', 2500, 'Vakko');
+INSERT INTO calisanlar4 VALUES (901234567, 'Ali Han', null, 2500, 'Vakko');
 
 SELECT * FROM calisanlar4;	
 
@@ -752,20 +752,20 @@ CREATE TABLE teachers (
 	salary real	
                        );
 
-INSERT INTO teachers VALUES(111, 'AhmeT  ', '  Han', 35, 'İstanbul', 'SpringMVC', 5000);
-INSERT INTO teachers VALUES(112, 'Mehmet', 'Ran ', 33, 'Van', 'HTML', 4000);
-INSERT INTO teachers VALUES(113, ' Bilal', 'Fan ', 34, 'Bursa', 'SQL', 3000);
-INSERT INTO teachers VALUES(114, 'Celal', ' San', 30, 'Bursa', 'Java', 3000);
-INSERT INTO teachers VALUES(115, 'Deniz', ' Can', 30, 'İstanbul', 'SQL', 3500);
-INSERT INTO teachers VALUES(116, 'ekreM', 'Demir', 36, 'İstanbul', 'Java', 4000.5);
-INSERT INTO teachers VALUES(117, 'Fatma', 'Çelik', 38, 'Van', 'SpringBOOT', 5550);
-INSERT INTO teachers VALUES(118, 'Hakan', 'Çetin', 44, 'İzmir', 'Java', 3999.5);
-INSERT INTO teachers VALUES(119, 'mert', 'Çetin', 32, 'İzmir', 'HTML', 2999.5);
-INSERT INTO teachers VALUES(120, 'Nilay', 'Çetin', 32, 'İzmir', 'CSS', 2999.5);
-INSERT INTO teachers VALUES(121, 'Selma', 'Çelik', 40, 'Ankara', 'SpringBOOT', 5550);
-INSERT INTO teachers VALUES(122, 'fatiH', 'Can', 32, 'Ankara', 'HTML', 2550.22);
-INSERT INTO teachers VALUES(123, 'Nihat', 'Keskin', 32, 'İzmir', 'CSS', 3000.5);
-INSERT INTO teachers VALUES(124, 'Hasan', 'Temel', 37, 'İstanbul', 'S.Security', 3000.5);
+INSERT INTO teachers VALUES (111, 'AhmeT  ', '  Han', 35, 'İstanbul', 'SpringMVC', 5000);
+INSERT INTO teachers VALUES (112, 'Mehmet', 'Ran ', 33, 'Van', 'HTML', 4000);
+INSERT INTO teachers VALUES (113, ' Bilal', 'Fan ', 34, 'Bursa', 'SQL', 3000);
+INSERT INTO teachers VALUES (114, 'Celal', ' San', 30, 'Bursa', 'Java', 3000);
+INSERT INTO teachers VALUES (115, 'Deniz', ' Can', 30, 'İstanbul', 'SQL', 3500);
+INSERT INTO teachers VALUES (116, 'ekreM', 'Demir', 36, 'İstanbul', 'Java', 4000.5);
+INSERT INTO teachers VALUES (117, 'Fatma', 'Çelik', 38, 'Van', 'SpringBOOT', 5550);
+INSERT INTO teachers VALUES (118, 'Hakan', 'Çetin', 44, 'İzmir', 'Java', 3999.5);
+INSERT INTO teachers VALUES (119, 'mert', 'Çetin', 32, 'İzmir', 'HTML', 2999.5);
+INSERT INTO teachers VALUES (120, 'Nilay', 'Çetin', 32, 'İzmir', 'CSS', 2999.5);
+INSERT INTO teachers VALUES (121, 'Selma', 'Çelik', 40, 'Ankara', 'SpringBOOT', 5550);
+INSERT INTO teachers VALUES (122, 'fatiH', 'Can', 32, 'Ankara', 'HTML', 2550.22);
+INSERT INTO teachers VALUES (123, 'Nihat', 'Keskin', 32, 'İzmir', 'CSS', 3000.5);
+INSERT INTO teachers VALUES (124, 'Hasan', 'Temel', 37, 'İstanbul', 'S.Security', 3000.5);
 
 SELECT * FROM teachers;
 /*
@@ -859,10 +859,10 @@ CREATE TABLE markalar (
 	calisan_sayisi int
                       );
 
-INSERT INTO markalar VALUES(100, 'Vakko', 12000);
-INSERT INTO markalar VALUES(101, 'Pierre Cardin', 18000);
-INSERT INTO markalar VALUES(102, 'Adidas', 10000);
-INSERT INTO markalar VALUES(103, 'LCWaikiki', 21000);
+INSERT INTO markalar VALUES (100, 'Vakko', 12000);
+INSERT INTO markalar VALUES (101, 'Pierre Cardin', 18000);
+INSERT INTO markalar VALUES (102, 'Adidas', 10000);
+INSERT INTO markalar VALUES (103, 'LCWaikiki', 21000);
 
 SELECT * FROM markalar m 
 
@@ -1253,11 +1253,170 @@ WHERE isim IS NULL
 
 ------------------------------------------------------------------------------------------------
              
+-- ON DELETE CASCADE
+
+-- Parent tablo: adresler
+
+DROP TABLE IF EXISTS adresler;
+CREATE TABLE adresler (
+    adres_id SERIAL PRIMARY KEY,
+    sokak_adi TEXT NOT NULL,
+    sehir TEXT NOT NULL,
+    posta_kodu CHAR(5) NOT NULL
+                      );
+
+-- Child tablo: calisanlar
+
+DROP TABLE IF EXISTS calisanlar;
+CREATE TABLE calisanlar (
+    calisan_id SERIAL PRIMARY KEY,
+    ad TEXT NOT NULL,
+    soyad TEXT NOT NULL,
+    pozisyon TEXT NOT NULL,
+    adres_id INT NOT NULL,
+    CONSTRAINT fk_adres FOREIGN KEY (adres_id) REFERENCES adresler(adres_id)
+                        );
+/*
+Foreign key iliskisi tanimlanmistir (adres_id üzerinden). ON DELETE sarti tanimlanmistir, bu nedenle
+PostgreSQL varsayilan davranisi olan ON DELETE NO ACTION uygulanir. */
+
+-- Parent tabloya (adresler) 10 satir veri ekleme
+
+INSERT INTO adresler (sokak_adi, sehir, posta_kodu) VALUES
+('Cumhuriyet Caddesi', 'Ankara', '06420'),
+('İstiklal Sokak', 'İstanbul', '34000'),
+('Konak Mahallesi', 'İzmir', '35040'),
+('Barış Caddesi', 'Bursa', '16050'),
+('Fatih Caddesi', 'Adana', '01010'),
+('Yeşil Vadi Sokak', 'Antalya', '07030'),
+('Kızılırmak Sokak', 'Samsun', '55060'),
+('Gazi Bulvarı', 'Kayseri', '38000'),
+('Atatürk Bulvarı', 'Eskişehir', '26010'),
+('Piri Reis Caddesi', 'Trabzon', '61040');
+
+
+-- Child tabloya (calisanlar) 10 satir veri ekleme
+
+INSERT INTO calisanlar (ad, soyad, pozisyon, adres_id) VALUES
+('Ali', 'Yılmaz', 'Mühendis', 1),
+('Ayşe', 'Kaya', 'Yönetici', 2),
+('Mehmet', 'Demir', 'Analist', 3),
+('Zeynep', 'Çelik', 'Pazarlama Uzmanı', 4),
+('Ahmet', 'Şahin', 'Teknisyen', 5),
+('Fatma', 'Gül', 'Muhasebeci', 6),
+('Emre', 'Aydın', 'Yazılım Geliştirici', 7),
+('Elif', 'Polat', 'Veri Bilimci', 8),
+('Can', 'Kara', 'Proje Yöneticisi', 9),
+('Cem', 'Koç', 'Sistem Yöneticisi', 10);
+
+
+-- Parent tablo (adresler) verileri
+
+SELECT * FROM adresler;
+
+-- Child tablo (calisanlar) verileri
+
+SELECT * FROM calisanlar;
+
+-- Parent tablodan data silmeye calisalim.
+
+DELETE
+FROM adresler
+WHERE adres_id = 1
+/*
+Eror verdi. adres_id = 1 olan parent kaydi calisanlar tablosunda kullanildigi icin silme islemi
+gerceklesmez. Bu, foreign key kisitlamasinin varsayilan davranisi olan ON DELETE NO ACTION nedeniyle olur.
+
+ON DELETE NO ACTION: bir parent tablodan (örnekte adresler) bir satir silmeye calistiginizda, eger o satir
+bir child tabloda (calisanlar) referans ediliyorsa, silme islemi gerceklesmez.
+
+Cözüm Önerileri
+
+1. Child tabloyu temizlemek: Öncelikle ilgili child kaydini manuel olarak silebiliriz:
+
+DELETE FROM calisanlar WHERE adres_id = 1;
+
+Sonra parent tablo'dan da silinebilir:
+
+DELETE FROM adresler WHERE adres_id = 1;
+
+2. Foreign key'i kaldirmak: Öncelikle kisitlamayi kaldirip sonra silme yapabiliriz:
+
+ALTER TABLE calisanlar DROP CONSTRAINT fk_adres;
+
+Sonra parent tablo'dan da silinebilir:
+
+DELETE FROM adresler WHERE adres_id = 1;
+
+3. ON DELETE CASCADE kullanmak:
+
+Parent silindiginde child kayitlarinin da otomatik silinmesini saglamak icin foreign key'i su sekilde
+tanimlayabiliriz: */
+
+ALTER TABLE calisanlar DROP CONSTRAINT fk_adres;
+/*
+Var olan foreign key kisitlamasi ON DELETE CASCADE icermedigi icin, bu davranisi ekleyebilmek adina
+eski kisitlamayi kaldirmamiz gerekir. DROP CONSTRAINT fk_adres: calisanlar tablosundaki fk_adres adindaki
+foreign key kisitlamasini kaldirir. */
  
+ALTER TABLE calisanlar ADD CONSTRAINT fk_adres 
+FOREIGN KEY (adres_id) REFERENCES adresler (adres_id) ON DELETE CASCADE;
+/*
+ADD CONSTRAINT fk_adres: fk_adres adinda yeni bir foreign key kisitlamasi ekliyoruz.
 
+FOREIGN KEY (adres_id): calisanlar tablosundaki adres_id sütununu foreign key olarak tanimliyoruz.
 
+REFERENCES adresler(adres_id): adresler tablosundaki adres_id sütununa referans veriyoruz.
 
+Bu, calisanlar.adres_id degerlerinin yalnizca adresler.adres_id sütunundaki mevcut degerlerle eslesmesine
+izin verir.
 
+ON DELETE CASCADE: Bu, adresler tablosundan bir kayit silindiginde, o kayda referans eden tüm calisan
+kayitlarinin da otomatik olarak silinmesini saglar.
+
+Neden ekliyoruz?
+
+Parent tablodan (adresler) bir kayit silindiginde, iliskili child kayitlarin (calisanlar) da otomatik olarak
+silinmesini istiyoruz.
+
+ON DELETE CASCADE kullanimi dikkatli düsünülmelidir, cünkü parent kaydini silmek tüm ilgili child kayitlari
+da siler. Bu islem geri alinamaz.
+
+Eger tablo tasariminda ON DELETE CASCADE yoksa, bu davranis saglanamaz ve silme isleminden önce ilgili child
+kayitlarini manuel olarak temizlemeniz gerekir. Yani: ON DELETE CASCADE davranisi DELETE sorgusunun kendisine
+eklenemez, yalnizca tablo tasariminda belirlenir. Sonra parent tablodan silinebilir. */
+
+DELETE FROM adresler WHERE adres_id = 1;
+
+------------------------------------------------------------------------------------------------
+/*
+EXCEPT
+
+Bir sorgunun sonuclarindan, diger bir sorgunun sonuclarinda bulunmayan degerleri göstermek icin kullanilir.
+
+Dikkat: Hangi tablonun üste yazilacagi önemlidir. */
+
+-- SORU: developers tablosundaki sehirleri, calisanlar4 tablosundaki sehirler haric listeleyin.
+
+SELECT d.city
+FROM developers d
+EXCEPT
+SELECT c.sehir
+FROM calisanlar4 c
+
+-- SORU: calisanlar4 tablosundaki sehirleri, developers tablosundaki sehirler haric listeleyin.
+
+SELECT c.sehir
+FROM calisanlar4 c
+EXCEPT
+SELECT d.city
+FROM developers d
+
+------------------------------------------------------------------------------------------------
+
+-- DERS: 07.01.25
+
+------------------------------------------------------------------------------------------------
 
 
 
