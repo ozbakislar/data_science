@@ -1418,16 +1418,174 @@ FROM developers d
 
 ------------------------------------------------------------------------------------------------
 
+-- CASE - WHEN
 
+CREATE TABLE calisan_performans (
+	id SERIAL PRIMARY KEY,
+	ad VARCHAR(50),
+	soyad VARCHAR(50),
+	departman VARCHAR(50),
+	yillik_satis NUMERIC(10, 2),
+	calisma_yili INT
+								);
 
+INSERT INTO calisan_performans (ad, soyad, departman, yillik_satis, calisma_yili) VALUES
+('Ahmet', 'Yılmaz', 'Satış', 120000.00, 5),
+('Ayşe', 'Kaya', 'Pazarlama', 95000.50, 3),
+('Mehmet', 'Demir', 'Satış', 150000.75, 7),
+('Fatma', 'Şahin', 'İnsan Kaynakları', 85000.25, 4),
+('Ali', 'Öztürk', 'Satış', 110000.00, 2),
+('Zeynep', 'Çelik', 'Pazarlama', 98000.50, 6),
+('Mustafa', 'Aydın', 'Finans', 130000.00, 8),
+('Elif', 'Yıldız', 'İnsan Kaynakları', 79000.75, 1),
+('Osman', 'Kara', 'Satış', 135000.25, 4),
+('Gül', 'Erdoğan', 'Pazarlama', 92000.00, 3),
+('Hasan', 'Aksoy', 'Finans', 125000.50, 5),
+('Selin', 'Özdemir', 'Satış', 115000.75, 2),
+('Emre', 'Koç', 'İnsan Kaynakları', 82000.25, 7),
+('Deniz', 'Şen', 'Pazarlama', 97000.00, 4),
+('Cem', 'Yılmaz', 'Satış', 140000.50, 6),
+('Gamze', 'Arslan', 'Finans', 118000.75, 3),
+('Burak', 'Özkan', 'Satış', 105000.25, 1),
+('Esra', 'Demirci', 'İnsan Kaynakları', 88000.00, 5),
+('Volkan', 'Güneş', 'Pazarlama', 99000.50, 2),
+('Merve', 'Avcı', 'Satış', 125000.75, 4);
 
+SELECT * FROM  calisan_performans
+/*
+SORU: Calisanlarin performans degerlendirmesi eger yillik satis >= 130.000 ise 'Mükemmel', >100000 ise 'İyi'
+> 80000 ise 'Orta' olarak degerlendirilsin. */
 
+SELECT 
+	ad,
+	soyad,
+	yillik_satis,
+	CASE
+		WHEN yillik_satis >= 130000 THEN 'Mükemmel'
+		WHEN yillik_satis >= 100000 THEN 'İyi'
+		WHEN yillik_satis >= 80000 THEN 'Orta'
+		ELSE 'Gelistirilmeli'
+	END
+	AS performans_degerlendirmesi
+FROM calisan_performans cp 
+ORDER BY cp.yillik_satis DESC;
+/*
+SORU: Satis departmani icin yillik satisin %10'u kadar prim, pazarlama icin %8, finans icin %7
+insan kaynaklari icin %6 digerleri icinse %5 olacak sekilde departmanlara göre pirim dagilimi yapin.*/
 
+SELECT
+	ad,
+	soyad,
+	departman,
+	yillik_satis,
+	CASE departman
+		WHEN 'Satış' THEN yillik_satis * 0.10
+		WHEN 'Pazarlama' THEN yillik_satis * 0.08
+		WHEN 'Finans' THEN yillik_satis * 0.07
+		WHEN 'İnsan Kaynakları' THEN yillik_satis * 0.06
+		ELSE yillik_satis * 0.05
+	END
+	AS prim_tutari
+FROM calisan_performans
+ORDER BY prim_tutari DESC
+/*
+SORU: Kidem durumuna göre izin günlerini calisma yili calisma yili >= 7 ise 25, calisma yili >= 5 ise 20
+calisma yili >= 3 ise 15 olacak sekilde tasarlayan kodu yazin. */
 
+SELECT
+	ad,
+	soyad,
+	calisma_yili,
+	CASE
+		WHEN calisma_yili >= 7 THEN 25
+		WHEN calisma_yili >= 5 THEN 20
+		WHEN calisma_yili >= 3 THEN 15
+		ELSE 10
+	END AS izin_gunu
+FROM calisan_performans
+ORDER BY calisma_yili DESC;
 
+------------------------------------------------------------------------------------------------
 
+DROP TABLE IF EXISTS employee_sales;
+CREATE TABLE employee_sales (
+	employee_id SERIAL PRIMARY KEY,
+	employee_name VARCHAR(100),
+	sales_amount DECIMAL(10, 2),
+	target_amount DECIMAL(10, 2)
+							 );
 
+INSERT INTO employee_sales (employee_name, sales_amount, target_amount) VALUES
+('Ahmet Yılmaz', 120000.00, 100000.00),
+('Mehmet Kaya', 105000.00, 100000.00),
+('Elif Demir', 95000.00, 100000.00),
+('Ayşe Yıldız', 80000.00, 100000.00),
+('Ali Can', 60000.00, 100000.00),
+('Fatma Korkmaz', 125000.00, 120000.00),
+('Hasan Şahin', 110000.00, 120000.00),
+('Zeynep Çelik', 90000.00, 120000.00),
+('Ebru Sarı', 140000.00, 130000.00),
+('Murat Öztürk', 75000.00, 130000.00);
 
+SELECT * FROM employee_sales;
+/*
+Satis miktari hedefin %20'sinden büyükse maas artisi: %10, prim: %15.
+Satis miktari hedefin %20'sinden küçükse maas artisi: %5, prim: Yok.
+Satis miktari hedefin %80'inden büyükse ve satis miktari < target ise maas artisi: Yok, prim: %5.
+Bunlarin hicbiri saglanmamissa maas artisi: Yok, prim: Yok.
+
+Kriterlerini baz alarak calisanlarin performans degerlendirmesini yapan sorguyu yazin. */
+
+SELECT 
+	es.employee_name,
+	es.sales_amount,
+	es.target_amount,
+	CASE
+		WHEN sales_amount >= target_amount * 1.2 THEN 'Maas Artisi: %10, Prim: %15'
+		WHEN sales_amount >= target_amount AND sales_amount < target_amount*1.2 THEN 'Maas Artisi: %5, Prim: Yok'
+		WHEN sales_amount >= target_amount*0.80 AND sales_amount < target_amount THEN 'Maas Artisi: Yok, Prim: %5'
+		ELSE 'Maas Artisi: Yok, Prim: Yok'
+	END 
+	AS performance_review
+FROM employee_sales es 
+
+------------------------------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS loan_applications;
+CREATE TABLE loan_applications (
+	applicant_id SERIAL PRIMARY KEY,
+	applicant_name VARCHAR(100),
+	credit_score INT,
+	income DECIMAL(10, 2)
+							   );
+
+INSERT INTO loan_applications (applicant_name, credit_score, income) VALUES
+('Ahmet Yılmaz', 780, 5500.00),
+('Mehmet Kaya', 720, 7200.00),
+('Elif Demir', 680, 6000.00),
+('Ayşe Yıldız', 650, 7500.00),
+('Ali Can', 590, 6500.00),
+('Fatma Korkmaz', 800, 8000.00),
+('Hasan Şahin', 610, 5000.00),
+('Zeynep Çelik', 710, 6800.00),
+('Ebru Sarı', 620, 7100.00),
+('Murat Öztürk', 550, 4000.00);
+
+SELECT * FROM loan_applications;
+
+-- Kredi basvurularini takip etmek icin asagidaki tabloyu olusturabiliriz.
+
+SELECT
+	applicant_name,
+	credit_score,
+	income,
+    CASE
+        WHEN credit_score >= 750 AND income > 5000 THEN 'Kredi Onaylandi'
+        WHEN credit_score BETWEEN 600 AND 749 AND income > 7000 THEN 'Kredi Onaylandi'
+        WHEN credit_score BETWEEN 600 AND 749 AND income <= 7000 THEN 'Ek Teminat İsteniyor'
+        ELSE 'Kredi Reddedildi'
+    END AS credit_decision
+FROM loan_applications;
 
 
 

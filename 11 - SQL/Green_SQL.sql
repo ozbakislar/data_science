@@ -1055,13 +1055,154 @@ GROUP BY customer_id
 
 -- NOW()::date::
 
--- NOW'dan farki suanki zamani getirirken sadece tarihi döndürmesidir.
+-- NOW'dan farki su anki zamani getirirken sadece tarihi döndürmesidir.
 
+SELECT
+	customer_id,
+	(NOW()::date - order_date) AS days_since_order
+FROM orders;
 
+-- current_date
 
+-- Su anki tarihi döndürür saat bilgisi olmadan.
 
+SELECT
+	customer_id,
+	(current_date - order_date) AS days_since_order
+FROM orders;
 
+-- date_part
+/*
+Bir tarih/saat ifadesinden belirli bir bölümü (yil, ay, gün, saat, dakika vs.) cikarmak icin kullanilir.
+Örnegin, tüm siparislerin hangi ayda yapildigini görmek icin kullanabiliriz. */
 
+SELECT 
+	order_id, 
+	date_part('month', order_date) AS order_month
+FROM orders o 
+
+SELECT *
+FROM orders o
+
+-- age
+
+--İki tarih arasindaki süreyi hesaplar. 
+
+SELECT 
+	customer_id, 
+	age(NOW(), 
+	   (SELECT MIN(order_date) 
+		FROM orders 
+		WHERE orders.customer_id = customers.customer_id))
+FROM customers;
+
+-- extract
+/*
+date_part fonksiyonuna benzer, ancak ISO standardina uygun sekilde bir tarih/saat ifadesinden belirli
+bir bölümü (yil, ay, gün, saat, dakika vs.) cikarmak icin kullanilir. */ 
+
+SELECT 
+	order_id, 
+	extract(year from order_date) AS order_year
+FROM orders;
+
+-- EXTRACT (DAY FROM ...)
+
+--Belirli bir tarihten gün degerini ayirt eder.
+
+SELECT 
+	order_id, 
+	EXTRACT(DAY FROM order_date) AS day_of_month 
+FROM orders; 
+
+-- EXTRACT (MONTH FROM ...)
+
+-- Belirli bir tarihten ay degerini ayirt eder
+
+SELECT 
+	order_id, 
+	EXTRACT(MONTH FROM order_date) AS month_of_year 
+FROM orders;
+
+-- date_trunc
+/*
+Tarih/saat ifadesinin belirli bir kismina göre kesilmesini saglar. Örnegin, siparis tarihlerini ayin ilk gününe
+göre yuvarlamak icin kullanabiliriz. */
+
+SELECT 
+	order_id, 
+	date_trunc('month', order_date) AS order_month_start
+FROM orders;
+
+--Date_ADD
+/*
+Bu fonksiyon PostgreSQL'de yoktur. Bunun yerine alttaki yazim belirli bir tarihe belirli bir süre eklemek
+icin kullanilir. */
+
+SELECT 
+	order_id, 
+	(order_date + INTERVAL '10 days') AS new_date 
+FROM orders;
+
+--Date_SUB
+/*
+Bu fonksiyon PostgreSQL' de yoktur. Bunun yerine alttaki yazim belirli bir tarihten belirli bir süreyi cikarmak
+icin kullanilir. */
+
+SELECT 
+	order_id, 
+	(order_date - INTERVAL '10 days') AS new_date
+FROM orders;
+
+--DATA_DIFF
+/*
+Bu fonksiyon PostgreSQL' de yoktur. Bunun yerine alttaki yazim iki tarih arasindaki farki bulmak
+icin kullanilir. */
+
+SELECT 
+	order_id, 
+	(order_date - '2021-01-01'::date) AS days_since_start_of_year 
+FROM orders;
+
+--to_timestamp
+/*
+Bir string ifadesini tarih/saat ifadesine dönüstürmek icin kullanilir. Örnegin, kullanicidan alinan
+string tarih bilgisini tarih objesine cevirmek icin kullanabiliriz. */
+
+SELECT to_timestamp('2024-04-22', 'YYYY-MM-DD');
+
+------------------------------------------------------------------------------------------------
+
+-- CTE
+
+-- CTE vs Subquery
+
+-- Subquery ile (İc ice sorgu)
+
+SELECT customer_id, 
+       (SELECT MAX(order_date) 
+        FROM orders 
+        WHERE orders.customer_id = customers.customer_id) AS latest_order_date
+FROM customers;
+
+-- CTE ile
+
+WITH LatestOrders AS (
+    SELECT customer_id, MAX(order_date) AS latest_order_date
+    FROM orders
+    GROUP BY customer_id
+					 )
+SELECT
+	customers.customer_id,
+	LatestOrders.latest_order_date
+FROM customers
+JOIN LatestOrders ON customers.customer_id = LatestOrders.customer_id;
+/*
+Subquery örneginde, tüm customers kayitlarini icerir ve orders tablosunda olmayan müsteriler icin NULL döner.
+CTE + INNER JOIN de ise, yalnizca orders tablosunda kaydi olan müsterileri döndürür. Bu nedenle, NULL sonuclar dislanir.
+Yani önce CTE tablosu olusur sonra bu tablo ile JOIN yapilir.
+
+Cözüm: CTE ile LEFT JOIN kullanarak, hem orders tablosunda kaydi olan hem de olmayan müsteriler gösterilebilir. */
 
 
 

@@ -817,6 +817,64 @@ HAVING SUM(p.maas) > 10000;
 
 ------------------------------------------------------------------------------------------------
 
+-- CTE (Common Table Expressions)
+
+-- Sadece CTE kismi görülmektedir. Tek basina calismaz ana sorgu ile baglanmasi gerekir.
+
+WITH AvgSalaryByDepartment AS (
+    SELECT 
+        departman_id,
+        AVG(maas) AS avg_salary
+    FROM personel
+    GROUP BY departman_id
+							  )
+
+-- NESTED CTE örnek yapisal gösterim
+
+WITH CTE_Total_Salary AS (
+    SELECT 
+        departman_id,
+        SUM(maas) AS TotalSalary
+    FROM personel
+    GROUP BY departman_id
+						 ),
+CTE_Avg_Salary AS (
+    SELECT 
+        departman_id,
+        AVG(maas) AS AvgSalary
+    FROM personel
+    GROUP BY departman_id
+				  )
+SELECT 
+    p.ad,
+    p.soyad,
+    d.ad AS DepartmanAdi,
+    cts.TotalSalary,
+    cas.AvgSalary
+FROM personel p
+LEFT JOIN departman d ON p.departman_id = d.id
+LEFT JOIN CTE_Total_Salary cts ON p.departman_id = cts.departman_id
+LEFT JOIN CTE_Avg_Salary cas ON p.departman_id = cas.departman_id;
+
+-- Departmanlara göre ortalama maas hesaplama
+
+WITH AvgSalaryByDepartment AS (
+	SELECT
+		p.departman_id,
+		AVG(maas) AS avg_salary
+	FROM personel p
+	GROUP BY departman_id
+							  )
+SELECT
+	d.ad AS department_name,
+	a.avg_salary
+FROM AvgSalaryByDepartment a
+JOIN departman d
+ON a.departman_id = d.id
+ORDER BY avg_salary DESC
+
+SELECT * FROM departman d
+
 
 
 
