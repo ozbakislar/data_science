@@ -573,6 +573,367 @@ SELECT * FROM employees e
 
 ------------------------------------------------------------------------------------------------
 
+CREATE TABLE Cats (
+    CatID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Breed VARCHAR(50),
+    Color CHAR(20),
+    Age INT,
+    Weight FLOAT
+				  );
+
+INSERT INTO Cats (CatID, Name, Breed, Color, Age, Weight) VALUES
+(1, 'Whiskers', 'Persian', 'White', 5, 8.2),
+(2, 'Luna', 'Siamese', 'Brown', 3, 6.5),
+(3, 'Simba', 'Maine Coon', 'Orange', 4, 10.1),
+(4, 'Mittens', 'Tabby', 'Gray', 2, 4.9),
+(5, 'Oreo', 'Domestic Shorthair', 'Black and White', 1, 3.7),
+(6, 'Tiger', 'Bengal', 'Striped', 6, 12.3),
+(7, 'Pink', 'Maine Coon', 'Pink', 5, 10.2),
+(8, 'Milo', 'Tabby', 'Orange', 2, 5.2),
+(9, 'Loki', 'Siamese', 'Gray', 3, 6.7),
+(10, 'Bella', 'Maine Coon', 'Brown', 5, 9.4),
+(11, 'Shadow', 'Domestic Shorthair', 'Black', 1, 4.1);
+
+SELECT * FROM Cats;
+
+CREATE TABLE Owners (
+    CatID INT PRIMARY KEY,
+    Breed VARCHAR(50),
+    City VARCHAR(50),
+    State VARCHAR(50),
+    OwnerName VARCHAR(100),
+    OwnerAge INT
+					);
+
+INSERT INTO Owners (CatID, Breed, City, State, OwnerName, OwnerAge) VALUES
+(1, 'Persian', 'New York', 'NY', 'Alice', 34),
+(2, 'Maine Coon', 'Los Angeles', 'CA', 'Bob', 29),
+(3, 'Tabby', 'Chicago', 'IL', 'Charlie', 41),
+(4, 'Siamese', 'Houston', 'TX', 'Diana', 26),
+(5, 'Domestic Shorthair', 'Phoenix', 'AZ', 'Evan', 38),
+(6, 'Persian', 'San Francisco', 'CA', 'Fiona', 32),
+(7, 'Tabby', 'Seattle', 'WA', 'George', 27),
+(8, 'Maine Coon', 'Miami', 'FL', 'Hannah', 35),
+(9, 'Siamese', 'Atlanta', 'GA', 'Ivy', 24),
+(10, 'Domestic Shorthair', 'Boston', 'MA', 'Jack', 30);
+
+-- SORU: Persian cinsi bir kediye sahip olan kullanicilarin eyaletini getiren bir SQL sorgusu yazin.
+
+SELECT
+	state
+FROM
+	owners
+WHERE breed = 'Persian'
+
+-- SORU: New York'ta yasayan kullanicilarin sahip oldugu kedilerin isimlerini getiren bir SQL sorgusu yazin.
+
+SELECT name
+FROM cats
+WHERE
+	Breed IN
+	(
+	SELECT
+		Breed
+	FROM
+		owners
+	WHERE
+		city = 'New York'
+	)
+/*
+SORU: Cats tablosundaki her bir kedinin Breed ve Name bilgilerini, ayrica sahibinin yasadigi City bilgisini
+de getiren, CatID ile Owners tablosundaki eslesmeyi saglayan bir alt sorgu kullanarak getirin. */
+	
+SELECT 
+	Name,
+	Breed, 
+	(
+	SELECT city
+	FROM owners o 
+	WHERE o.catid = c.catid
+	)
+FROM cats c
+/*
+SORU: California'da yasayan kullanicilarin sahip oldugu kedilerin ortalama yasini hesaplayan bir SQL
+sorgusu yazin. */
+
+-- Subquery ile
+
+SELECT
+	avg(age) AS average_age
+FROM cats c
+WHERE catid IN
+	(
+	SELECT catid
+	FROM owners o
+	WHERE state = 'CA'
+	)
+	
+-- JOIN ile
+	
+SELECT
+	avg(age) avg_age
+FROM cats c JOIN owners o 
+ON c.catid =o.catid 
+WHERE o.state ='CA'
+
+------------------------------------------------------------------------------------------------
+
+CREATE TABLE clients (
+    id int,
+    name VARCHAR(50),
+    city VARCHAR (50),
+    salary int,
+    company VARCHAR (20)
+					 );
+
+INSERT INTO clients VALUES (123456789, 'Ali Şeker', 'İstanbul', 2500, 'Vakko'); 
+INSERT INTO clients VALUES (234567890, 'Ayşe Gül', 'İstanbul', 1500, 'LCWaikiki'); 
+INSERT INTO clients VALUES (345678901, 'Veli Yılmaz', 'Ankara', 3000, 'Vakko'); 
+INSERT INTO clients VALUES (456789012, 'Veli Yılmaz', 'İzmir', 1000, 'Pierre Cardin'); 
+INSERT INTO clients VALUES (567890123, 'Veli Yılmaz', 'Ankara', 7000, 'Adidas'); 
+INSERT INTO clients VALUES (456789012, 'Ayşe Gül', 'Ankara', 1500, 'Pierre Cardin'); 
+INSERT INTO clients VALUES (123456710, 'Fatma Yaşa', 'Bursa', 2500, 'Vakko');
+
+SELECT * FROM clients;
+
+CREATE TABLE brands (
+	brand_id int,
+	brand_name VARCHAR (20), 
+	employee_number int
+					);
+
+INSERT INTO brands VALUES (100, 'Vakko', 12000);
+INSERT INTO brands VALUES (101, 'Pierre Cardin', 18000);
+INSERT INTO brands VALUES (102, 'Adidas', 10000);
+INSERT INTO brands VALUES (103, 'LCWaikiki', 21000); 
+INSERT INTO brands VALUES (104, 'Nike', 19000);
+
+SELECT * FROM brands;
+
+-- SORU: brand_id 101'den büyük olan kayitlarin id, isim, maas ve sehir alanlarini getirin.
+
+-- Subquery ile
+
+SELECT 
+	name, salary, city, 
+	(
+	SELECT brand_id 
+	FROM brands b 
+	WHERE b.brand_name = c.company
+	)
+FROM clients c 
+WHERE company IN 
+	(
+	SELECT brand_name 
+	FROM brands b 
+	WHERE brand_id > 101
+	)
+
+-- JOIN ile
+
+SELECT c.name,
+	c.salary,
+	c.city,
+	b.brand_id
+FROM clients c
+JOIN brands b
+ON b.brand_name = c.company
+WHERE b.brand_id > 101
+/*
+SORU: Calisan sayisi 15000'den büyük olan markalarin adlarini ve bu markalar icin calisan kisilerin isimlerini
+maaslarini ve calisan kisi sayisini getirin. */
+
+SELECT name, salary, company,
+	(
+	SELECT employee_number 
+	FROM brands b
+	WHERE b.brand_name = c.company
+	)
+FROM clients c 
+WHERE company IN 
+	(
+	SELECT brand_name 
+	FROM brands b
+	WHERE employee_number > 15000
+	)
+	
+------------------------------------------------------------------------------------------------
+	
+CREATE TABLE workers (
+	worker_id SMALLINT, 
+	worker_name VARCHAR(50), 
+	worker_salary NUMERIC,
+	CONSTRAINT Worker_id_pk PRIMARY KEY (worker_id)
+					 );
+	
+INSERT INTO workers VALUES (101, 'Tom Hanks', 12000); 
+INSERT INTO workers VALUES (102, 'Brad Pitt', 2000);
+INSERT INTO workers VALUES (103, 'Aisha Can', 7000);
+INSERT INTO workers VALUES (104, 'Angie Ocean', 12000);
+
+SELECT * FROM workers;
+
+-- SORU: Mevcut bir tabloya bir field (alan) - worker_address - ekleyin.
+
+ALTER TABLE workers ADD worker_address Varchar(50)
+
+-- SORU: Varsayilan bir deger ile nasil bir field (alan) - employee_adress - ekleyin.
+
+ALTER TABLE workers ADD employee_address TEXT DEFAULT 'New York, California, Ohio'
+
+-- SORU: Bir field ekleyin tabloya, field adi company_name, default degeri Techpro Education olsun.	
+
+ALTER TABLE workers ADD company_name TEXT DEFAULT 'Techpro Education'
+
+-- SORU: Birden fazla alan ekleyin - zip code, city -.
+
+ALTER TABLE workers 
+ADD zip_code NUMERIC DEFAULT 10002,
+ADD city varchar(40)
+
+-- SORU: Bir tablodan bir alan silin - worker_address -.
+
+ALTER TABLE workers DROP COLUMN worker_address; -- COLUMN olmadan da calisir.
+
+-- SORU: Mevcut bir tablodaki bir alanin adini degistirin - worker_salary -> employee_salary.
+
+ALTER TABLE workers RENAME worker_salary TO employee_salary
+
+-- SORU: Tabloyu yeniden isimlendirin - workers -> w_employee -.
+
+ALTER TABLE workers RENAME TO w_employee
+
+-- SORU: worker_name'e kisitlayici olarak not null atayin.
+
+ALTER TABLE w_employee ALTER COLUMN worker_name SET NOT NULL
+
+-- SORU: employee_salary field'ina unique degerler ekleyin.
+
+UPDATE w_employee SET employee_salary = 20000
+WHERE worker_name = 'Angie Ocean'
+
+ALTER TABLE w_employee ADD CONSTRAINT e_salary_unique
+UNIQUE (employee_salary)
+
+-- SORU: worker_name field'inin dtype'ini char yapin.
+
+ALTER TABLE w_employee
+ALTER COLUMN worker_name TYPE char(60)
+
+-- SORU: company_name field'inin dtype'ini varchar yapin.
+
+ALTER TABLE w_employee
+ALTER COLUMN company_name TYPE varchar(60)
+
+-- SORU: worker_name'deki not null'i silin.
+
+ALTER TABLE w_employee
+ALTER COLUMN worker_name
+DROP NOT NULL
+
+------------------------------------------------------------------------------------------------
+
+CREATE TABLE Flights (
+    FlightID CHAR(3),
+    FlightNumber VARCHAR(10),
+    DepartureCity VARCHAR(20),
+    ArrivalCity VARCHAR(20)
+					 );
+
+INSERT INTO Flights VALUES ('101', 'F123', 'New York', 'London');
+INSERT INTO Flights VALUES ('102', 'F124', 'Tokyo', 'Paris');
+INSERT INTO Flights VALUES ('103', 'F125', 'Dubai', 'Sydney');
+INSERT INTO Flights VALUES ('104', 'F126', 'Berlin', 'Madrid');
+INSERT INTO Flights VALUES ('105', 'F127', 'Rome', 'Cairo');
+INSERT INTO Flights VALUES ('106', 'F128', 'Moscow', 'Beijing');
+SELECT * FROM Flights;
+
+SELECT * FROM Flights;
+
+CREATE TABLE Passengers (
+    PassengerID CHAR(3),
+    PassengerName VARCHAR(30),
+    PassportNumber VARCHAR(10),
+    FlightID CHAR(3)
+						);
+
+INSERT INTO Passengers VALUES ('201', 'John Doe', 'A12345', '101');
+INSERT INTO Passengers VALUES ('202', 'Jane Smith', 'B67890', '102');
+INSERT INTO Passengers VALUES ('203', 'Alice Johnson', 'C11223', '103');
+INSERT INTO Passengers VALUES ('204', 'Bob Brown', 'D45678', '101');
+INSERT INTO Passengers VALUES ('205', 'Charlie Black', 'E98765', '102');
+INSERT INTO Passengers VALUES ('206', 'Dana White', 'F23456', '103');
+INSERT INTO Passengers VALUES ('207', 'Eve Green', 'G34567', NULL);
+INSERT INTO Passengers VALUES ('208', 'Frank Blue', 'H45678', NULL);
+INSERT INTO Passengers VALUES ('209', 'Grace Pink', 'I56789', '107');
+INSERT INTO Passengers VALUES ('210', 'Henry Silver', 'J67890', '108'); 
+INSERT INTO Passengers VALUES ('211', 'Ivy Purple', 'K78901', '109'); 
+INSERT INTO Passengers VALUES ('212', 'Jake Yellow', 'L89012', '110'); 
+
+SELECT * FROM Passengers;
+
+-- SORU: INNER JOIN kullanarak hangi yolcularin hangi ucusta oldugunu bulun.
+
+SELECT
+	f.flightid,
+	flightnumber,
+	arrivalcity,
+	p.passengername
+FROM flights f
+INNER JOIN passengers p
+ON f.flightid = p.flightid
+
+-- SORU: LEFT JOIN kullanarak henüz ucusu olmasa bile tüm yolculari döndürün.
+
+SELECT
+	p.flightid,
+	f.flightnumber,
+	f.arrivalcity,
+	p.passengername
+FROM passengers p LEFT JOIN flights f
+ON f.flightid = p.flightid
+
+-- SORU: RIGHT JOIN kullanarak hic yolcu rezerve edilmemis olsa bile tüm ucuslari döndürün.
+
+SELECT 
+    f.flightid, 
+    f.flightnumber,
+    f.arrivalcity,
+    p.passengername,
+    p.passportnumber 
+FROM passengers p RIGHT JOIN flights f 
+ON f.flightid = p.flightid
+
+------------------------------------------------------------------------------------------------
+
+CREATE TABLE Airports (
+    airport_id CHAR(2),
+    airport_name VARCHAR(30),
+    city VARCHAR(30),
+    country VARCHAR(30),
+    connected_airport_id CHAR(2) 
+					   );
+
+INSERT INTO Airports VALUES ('A1', 'JFK Airport', 'New York', 'USA', 'A2');
+INSERT INTO Airports VALUES ('A2', 'Heathrow Airport', 'London', 'UK', 'A3');
+INSERT INTO Airports VALUES ('A3', 'Charles de Gaulle', 'Paris', 'France', 'A4');
+INSERT INTO Airports VALUES ('A4', 'Schiphol Airport', 'Amsterdam', 'Netherlands', 'A5');
+INSERT INTO Airports VALUES ('A5', 'Frankfurt Airport', 'Frankfurt', 'Germany', NULL);
+
+SELECT * FROM Airports;
+
+-- Hangi havalimanlarinin birbirine bagli oldugunu bulmak icin asagidaki sorguyu yazariz.
+
+SELECT
+	a1.airport_id,
+	a1.airport_name,
+	a2.airport_name AS connected_airport
+FROM
+	airports a1 INNER JOIN airports a2
+ON
+	a1.connected_airport_id = a2.airport_id
+
 
 
 

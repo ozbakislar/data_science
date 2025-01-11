@@ -1117,7 +1117,7 @@ FROM orders;
 
 -- EXTRACT (MONTH FROM ...)
 
--- Belirli bir tarihten ay degerini ayirt eder
+-- Belirli bir tarihten ay degerini ayirt eder.
 
 SELECT 
 	order_id, 
